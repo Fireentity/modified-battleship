@@ -9,7 +9,7 @@ private:
     std::shared_ptr<Ship> ship_;
     bool hit_;
 public:
-    explicit BoardPiece(std::shared_ptr<Ship>);
+    explicit BoardPiece(const std::shared_ptr<Ship> &);
 
     BoardPiece();
 

@@ -7,7 +7,10 @@ class ArmouredShip : public Ship {
 private:
     static const char character;
 public:
-    ArmouredShip(unsigned short x, unsigned short y, unsigned short width, unsigned short height, unsigned short health);
+    ArmouredShip(const Point &point, unsigned short width, unsigned short height, unsigned short health);
+
+    void place(const DefenceBoard &defence_board) const override;
+
     char get_character() const override;
 };
 

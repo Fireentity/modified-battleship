@@ -1,7 +1,7 @@
 #include <memory>
 #include "board/BoardPiece.h"
 
-BoardPiece::BoardPiece(std::shared_ptr<Ship> ship): ship_{ship}, hit_{false} {
+BoardPiece::BoardPiece(const std::shared_ptr<Ship> &ship): ship_{ship}, hit_{false} {
 
 }
 

@@ -3,6 +3,7 @@
 
 #include "Point.h"
 #include "board/BoardPiece.h"
+#include "board/DefenceBoard.h"
 
 class Ship {
 private:
@@ -24,10 +25,9 @@ public:
 
     unsigned short get_health() const;
 
-    template <int N>
-    virtual void insert_into(const BoardPiece (& piece)[N][N]) const = 0;
-
     virtual char get_character() const = 0;
+
+    virtual void place(const DefenceBoard &defence_board) const = 0;
 };
 
 #endif //SHIP_H

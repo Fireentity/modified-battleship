@@ -1,16 +1,15 @@
 #ifndef ATTACKBOARD_H
 #define ATTACKBOARD_H
 
-class AttackBoard {
-private:
-    //TODO try to move in header file or else write a comment
-    static const unsigned short dim = 12;
-    static const char empty = ' ';
-    char board_[dim][dim];
-public:
-    AttackBoard();
+#include "../../src/board/Board.hpp"
 
-    void set_slot(int x, int y, char character);
+class AttackBoard: public Board<char,12,12> {
+public:
+    static const char hit = 'X';
+    static const char miss = 'O';
+    static const char empty = ' ';
+
+    AttackBoard();
 };
 
 #endif //ATTACKBOARD_H

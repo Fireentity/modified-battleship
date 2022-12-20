@@ -2,14 +2,13 @@
 #define DEFENCEBOARD_H
 
 #include <vector>
+#include "ship/Ship.h"
 #include "BoardPiece.h"
+#include "board/Board.hpp"
 
-class DefenceBoard {
+class DefenceBoard: public Board<BoardPiece,12,12> {
 public:
-    static const unsigned short dim = 12;
     explicit DefenceBoard(const std::vector<std::shared_ptr<Ship>>&);
-private:
-    BoardPiece board_[dim][dim];
 };
 
 #endif //DEFENCEBOARD_H

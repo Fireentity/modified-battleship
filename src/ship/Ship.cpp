@@ -5,6 +5,7 @@ Ship::Ship(const Point &position,
            unsigned short width,
            unsigned short height,
            unsigned short health): position_{position},width_{width},height_{height},health_{health} {
+
 }
 
 unsigned int Ship::get_x() const {
