@@ -4,12 +4,12 @@
 #include <vector>
 #include <functional>
 #include "ship/Ship.h"
-#include "ship/ArmouredShip.h"
-#include "ship/Submarine.h"
-#include "ship/Supporter.h"
 
 //Rappresenta la classe che astrae un giocatore che sia umano o computer
 class Player {
+private:
+     Board board_;
+     std::shared_ptr<Board> enemy_board;
 public:
     //Rappresenta il tipo di navi disponibili nella flotta di ciascun giocatore
     enum Ships {

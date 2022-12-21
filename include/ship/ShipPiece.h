@@ -18,17 +18,13 @@ private:
     bool hit_ = false;
 public:
 
-    ShipPiece(const Point &, const std::shared_ptr<Board> &, const std::shared_ptr<Ship> &);
+    ShipPiece(const Point &position);
 
     ShipPiece();
 
-    std::shared_ptr<Ship> get_ship();
-
-    const Point &get_position();
-
-    bool is_valid_position(const Point &point);
-
     void move_to(const Point &point);
+
+    const Point &get_position() const;
 
     bool is_hit();
 

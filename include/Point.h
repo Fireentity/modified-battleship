@@ -22,6 +22,10 @@ public:
 
     Point middle_point(const Point &point) const;
 
+    //TODO controllare i tipi di ritorno degli operatori
+    //Ritorna Point & invece che void per permettere di concatenare questo operatore
+    Point& operator=(const Point &);
+
     Point operator+(const Point &point) const;
 
     Point operator-(const Point &point) const;

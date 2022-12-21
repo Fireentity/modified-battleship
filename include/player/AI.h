@@ -6,7 +6,7 @@
 
 class AI : public Player {
 private:
-    std::shared_ptr<Board> board;
+    Board> board;
     std::vector<std::shared_ptr<Ship>> ships;
 public:
     static const std::unordered_map<Ships,std::function<bool(Point,bool,std::shared_ptr<Board>)>> factory;

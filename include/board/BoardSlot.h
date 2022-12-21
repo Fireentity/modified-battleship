@@ -3,9 +3,9 @@
 
 #include <memory>
 #include <ostream>
-#include "ship/Ship.h"
+#include <functional>
 
-class ShipPiece;
+class Ship;
 
 //Rappresenta uno slot della board_ di gioco. Contiene un'associazione tra un pezzo della nave alle coordinate (x_,y_)
 //e lo stato di ciò che vede il giocatore avversario.
@@ -21,25 +21,23 @@ public:
         EMPTY
     };
 
-    explicit BoardSlot(const std::shared_ptr<ShipPiece> &);
-
     BoardSlot();
 
-    std::shared_ptr<ShipPiece> get_ship_piece() const;
+    void set_ship(const std::shared_ptr<Ship> &ship);
 
-    void set_ship_piece(const std::shared_ptr<ShipPiece> &ship);
+    std::shared_ptr<Ship> get_ship() const;
 
     void set_state(State state);
 
     State get_state() const;
 
-    void remove_ship_piece();
+    void remove_ship();
 
     bool has_ship() const;
 
 //I field privati sono stati dichiarati sotto perché doveva essere prima definita l'enumerazione State
 private:
-    std::shared_ptr<ShipPiece> ship_;
+    std::shared_ptr<Ship> ship_;
     State state_;
 };
 

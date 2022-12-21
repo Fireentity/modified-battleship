@@ -40,3 +40,9 @@ bool Point::operator==(const Point &point) const {
 bool Point::operator!=(const Point &point) const {
     return !(point == *this);
 }
+
+Point &Point::operator=(const Point &point) {
+    this->x_ = point.get_x();
+    this->y_ = point.get_y();
+    return *this;
+}

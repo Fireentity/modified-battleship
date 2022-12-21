@@ -92,5 +92,5 @@ bool Human::ask_input(Board &enemy_board) {
         return false;
     }
 
-    return slot.get_ship_piece()->get_ship()->do_action(destination, enemy_board);
+    return slot.get_ship()->get_ship()->do_action(destination);
 }

@@ -1,28 +1,40 @@
 #include "ship/Ship.h"
 
-Ship::Ship(const Point &position, int width, int height, int health, int max_health,
-           const std::shared_ptr<Board> &defence_board) : position_{position}, width_{width}, height_{height},
-                                                          health_{health}, max_health_{max_health},
-                                                          defence_board_{defence_board} {
+Ship::Ship(const Point &position, int width, int height, unsigned int size, int health, int max_health,
+           const std::shared_ptr<Board::Action> &action) : position_{position},
+                                                           width_{width}, height_{height},
+                                                           pieces_amount_{size},
+                                                           health_{health},
+                                                           max_health_{max_health} {
 
-}
-
-int Ship::get_center_x() const {
-    return this->position_.get_x();
-}
-
-int Ship::get_center_y() const {
-    return this->position_.get_y();
-}
-
-unsigned short Ship::get_health() const {
-    return health_;
 }
 
 void Ship::set_health(unsigned short health) {
     this->health_ = health;
 }
 
-unsigned short Ship::get_max_health() const {
+int Ship::get_health() const {
+    return health_;
+}
+
+int Ship::get_max_health() const {
     return max_health_;
+}
+
+const Point &Ship::get_center() {
+    return position_;
+}
+
+bool Ship::do_action(const Point &target) {
+    return action->do_action(target);
+}
+
+void Ship::for_each_piece(const std::function<void(ShipPiece&)> &on_iteration) {
+    for(auto & piece : pieces_) {
+        on_iteration(piece);
+    }
+}
+
+unsigned int Ship::get_pieces_amount() const {
+    return pieces_amount_;
 }

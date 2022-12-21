@@ -5,8 +5,7 @@ const std::unordered_map<Player::Ships, std::function<bool(Point, bool, std::sha
                 Player::Ships::ARMOURED,
                 [](Point bow, bool horizontal, const std::shared_ptr<Board> &defence_board) {
                     if(horizontal) {
-                        return ArmouredShip::make_ship_or_null(bow, {bow.get_x() + ArmouredShip::length, bow.get_y()},
-                                                               defence_board);
+                        return Sh;
                     } else {
                         return ArmouredShip::make_ship_or_null(bow, {bow.get_x(), bow.get_y() + ArmouredShip::length},
                                                                defence_board);
