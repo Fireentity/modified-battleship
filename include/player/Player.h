@@ -2,34 +2,47 @@
 #define PLAYER_H
 
 #include <vector>
+#include <stdexcept>
 #include <functional>
-#include "ship/Ship.h"
+#include "action/HitAction.h"
+#include "action/MoveAndHealAction.h"
+#include "action/MoveAndRevealAction.h"
 
 //Rappresenta la classe che astrae un giocatore che sia umano o computer
 class Player {
 private:
-     Board board_;
-     std::shared_ptr<Board> enemy_board;
+    const std::shared_ptr<Board> board_;
+    const std::shared_ptr<Board> enemy_board_;
+public:
+
+    static bool make_and_place_armoured_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
+                                             const std::shared_ptr<Board> &enemy_board);
+    static bool make_and_place_support_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
+                                            const std::shared_ptr<Board> &enemy_board);
+    static bool make_and_place_submarine(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
+                                         const std::shared_ptr<Board> &enemy_board);
 public:
     //Rappresenta il tipo di navi disponibili nella flotta di ciascun giocatore
-    enum Ships {
+    enum class Ships {
         ARMOURED,
         SUPPORT,
         SUBMARINE
     };
-
     //Permette di convertire in stringa ogni valore dell'enumerazione Ships
     static std::string to_string(Ships ship);
-
     //Rappresenta le navi disponibili nelle flotte dei due giocatori
     static const std::vector<Ships> available_ships;
-    //Viene usato un factory method design pattern implementato tramite un unordered_map per avere complessità temporale
-    //O(1). Nella mappa a ogni tipo di nave corrisponde una funzione per creare il relativo oggetto. Si potrebbe
-    //implementare la stessa cosa utilizzando una catena di if else ma sarebbe meno flessibile
-    //Questa mappa è creata in modo statico
-    static const std::unordered_map<Ships,std::function<std::shared_ptr<Ship>(Point,Point,std::shared_ptr<Board>)>> factory;
 
-    virtual std::shared_ptr<Board> place_ships_inside_board() = 0;
+    static bool instantiate_ship(Player::Ships ship_type, const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
+                                 const std::shared_ptr<Board> &enemy_board);
+
+    Player(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
+
+    std::shared_ptr<Board> get_enemy_board() const;
+
+    std::shared_ptr<Board> get_board() const;
+
+    virtual void place_ships_inside_board() = 0;
 
     virtual void do_move(Board &enemy_board) = 0;
 

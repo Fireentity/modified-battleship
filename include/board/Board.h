@@ -6,14 +6,13 @@
 #include <memory>
 #include "Point.h"
 #include "BoardSlot.h"
-#include "ship/Ship.h"
 
 class Board {
 public:
     class Action {
     private:
-        Board &board_;
-        Board &enemy_board_;
+        std::shared_ptr<Board> board_;
+        std::shared_ptr<Board> enemy_board_;
     protected:
         //Vengono creati dei delegate per rendere disponibili i metodi di Board anche nelle possibili
         //implementazioni di Action
@@ -23,7 +22,7 @@ public:
         BoardSlot &get_enemy_slot(unsigned int x, unsigned int y);
         bool move_ship(const Point &ship_center, const Point &destination);
     public:
-        explicit Action(Board &board, Board &enemy_board);
+        Action(const std::shared_ptr<Board> &board_, const std::shared_ptr<Board> &enemy_board);
         virtual bool do_action(const Point &target) = 0;
 
     };
@@ -37,9 +36,11 @@ public:
 
     static bool is_out(const Point &point);
 
-    const BoardSlot &get_slot(unsigned int x, unsigned int y) const;
+    const BoardSlot &at(unsigned int x, unsigned int y) const;
 
-    const BoardSlot &get_slot(const Point &point) const;
+    const BoardSlot &at(const Point &point) const;
+
+    const std::vector<std::shared_ptr<Ship>> &get_ships() const;
 
     //Viene creata una copia della nave così da impedire che lo stato interno della nave possa essere
     //modificato dall'esterno. Infatti non si possono ottenere le istanze di Ship contenute in Board
@@ -52,6 +53,7 @@ protected:
 
 private:
     BoardSlot board_[Board::width][Board::height];
+    std::vector<std::shared_ptr<Ship>> ships_;
 };
 
 #endif //DEFENCEBOARD_H

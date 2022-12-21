@@ -46,3 +46,11 @@ Point &Point::operator=(const Point &point) {
     this->y_ = point.get_y();
     return *this;
 }
+
+Point Point::add_x(int x) const {
+    return Point{x_+x,y_};
+}
+
+Point Point::add_y(int y) const {
+    return Point{x_, y_ + y};
+}

@@ -4,7 +4,7 @@ ShipPiece::ShipPiece(const Point &position) : position_{position} {
 
 }
 
-ShipPiece::ShipPiece() : position_{0,0}, defence_board_(), ship_(), hit_(false) {
+ShipPiece::ShipPiece() : position_{0,0}, hit_(false) {
 
 }
 

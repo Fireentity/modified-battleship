@@ -1,16 +1,18 @@
 #ifndef FINALE_AI_H
 #define FINALE_AI_H
 
+#include "action/MoveAndRevealAction.h"
 #include "board/Board.h"
 #include "Player.h"
 
 class AI : public Player {
 private:
-    Board> board;
     std::vector<std::shared_ptr<Ship>> ships;
 public:
-    static const std::unordered_map<Ships,std::function<bool(Point,bool,std::shared_ptr<Board>)>> factory;
-    std::shared_ptr<Board> place_ships_inside_board() override;
+    AI(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
+    static bool instantiate_ship(Player::Ships ship_type, const Point &bow, bool horizontal, const std::shared_ptr<Board> &board,
+                                 const std::shared_ptr<Board> &enemy_board);
+    void place_ships_inside_board() override;
     void do_move(Board &enemy_board) override;
 };
 

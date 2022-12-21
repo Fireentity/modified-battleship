@@ -17,6 +17,10 @@ public:
 
     int get_y() const;
 
+    Point add_x(int x) const;
+
+    Point add_y(int y) const;
+
     //Viene utilizzata la distanza al quadrato perché è più veloce moltiplicare che fare la radice quadrata
     double squared_distance(const Point &point) const;
 

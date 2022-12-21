@@ -3,6 +3,11 @@
 //TODO controllare il range di heal
 const int MoveAndRevealAction::range = 3;
 
+MoveAndRevealAction::MoveAndRevealAction(const std::shared_ptr<Board> &board_,
+                                         const std::shared_ptr<Board> &enemy_board) : Action(board_, enemy_board) {
+
+}
+
 bool MoveAndRevealAction::do_action(const Point &target) {
     std::shared_ptr<Ship> ship = get_slot(target).get_ship();
     bool can_move = move_ship(ship->get_center(),target);

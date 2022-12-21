@@ -3,10 +3,11 @@
 
 #include <unordered_map>
 #include <memory>
+#include <vector>
+#include <functional>
 #include "Point.h"
 #include "ShipPiece.h"
-
-class Board;
+#include "board/Board.h"
 
 class Ship {
 protected:
@@ -21,19 +22,24 @@ protected:
 
 public:
 
+    static const unsigned short armoured_ship_length;
+    static const unsigned short support_ship_length;
+    static const unsigned short submarine_length;
+    static const int breadth;
+
     Ship(const Point &point, int width, int height, unsigned int size, int health, int max_health, const std::shared_ptr<Board::Action> &action);
 
     void for_each_piece(const std::function<void(ShipPiece&)> &on_iteration);
 
-    void set_health(unsigned short health);
+    bool do_action(const Point &target) const;
 
-    bool do_action(const Point &target);
+    unsigned int get_pieces_amount() const;
+
+    void set_health(unsigned short health);
 
     int get_max_health() const;
 
     const Point &get_center();
-
-    unsigned int get_pieces_amount() const;
 
     int get_health() const;
 };

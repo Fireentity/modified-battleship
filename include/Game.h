@@ -18,11 +18,15 @@ public:
     //Si usa (static method factory design pattern) per creare le possibili configurazioni
     //di gioco: Human vs AI, AI vs AI ma si potrebbe implementare anche Human vs Human
     static Game make_human_vs_ai() {
-        return Game{AI{},Human{}};
+        std::shared_ptr<Board> board_1 = std::make_shared<Board>();
+        std::shared_ptr<Board> board_2 = std::make_shared<Board>();
+        return Game{AI{board_1,board_2},Human{board_2,board_1}};
     }
 
     static Game make_ai_vs_ai() {
-        return Game{AI{},AI{}};
+        std::shared_ptr<Board> board_1 = std::make_shared<Board>();
+        std::shared_ptr<Board> board_2 = std::make_shared<Board>();
+        return Game{AI{board_1,board_2},AI{board_2,board_1}};
     }
 
     void start_loop();

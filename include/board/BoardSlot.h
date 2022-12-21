@@ -25,15 +25,17 @@ public:
 
     void set_ship(const std::shared_ptr<Ship> &ship);
 
-    std::shared_ptr<Ship> get_ship() const;
+    std::shared_ptr<const Ship> get_ship() const;
+
+    std::shared_ptr<Ship> get_ship();
 
     void set_state(State state);
 
     State get_state() const;
 
-    void remove_ship();
-
     bool has_ship() const;
+
+    void remove_ship();
 
 //I field privati sono stati dichiarati sotto perché doveva essere prima definita l'enumerazione State
 private:

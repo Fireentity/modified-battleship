@@ -8,7 +8,7 @@ bool Board::is_out(const Point &point) {
     return point.get_x() > width || point.get_y() > height;
 }
 
-const BoardSlot &Board::get_slot(unsigned int x, unsigned int y) const {
+const BoardSlot &Board::at(unsigned int x, unsigned int y) const {
     if (is_out(x, y)) {
         throw std::invalid_argument("Position out of bounds");
     }
@@ -16,8 +16,8 @@ const BoardSlot &Board::get_slot(unsigned int x, unsigned int y) const {
     return this->board_[y][x];
 }
 
-const BoardSlot &Board::get_slot(const Point &point) const {
-    return get_slot(point.get_x(), point.get_y());
+const BoardSlot &Board::at(const Point &point) const {
+    return at(point.get_x(),point.get_y());
 }
 
 BoardSlot &Board::get_slot(const Point &point) {
@@ -33,6 +33,7 @@ bool Board::insert_ship(Ship ship) {
     ship.for_each_piece([shared_ptr,this](const ShipPiece &piece) {
         this->board_[piece.get_position().get_y()][piece.get_position().get_x()].set_ship(shared_ptr);
     });
+    ships_.push_back(shared_ptr);
 }
 
 bool Board::move_ship(const Point &ship_center, const Point &destination) {
@@ -73,26 +74,32 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
     return true;
 }
 
-Board::Action::Action(Board &board, Board &enemy_board): board_{board}, enemy_board_{enemy_board} {
+const std::vector<std::shared_ptr<Ship>> &Board::get_ships() const {
+    return ships_;
+}
+
+//TODO Controllare che questi shared_ptr non creino delle dipendenze circolari
+Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board): board_{board}, enemy_board_{enemy_board} {
 
 }
 
+
 BoardSlot &Board::Action::get_slot(const Point &point) {
-    return board_.get_slot(point);
+    return board_->get_slot(point);
 }
 
 BoardSlot &Board::Action::get_slot(unsigned int x, unsigned int y) {
-    return board_.get_slot(x,y);
+    return board_->get_slot(x,y);
 }
 
 BoardSlot &Board::Action::get_enemy_slot(const Point &point) {
-    return enemy_board_.get_slot(point);
+    return enemy_board_->get_slot(point);
 }
 
 BoardSlot &Board::Action::get_enemy_slot(unsigned int x, unsigned int y) {
-    return enemy_board_.get_slot(x,y);
+    return enemy_board_->get_slot(x,y);
 }
 
 bool Board::Action::move_ship(const Point &ship_center, const Point &destination) {
-    return board_.move_ship(ship_center,destination);
+    return board_->move_ship(ship_center,destination);
 }

@@ -5,14 +5,16 @@ project(progetto_finale)
 include_directories(include)
 
 add_executable(battaglia-navale
+        src/ship/Ship.cpp
         src/battleship.cpp
         src/board/Board.cpp
         src/board/BoardSlot.cpp
-        src/ship/Ship.cpp
         src/ship/ShipPiece.cpp
         src/Game.cpp
         src/player/Player.cpp
         src/player/AI.cpp
         src/player/Human.cpp
         src/Point.cpp
-        src/action/HitAction.cpp include/action/MoveAndHealAction.h src/action/MoveAndHealAction.cpp src/action/MoveAndRevealAction.cpp include/action/MoveAndRevealAction.h)
+        src/action/HitAction.cpp
+        src/action/MoveAndHealAction.cpp
+        src/action/MoveAndRevealAction.cpp)

@@ -5,7 +5,11 @@ const std::regex Human::inputCharacterRegex = std::regex{R"([A-M])"};
 //Permette di verificare il formato dell'input dell'utente
 const std::regex Human::inputRegex = std::regex{R"(^([A-M])(\d{1,2}) ([A-M])(\d{1,2})$)"};
 
-std::shared_ptr<Board> Human::place_ships_inside_board() {
+Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board) : Player{board,enemy_board} {
+
+}
+
+void Human::place_ships_inside_board() {
     int i = 0;
     while (i < Player::available_ships.size()) {
         std::cout << "Inserisci le coordinate della prua e della poppa [" << Player::to_string(available_ships[i])
@@ -54,7 +58,7 @@ bool Human::place_board(Ships ship) {
     Point bow{to_index(first_char), std::stoi(second_char)};
     Point stern{to_index(third_char), std::stoi(fourth_char)};
 
-    return Player::factory.at(ship)(bow, stern, std::shared_ptr<Board>{&board_});
+    return Player::instantiate_ship(ship,bow,stern,get_board(),get_enemy_board());
 }
 
 void Human::do_move(Board &enemy_board) {
@@ -87,10 +91,10 @@ bool Human::ask_input(Board &enemy_board) {
     Point ship_position{to_index(first_char), std::stoi(second_char)};
     Point destination{to_index(third_char), std::stoi(fourth_char)};
 
-    BoardSlot &slot = board_.get_slot(ship_position);
+    const BoardSlot &slot = get_board()->at(ship_position);
     if (!slot.has_ship()) {
         return false;
     }
 
-    return slot.get_ship()->get_ship()->do_action(destination);
+    return slot.get_ship()->do_action(destination);
 }
