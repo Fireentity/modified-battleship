@@ -11,7 +11,7 @@ private:
     unsigned short health_;
 public:
 
-    Ship(std::pair<int,int>, unsigned short width, unsigned short height, unsigned short health);
+    Ship(const std::pair<int,int>&, unsigned short width, unsigned short height, unsigned short health);
 
     unsigned short get_x() const;
 
