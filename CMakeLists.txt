@@ -17,6 +17,7 @@ add_executable(battaglia_navale src/battleship.cpp
         src/ship/BoardPiece.cpp
         src/ship/Submarine.cpp
         src/ship/Supporter.cpp
+        src/ship/Ship.hpp
         src/Logger.cpp
         src/Game.cpp
         src/AI.cpp)

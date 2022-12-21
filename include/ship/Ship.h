@@ -1,21 +1,22 @@
 #ifndef SHIP_H
 #define SHIP_H
 
+#include "Point.h"
 #include "board/BoardPiece.h"
 
 class Ship {
 private:
-    std::pair<int, int> position_;
+    Point position_;
     const unsigned short width_;
     const unsigned short height_;
     unsigned short health_;
 public:
 
-    Ship(const std::pair<int,int>&, unsigned short width, unsigned short height, unsigned short health);
+    Ship(const Point&, unsigned short width, unsigned short height, unsigned short health);
 
-    unsigned short get_x() const;
+    unsigned int get_x() const;
 
-    unsigned short get_y() const;
+    unsigned int get_y() const;
 
     unsigned short get_width() const;
 
@@ -24,7 +25,7 @@ public:
     unsigned short get_health() const;
 
     template <int N>
-    void insert_into(const BoardPiece (& piece)[N][N]) const;
+    virtual void insert_into(const BoardPiece (& piece)[N][N]) const = 0;
 
     virtual char get_character() const = 0;
 };
