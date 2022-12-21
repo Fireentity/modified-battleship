@@ -10,13 +10,12 @@
 class ArmouredShip : public LinearShip {
 private:
     ArmouredShip(const std::vector<Point> &positions, const Point &center, int width, int height,
-                 const std::shared_ptr<DefenceBoard> &board);
+                 const std::shared_ptr<Board> &board);
 
 public: //Le constanti statiche sono state rese pubbliche per semplificarne l'accesso in quanto non possono essere modificate
     //breadth e length rappresentano le dimensioni senza considerare l'orientamento della nave.
-    //Non si sarebbe potuto usare width o height in quando l'altezza della nave assume un valore diverso in base
-    //a se questa è disposta orizzontalmente o verticalmente. Si sono quindi scelti questi nomi per salvare le
-    //dimensioni della nave corazzata
+    //Non si sarebbe potuto usare width o height come nomi di queste variabili perché l'altezza della nave assume un valore
+    //diverso in base all'orientamento
     static const int breadth;
     static const int length;
     static const int max_health;
@@ -24,12 +23,11 @@ public: //Le constanti statiche sono state rese pubbliche per semplificarne l'ac
     static const char piece;
 
     //Questo metodo impedisce chiamate inutili al costruttore. Il costruttore, non essendo direttamente invocabile, dovrà
-    //essere sempre preceduto dai controlli implementati in make_ship_or_null. Il nome del metodo suggerisce che
-    //restituirà uno shared_ptr nullo nel caso in cui non si riesca a creare la barca.
+    //essere sempre preceduto dai controlli implementati in make_ship_or_null.
     //Viene adottato un static method factory come design pattern
-    static std::shared_ptr<ArmouredShip> make_ship_or_null(int, int, bool, const std::shared_ptr<DefenceBoard> &);
+    static std::shared_ptr<Ship> make_ship_or_null(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board);
 
-    bool do_action(int x, int y, DefenceBoard &enemy_board) override;
+    bool do_action(const Point &target, Board &enemy_board) override;
 
     char get_damaged_character() const override;
 

@@ -15,11 +15,11 @@ protected:
     std::vector<std::shared_ptr<ShipPiece>> pieces_;
 public:
     LinearShip(const Point &center, int width, int height, int health, int max_health,
-               const std::shared_ptr<DefenceBoard> &defence_board);
+               const std::shared_ptr<Board> &defence_board);
 
-    bool is_valid_position(int x, int y) override;
+    bool is_valid_position(const Point &point) override;
 
-    void move(int x, int y) override;
+    void move(const Point &destination) override;
 };
 
 #endif //ORIENTABLESHIP_H

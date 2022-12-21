@@ -20,19 +20,19 @@ public:
     static const char piece = 'E';
     static const char damagedPiece = 'e';
 
-    Submarine(const Point &center, const std::shared_ptr<DefenceBoard> &defence_board);
+    Submarine(const Point &center, const std::shared_ptr<Board> &defence_board);
 
-    static std::shared_ptr<Submarine> make_ship_or_null(int x, int y, const std::shared_ptr<DefenceBoard> &defence_board);
+    static bool make_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &defence_board);
 
-    bool do_action(int x, int y, DefenceBoard &enemy_board) override;
+    bool do_action(const Point &target, Board &enemy_board) override;
 
-    bool is_valid_position(int x, int y) override;
+    bool is_valid_position(const Point &point) override;
 
     char get_damaged_character() const override;
 
     char get_character() const override;
 
-    void move(int x, int y) override;
+    void move(const Point &destination) override;
 
     //Viene cancellato l'operatore di assegnazione per evitare lo slicing
     Submarine &operator=(Submarine &) = delete;

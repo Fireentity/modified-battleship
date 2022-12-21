@@ -7,9 +7,9 @@
 
 class ShipPiece;
 
-//Rappresenta uno slot della board di gioco. Contiene un'associazione tra la nave contenuta nella board
+//Rappresenta uno slot della board_ di gioco. Contiene un'associazione tra un pezzo della nave alle coordinate (x_,y_)
 //e lo stato di ciò che vede il giocatore avversario.
-//Si è preferito creare una sola board per evitare di dover aggiornare oggetti in parallelo
+//Si è preferito creare una sola board_ per evitare di dover aggiornare oggetti in parallelo.
 class BoardSlot {
 
 public:

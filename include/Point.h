@@ -1,10 +1,34 @@
 #ifndef POINT_H
 #define POINT_H
 
-//Viene utilizzato uno struct per i punti nella board perchè non c'è nessun motivo di rendere private i field x e y
-//In quanto field pubblici di uno struct non seguono la naming convention di tutte le altre classe (infatti non c'è "_")
-struct Point {
-    int x, y;
+#include <cmath>
+
+
+class Point {
+private:
+    int x_;
+    int y_;
+public:
+    Point(int x, int y);
+
+    Point();
+
+    int get_x() const;
+
+    int get_y() const;
+
+    //Viene utilizzata la distanza al quadrato perché è più veloce moltiplicare che fare la radice quadrata
+    double squared_distance(const Point &point) const;
+
+    Point middle_point(const Point &point) const;
+
+    Point operator+(const Point &point) const;
+
+    Point operator-(const Point &point) const;
+
+    bool operator==(const Point &point) const;
+
+    bool operator!=(const Point &point) const;
 };
 
 #endif //POINT_H

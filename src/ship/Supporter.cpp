@@ -9,57 +9,68 @@ const unsigned short Supporter::max_health = 3;
 
 //TODO make this code a copy-paste from ArmouredShip solving shared_ptr problem
 Supporter::Supporter(const std::vector<Point> &positions, const Point &center, int width, int height,
-                     const std::shared_ptr<DefenceBoard> &board) : LinearShip{center, width, height, max_health,
-                                                                              max_health, board} {
+                     const std::shared_ptr<Board> &board) : LinearShip{center, width, height, max_health,
+                                                                       max_health, board} {
 
-    std::shared_ptr<Supporter> ship{};
-    ship.reset(this);
+    std::shared_ptr<Supporter> ship{this};
     for (int i = 0; i < positions.size(); i++) {
         pieces_[i] = std::make_shared<ShipPiece>(positions[i], board, ship);
         pieces_[i]->move_to(positions[i]);
     }
 
-    //Mette i pezzi nella board
+    //Mette i pezzi nella board_
     for (auto &iterated_piece: pieces_) {
-        iterated_piece->move_to(iterated_piece->get_position().x, iterated_piece->get_position().y);
+        iterated_piece->move_to(iterated_piece->get_position());
     }
 }
 
 
-std::shared_ptr<Supporter> Supporter::make_ship_or_null(int x, int y, bool horizontal, const std::shared_ptr<DefenceBoard> &board) {
+std::shared_ptr<Ship> Supporter::make_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board) {
 
-    if (board->is_out(x, y)) {
+    if(bow.get_x() != stern.get_x() && bow.get_y() != stern.get_y()){
         return nullptr;
     }
 
-    Point center{x, y};
+    //Controllo che la distanza tra poppa e prua sia uguale alla lunghezza della nave
+    if(bow.squared_distance(stern) != std::pow(length,2)) {
+        return nullptr;
+    }
+
+    if (board->is_out(bow) || board->is_out(stern)) {
+        return nullptr;
+    }
+
+    bool horizontal = stern.get_y() == bow.get_y();
+
+    Point center = bow.middle_point(stern);
 
     std::vector<Point> positions{length};
 
-    //Calcola tutti punti occupati dalla barca nella board
+    //Calcola tutti punti occupati dalla barca nella board_
     for (int i = 0; i < length; i++) {
         if (horizontal) {
-            x += -(length / 2) + i;
+            positions[i] = {center.get_x() - (length/2) + i, 0};
         } else {
-            y += -(length / 2) + i;
+            positions[i] = {0,center.get_x() - (length/2) + i};
         }
 
-        positions[i] = {x, y};
     }
 
     //Controlla che tutti i punti dove sarà posizionata la barca rispettino le condizioni specificate
     bool can_place = std::any_of(positions.begin(), positions.end(), [board](Point &position) {
-        return board->is_out(position) || board->get_slot(position).has_ship();
+        return Board::is_out(position) || board->get_slot(position).has_ship();
     });
 
     if (!can_place) {
         return nullptr;
     }
 
-    //Viene allocato manualmente perché il costruttore di ArmouredShip è privato
     //TODO check if this is correct
-    Supporter ship{positions, center, horizontal ? length : breadth, horizontal ? breadth : length,board};
-    return std::make_shared<Supporter>(ship);
+    return std::shared_ptr<Supporter>(new Supporter{positions,
+                                                     center,
+                                                     horizontal ? length : breadth,
+                                                     horizontal ? breadth : length,
+                                                     board});
 }
 
 char Supporter::get_character() const {
@@ -70,21 +81,21 @@ char Supporter::get_damaged_character() const {
     return damagedPiece;
 }
 
-//In questo caso enemy_board non viene utilizzato in quanto la nave di supporto non agisce sulla tabella avversara
-bool Supporter::do_action(int x, int y, DefenceBoard &enemy_board) {
+//In questo caso enemy_board non viene utilizzato in quanto la nave di supporto non agisce sulla tabella avverisara
+bool Supporter::do_action(const Point &target, Board &enemy_board) {
     if (health_ == 0) {
         return false;
     }
 
-    if (defence_board_->is_out(x, y)) {
+    if (defence_board_->is_out(target)) {
         return false;
     }
 
-    if (!is_valid_position(x, y)) {
+    if (!is_valid_position(target)) {
         return false;
     }
 
-    move(x, y);
+    move(target);
 
     int center_x = get_center_x() - (range / 2);
     int center_y = get_center_x() - (range / 2);

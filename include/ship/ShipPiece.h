@@ -2,7 +2,7 @@
 #define SHIPPIECE_H
 
 #include "Point.h"
-#include "board/DefenceBoard.h"
+#include "board/Board.h"
 
 //Rappresenta un pezzo di nave nella scacchiera.
 //Questa classe è stata pensata per semplificare i movimenti delle navi nella scacchiera. Le traslazioni infatti
@@ -12,13 +12,13 @@ class ShipPiece {
 private:
     //Vengono utilizzati shared_ptr per risolvere il problema dell'ownership. In questo modo defence_board_ e ship_
     //verranno cancellate sono quando non ci saranno più shared_ptr correlati a queste due istanze
-    std::shared_ptr<DefenceBoard> defence_board_;
+    std::shared_ptr<Board> defence_board_;
     std::shared_ptr<Ship> ship_;
     Point position_;
     bool hit_ = false;
 public:
 
-    ShipPiece(const Point &, const std::shared_ptr<DefenceBoard> &, const std::shared_ptr<Ship> &);
+    ShipPiece(const Point &, const std::shared_ptr<Board> &, const std::shared_ptr<Ship> &);
 
     ShipPiece();
 
@@ -26,11 +26,9 @@ public:
 
     const Point &get_position();
 
-    bool is_valid_position(int x, int y);
+    bool is_valid_position(const Point &point);
 
-    void move_to(int x, int y);
-
-    void move_to(const Point &);
+    void move_to(const Point &point);
 
     bool is_hit();
 

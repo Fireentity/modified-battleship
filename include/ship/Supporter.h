@@ -6,7 +6,7 @@
 class Supporter : public LinearShip {
 private:
     Supporter(const std::vector<Point> &positions, const Point &center, int width, int height,
-              const std::shared_ptr<DefenceBoard> &board);
+              const std::shared_ptr<Board> &board);
 
 public:
     //breadth e length rappresentano le dimensioni senza considerare l'orientamento della nave.
@@ -20,10 +20,9 @@ public:
     static const unsigned short range;
     static const unsigned short max_health;
 
-    static std::shared_ptr<Supporter>
-    make_ship_or_null(int x, int y, bool horizontal, const std::shared_ptr<DefenceBoard> &board);
+    static std::shared_ptr<Ship> make_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board);
 
-    bool do_action(int x, int y, DefenceBoard &enemy_board) override;
+    bool do_action(const Point &target, Board &enemy_board) override;
 
     char get_damaged_character() const override;
 
