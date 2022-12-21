@@ -15,4 +15,5 @@ add_executable(battaglia-navale
         src/ship/Supporter.cpp
         src/ship/LinearShip.cpp
         src/ship/Ship.cpp
-        src/ship/ShipPiece.cpp)
+        src/ship/ShipPiece.cpp
+        src/AI.cpp include/Player.h src/Player.cpp)

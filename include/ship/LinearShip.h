@@ -22,6 +22,8 @@ public:
                const std::shared_ptr<DefenceBoard> &defence_board,
                bool horizontal);
 
+
+
     bool is_horizontal() const;
 
     bool place() override;

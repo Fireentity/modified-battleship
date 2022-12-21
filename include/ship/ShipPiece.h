@@ -19,7 +19,7 @@ public:
 
     const Point &get_position();
 
-    bool can_move(int x, int y);
+    bool is_valid_position(int x, int y);
 
     void move(int x, int y);
 

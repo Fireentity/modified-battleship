@@ -1,12 +1,11 @@
 #include "ship/Ship.h"
 
-Ship::Ship(const Point &position,
-           unsigned short width,
-           unsigned short height,
-           unsigned short health,
+Ship::Ship(const Point &position, unsigned short width, unsigned short height, unsigned short health,
            unsigned short max_health,
-           const std::shared_ptr<DefenceBoard> &defence_board) : position_{position}, width_{width}, height_{height}, health_{health},
-                                                                 max_health_{max_health}, defence_board_{defence_board} {
+           const std::shared_ptr<DefenceBoard> &defence_board) : position_{position}, width_{width}, height_{height},
+                                                                 health_{health},
+                                                                 max_health_{max_health},
+                                                                 defence_board_{defence_board} {
 
 }
 

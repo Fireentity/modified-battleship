@@ -3,8 +3,16 @@
 Submarine::Submarine(int x, int y, const std::shared_ptr<DefenceBoard> &defence_board) : Ship{Point{x, y}, thickness,
                                                                                               length,
                                                                                               max_health, max_health,
-                                                                                              defence_board},
-                                                                                         piece_{std::make_shared<ShipPiece>()} {
+                                                                                              defence_board} {
+    Point position{get_center_x(), get_center_y()};
+    std::shared_ptr<Submarine> shared_ptr{};
+    shared_ptr.reset(this);
+    piece_ = std::make_shared<ShipPiece>(position, defence_board, shared_ptr);
+    if(!piece_->is_valid_position(position_.x_, position_.y_)) {
+        throw std::invalid_argument("Unable to place ship");
+    }
+
+
 }
 
 bool Submarine::place() {
@@ -51,7 +59,7 @@ bool Submarine::do_action(int x, int y) {
 }
 
 bool Submarine::is_valid_position(int x, int y) {
-    return piece_->can_move(x, y);
+    return piece_->is_valid_position(x, y);
 }
 
 void Submarine::move(int x, int y) {

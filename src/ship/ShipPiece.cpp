@@ -13,7 +13,7 @@ void ShipPiece::move(int x, int y) {
     position_.y_ = y;
 }
 
-bool ShipPiece::can_move(int x, int y) {
+bool ShipPiece::is_valid_position(int x, int y) {
     return defence_board_->get_slot(x,y).has_ship();
 }
 
