@@ -1,10 +1,9 @@
 #include "ship/Ship.h"
-#include "Point.h"
 
 Ship::Ship(const Point &position,
            unsigned short width,
            unsigned short height,
-           unsigned short health): position_{position},width_{width},height_{height},health_{health} {
+           unsigned short health) : position_{position}, width_{width}, height_{height}, health_{health} {
 
 }
 

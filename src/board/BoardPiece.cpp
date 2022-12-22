@@ -24,3 +24,7 @@ bool BoardPiece::is_hit() const {
 void BoardPiece::set_hit(bool hit) {
     hit_ = hit;
 }
+
+std::ostream &operator<<(std::ostream &os, const BoardPiece &piece) {
+    return os << (piece.is_hit() ? piece.get_ship()->get_damaged_character() : piece.get_ship()->get_character());
+}

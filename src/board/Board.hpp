@@ -5,10 +5,12 @@
 
 template <class T, int N, int M>
 class Board {
-protected:
+private:
     T board_[N][M];
+    const int height = N;
+    const int width = M;
 public:
-    Board(const T &default_object) {
+    explicit Board(const T &default_object) {
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < M; j++) {
                 //Copia l'oggetto in tutti gli slot della board in modo
@@ -18,16 +20,24 @@ public:
         }
     }
 
-    const T &get_slot(int x, int y) {
-        if(x > N || y > M || x < 0 || y < 0) {
+    int get_width() const {
+        return width;
+    }
+
+    int get_height() const {
+        return height;
+    }
+
+    const T &get_slot(unsigned int x,unsigned int y) const {
+        if(x > N || y > M) {
             throw std::invalid_argument("Position out of bounds");
         }
 
         return this->board_[x][y];
     }
 
-    void set_slot(int x, int y, const T &object) {
-        if(x > N || y > M || x < 0 || y < 0) {
+    void set_slot(unsigned int x,unsigned int y, const T &object) {
+        if(x > N || y > M) {
             throw std::invalid_argument("Position out of bounds");
         }
 

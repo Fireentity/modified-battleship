@@ -1,13 +1,17 @@
-#ifndef PROGETTO_FINALE_BOARDPIECE_H
-#define PROGETTO_FINALE_BOARDPIECE_H
+#ifndef BOARDPIECE_H
+#define BOARDPIECE_H
 
 #include <memory>
+#include <ostream>
 #include "ship/Ship.h"
+
+class Ship;
 
 class BoardPiece {
 private:
     std::shared_ptr<Ship> ship_;
     bool hit_;
+
 public:
     explicit BoardPiece(const std::shared_ptr<Ship> &);
 
@@ -22,4 +26,6 @@ public:
     void set_hit(bool hit);
 };
 
-#endif //PROGETTO_FINALE_BOARDPIECE_H
+std::ostream &operator<<(std::ostream &os, const BoardPiece &piece);
+
+#endif //BOARDPIECE_H

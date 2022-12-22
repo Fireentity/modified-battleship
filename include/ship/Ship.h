@@ -2,14 +2,14 @@
 #define SHIP_H
 
 #include "Point.h"
-#include "board/BoardPiece.h"
-#include "board/DefenceBoard.h"
+
+class DefenceBoard;
 
 class Ship {
 private:
     Point position_;
-    const unsigned short width_;
-    const unsigned short height_;
+    const unsigned short width_ = 1;
+    const unsigned short height_ = 1;
     unsigned short health_;
 public:
 
@@ -27,7 +27,9 @@ public:
 
     virtual char get_character() const = 0;
 
-    virtual void place(const DefenceBoard &defence_board) const = 0;
+    virtual char get_damaged_character() const = 0;
+
+    virtual void place(DefenceBoard &defence_board) const = 0;
 };
 
 #endif //SHIP_H
