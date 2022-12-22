@@ -13,4 +13,5 @@ add_executable(battaglia-navale
         src/ship/ArmouredShip.cpp
         src/ship/Submarine.cpp
         src/ship/Supporter.cpp
+        src/ship/LinearShip.cpp
         src/ship/Ship.cpp)

@@ -2,8 +2,9 @@
 #define ARMOUREDSHIP_H
 
 #include "board/DefenceBoard.h"
+#include "ship/LinearShip.h"
 
-class ArmouredShip : public Ship {
+class ArmouredShip : public LinearShip {
 public:
     static const char piece;
     static const char damagedPiece;
@@ -18,6 +19,8 @@ public:
     char get_character() const override;
 
     char get_damaged_character() const override;
+
+    std::shared_ptr<LinearShip> get_shared_ptr() const override;
 };
 
 #endif //ARMOUREDSHIP_H

@@ -26,5 +26,8 @@ void BoardPiece::set_hit(bool hit) {
 }
 
 std::ostream &operator<<(std::ostream &os, const BoardPiece &piece) {
+    if(piece.get_ship() == nullptr) {
+        return os << " ";
+    }
     return os << (piece.is_hit() ? piece.get_ship()->get_damaged_character() : piece.get_ship()->get_character());
 }

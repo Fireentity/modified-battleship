@@ -2,26 +2,25 @@
 #define SUPPORTER_H
 
 #include "board/DefenceBoard.h"
+#include "ship/LinearShip.h"
 
-class Supporter : public Ship {
-private:
-    static const char piece = 'S';
-    static const char damagedPiece = 's';
-    static const unsigned short range = 1;
-    //TODO comment the names of the variables
-    static const unsigned short breadth = 1;
-    static const unsigned short length = 3;
-    static const unsigned short max_health = 3;
-
+class Supporter : public LinearShip {
 public:
-    Supporter(unsigned int x, unsigned int y,bool horizontal);
+    static const char piece;
+    static const char damagedPiece;
+    static const unsigned short range;
+    //TODO comment the names of the variables
+    static const unsigned short breadth;
+    static const unsigned short length;
+    static const unsigned short max_health;
 
-    void place(DefenceBoard &defence_board) const override;
+    Supporter(unsigned int x, unsigned int y,bool horizontal);
 
     char get_character() const override;
 
     char get_damaged_character() const override;
 
+    std::shared_ptr<LinearShip> get_shared_ptr() const override;
 };
 
 #endif //SUPPORTER_H

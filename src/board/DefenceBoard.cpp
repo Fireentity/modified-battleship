@@ -5,13 +5,3 @@ DefenceBoard::DefenceBoard(const std::vector<std::shared_ptr<Ship>> &ships) : Bo
         ship->place(*this);
     }
 }
-
-std::ostream &operator<<(std::ostream &os, const DefenceBoard &board) {
-    for(int i = 0; i < board.get_height(); i++) {
-        for(int j = 0; j < board.get_width(); j++) {
-            os << board.get_slot(i,j);
-        }
-    }
-
-    return os;
-}
