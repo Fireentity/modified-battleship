@@ -23,6 +23,8 @@ public:
 
     void place_ships_inside_board() override;
 
+    void print_game_boards() const;
+
     void do_move(Board &enemy_board);
 };
 

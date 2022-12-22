@@ -2,6 +2,8 @@
 #define FINALE_AI_H
 
 #include "action/MoveAndRevealAction.h"
+#include "ship/ArmouredShip.h"
+#include "ship/SupporterShip.h"
 #include "board/Board.h"
 #include "Player.h"
 

@@ -3,6 +3,7 @@
 
 #include "Point.h"
 #include "ship/Ship.h"
+#include "board/Board.h"
 
 class MoveAndHealAction : public Board::Action {
 private:

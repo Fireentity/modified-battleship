@@ -34,11 +34,11 @@ bool AI::instantiate_ship(Player::Ships ship_type, const Point &bow, bool horizo
                           const std::shared_ptr<Board> &enemy_board) {
     switch (ship_type) {
         case Player::Ships::ARMOURED: {
-            Point stern = horizontal ? bow.add_x(Ship::armoured_ship_length) : bow.add_y(Ship::armoured_ship_length);
+            Point stern = horizontal ? bow.add_x(ArmouredShip::armoured_ship_length) : bow.add_y(ArmouredShip::armoured_ship_length);
             return Player::instantiate_ship(ship_type, bow, stern, board, enemy_board);
         }
         case Player::Ships::SUPPORT: {
-            Point stern = horizontal ? bow.add_x(Ship::support_ship_length) : bow.add_y(Ship::support_ship_length);
+            Point stern = horizontal ? bow.add_x(SupporterShip::supporter_ship_length) : bow.add_y(SupporterShip::supporter_ship_length);
             return Player::instantiate_ship(ship_type, bow, stern, board, enemy_board);
         }
         case Player::Ships::SUBMARINE: {

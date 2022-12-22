@@ -17,4 +17,6 @@ add_executable(battaglia-navale
         src/Point.cpp
         src/action/HitAction.cpp
         src/action/MoveAndHealAction.cpp
-        src/action/MoveAndRevealAction.cpp)
+        src/action/MoveAndRevealAction.cpp
+        src/ship/ArmouredShip.cpp
+        src/ship/SupporterShip.cpp include/ship/SupporterShip.h include/ship/Submarine.h src/ship/Submarine.cpp)

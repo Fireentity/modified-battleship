@@ -16,8 +16,7 @@ void Human::place_ships_inside_board() {
                   << "]: ";
 
         if (place_board(available_ships[i])) {
-            //TODO creare un metodo per stampare la griglia
-            //std::cout << board_;
+            std::cout << board_;
             i++;
         } else {
             std::cout << "Posiziona orizzontalmente o verticalmente la nave inserendo le coordinate di poppa e prua (XY XY)"
@@ -97,4 +96,31 @@ bool Human::ask_input(Board &enemy_board) {
     }
 
     return slot.get_ship()->do_action(destination);
+}
+
+void Human::print_game_boards() const{
+    for(int i = 0; i < get_board()->height; i++) {
+
+        std::cout<< i <<"\t";
+        for(int j = 0; j < get_enemy_board()->width; j++) {
+            std::cout<<"+---";
+        }
+
+        std::cout<<"+"<<"\t";
+
+        for(int j = 0; j < get_board()->width; j++) {
+            std::cout<<"+---";
+        }
+        std::cout<<"+"<<std::endl;
+
+        for(int j = 0; j < get_enemy_board()->width; j++) {
+            std::cout<<"| "<<get_enemy_board()->at(i,j).get_state()<<" ";
+        }
+        std::cout<<"|\t";
+
+        for(int j = 0; j < get_board()->width; j++) {
+            std::cout<<"| "<<get_enemy_board()->at(i,j).get_state()<<" ";
+        }
+        std::cout<<"|\t";
+    }
 }

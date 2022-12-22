@@ -2,6 +2,7 @@
 #define MOVEANDREVEAL_H
 
 #include "ship/Ship.h"
+#include "board/Board.h"
 
 class MoveAndRevealAction : public Board::Action {
 private:

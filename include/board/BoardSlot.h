@@ -5,6 +5,7 @@
 #include <ostream>
 #include <functional>
 
+//Class forwarding
 class Ship;
 
 //Rappresenta uno slot della board_ di gioco. Contiene un'associazione tra un pezzo della nave alle coordinate (x_,y_)
@@ -36,6 +37,8 @@ public:
     bool has_ship() const;
 
     void remove_ship();
+
+    std::ostream &operator<<(std::ostream &os);
 
 //I field privati sono stati dichiarati sotto perché doveva essere prima definita l'enumerazione State
 private:

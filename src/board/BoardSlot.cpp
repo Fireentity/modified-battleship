@@ -31,3 +31,13 @@ void BoardSlot::remove_ship() {
 bool BoardSlot::has_ship() const {
     return ship_ == nullptr;
 }
+
+std::ostream &BoardSlot::operator<<(std::ostream &os) {
+    switch (state_) {
+        case HIT: return os<<"X";
+        case HIT_MISSED: return os<<"O";
+        case REVEALED: return os<<"Y";
+        case EMPTY: return os<<" ";
+    }
+    throw std::invalid_argument("Invalid BoardSlot state");
+}

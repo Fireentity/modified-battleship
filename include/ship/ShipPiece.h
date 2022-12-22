@@ -3,6 +3,7 @@
 
 class Board;
 #include <memory>
+#include <ostream>
 #include "Point.h"
 
 class ShipPiece {

@@ -1,37 +1,32 @@
 #ifndef SHIP_H
 #define SHIP_H
 
-#include <unordered_map>
 #include <memory>
 #include <vector>
-#include <functional>
 #include "Point.h"
 #include "ShipPiece.h"
 #include "board/Board.h"
 
 class Ship {
-protected:
-    Point position_;
-    std::shared_ptr<Board::Action> action;
-    std::vector<ShipPiece> pieces_;
-    int health_;
-    const int width_ = 1;
-    const int height_ = 1;
+private:
     const unsigned int pieces_amount_ = 1;
     const int max_health_;
+    std::shared_ptr<Board::Action> action_;
+    std::vector<ShipPiece> pieces_;
+    Point center_;
+    int health_;
 
 public:
 
-    static const unsigned short armoured_ship_length;
-    static const unsigned short support_ship_length;
-    static const unsigned short submarine_length;
-    static const int breadth;
-
-    Ship(const Point &point, int width, int height, unsigned int size, int health, int max_health, const std::shared_ptr<Board::Action> &action);
+    Ship(const Point &top_left_corner, int width, int height, unsigned short pieces_amount, const std::shared_ptr<Board::Action> &action);
 
     void for_each_piece(const std::function<void(ShipPiece&)> &on_iteration);
 
+    virtual char get_damaged_character() const = 0;
+
     bool do_action(const Point &target) const;
+
+    virtual char get_character() const = 0;
 
     unsigned int get_pieces_amount() const;
 

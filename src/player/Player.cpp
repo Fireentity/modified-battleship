@@ -1,4 +1,7 @@
 #include "player/Player.h"
+#include "ship/ArmouredShip.h"
+#include "ship/SupporterShip.h"
+#include "ship/Submarine.h"
 
 //Inizializzazione statica delle navi disponibili nella flotta
 //Non potendo usare file di configurazione la flotta è stata così implementata
@@ -26,45 +29,37 @@ Player::Player(const std::shared_ptr<Board> &board, const std::shared_ptr<Board>
 
 bool Player::make_and_place_armoured_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
                                           const std::shared_ptr<Board> &enemy_board) {
-    if (bow.squared_distance(stern) != std::pow(Ship::armoured_ship_length, 2)) {
+    if (bow.squared_distance(stern) != std::pow(ArmouredShip::armoured_ship_length, 2)) {
         return false;
     }
     if (bow.get_x() != stern.get_x() && bow.get_y() != stern.get_y()) {
         return false;
     }
     bool horizontal = bow.get_x() == stern.get_x();
-    Ship ship{bow.middle_point(stern),
-              horizontal ? Ship::armoured_ship_length : Ship::breadth,
-              horizontal ? Ship::breadth : Ship::armoured_ship_length,
-              Ship::armoured_ship_length,
-              Ship::armoured_ship_length,
-              Ship::armoured_ship_length,
-              std::make_shared<MoveAndHealAction>(board, enemy_board)};
+    Point top_left_corner = Point{std::min(bow.get_x(),stern.get_x()),std::min(bow.get_y(),stern.get_y())};
+    ArmouredShip ship{top_left_corner,
+              horizontal ? ArmouredShip::armoured_ship_length : ArmouredShip::breadth,
+              horizontal ? ArmouredShip::breadth : ArmouredShip::armoured_ship_length,
+              board, enemy_board};
     board->insert_ship(ship);
-
-
     return true;
 }
 
 bool Player::make_and_place_support_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
                                          const std::shared_ptr<Board> &enemy_board) {
-    if (bow.squared_distance(stern) != std::pow(Ship::armoured_ship_length, 2)) {
+    if (bow.squared_distance(stern) != std::pow(ArmouredShip::armoured_ship_length, 2)) {
         return false;
     }
     if (bow.get_x() != stern.get_x() && bow.get_y() != stern.get_y()) {
         return false;
     }
     bool horizontal = bow.get_x() == stern.get_x();
-    Ship ship{bow.middle_point(stern),
-              horizontal ? Ship::support_ship_length : Ship::breadth,
-              horizontal ? Ship::breadth : Ship::support_ship_length,
-              Ship::support_ship_length,
-              Ship::support_ship_length,
-              Ship::support_ship_length,
-              std::make_shared<MoveAndHealAction>(board, enemy_board)};
+    Point top_left_corner = Point{std::min(bow.get_x(),stern.get_x()),std::min(bow.get_y(),stern.get_y())};
+    SupporterShip ship{top_left_corner,
+                      horizontal ? ArmouredShip::armoured_ship_length : ArmouredShip::breadth,
+                      horizontal ? ArmouredShip::breadth : ArmouredShip::armoured_ship_length,
+                      board, enemy_board};
     board->insert_ship(ship);
-
-
     return true;
 }
 
@@ -75,13 +70,7 @@ bool Player::make_and_place_submarine(const Point &bow, const Point &stern, cons
         return false;
     }
 
-    Ship ship{bow.middle_point(stern),
-              Ship::breadth,
-              Ship::submarine_length,
-              Ship::submarine_length,
-              Ship::submarine_length,
-              Ship::submarine_length,
-              std::make_shared<MoveAndRevealAction>(board, enemy_board)};
+    Submarine ship{bow.middle_point(stern),board, enemy_board};
     board->insert_ship(ship);
     return true;
 }

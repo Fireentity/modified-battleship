@@ -1,28 +1,29 @@
 #include "ship/Ship.h"
 
-const unsigned short Ship::armoured_ship_length = 5;
-const unsigned short Ship::support_ship_length = 3;
-const unsigned short Ship::submarine_length = 1;
-const int Ship::breadth = 1;
 
-
-Ship::Ship(const Point &position, int width, int height, unsigned int size, int health, int max_health,
-           const std::shared_ptr<Board::Action> &action) : position_{position},
-                                                           width_{width}, height_{height},
-                                                           pieces_amount_{size},
-                                                           health_{health},
-                                                           max_health_{max_health} {
-
+Ship::Ship(const Point &top_left_corner, int width, int height, unsigned short pieces_amount,
+           const std::shared_ptr<Board::Action> &action) : center_{top_left_corner+Point{width/2,height/2}},
+                                                           pieces_amount_{pieces_amount},
+                                                           health_{pieces_amount},
+                                                           max_health_{pieces_amount},
+                                                           action_{action} {
+    int index = 0;
+    for(int i = 0; i < height; i++) {
+        for(int j = 0; j < width; j++) {
+            index++;
+            pieces_[index].move_to(top_left_corner + Point{j,i});
+        }
+    }
 }
 
-void Ship::for_each_piece(const std::function<void(ShipPiece&)> &on_iteration) {
-    for(auto & piece : pieces_) {
+void Ship::for_each_piece(const std::function<void(ShipPiece &)> &on_iteration) {
+    for (auto &piece: pieces_) {
         on_iteration(piece);
     }
 }
 
 bool Ship::do_action(const Point &target) const {
-    return action->do_action(target);
+    return action_->do_action(target);
 }
 
 unsigned int Ship::get_pieces_amount() const {
@@ -38,7 +39,7 @@ int Ship::get_max_health() const {
 }
 
 const Point &Ship::get_center() {
-    return position_;
+    return center_;
 }
 
 int Ship::get_health() const {

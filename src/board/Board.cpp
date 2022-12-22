@@ -1,4 +1,6 @@
 #include "board/Board.h"
+//TODO controllare se non ci sono dipendenze circolari
+#include "ship/Ship.h"
 
 bool Board::is_out(unsigned int x, unsigned int y) {
     return x > Board::width || y > Board::height;
@@ -28,7 +30,7 @@ BoardSlot &Board::get_slot(unsigned int x, unsigned int y) {
     return board_[y][x];
 }
 
-bool Board::insert_ship(Ship ship) {
+void Board::insert_ship(const Ship &ship) {
     std::shared_ptr<Ship> shared_ptr = std::make_shared<Ship>(ship);
     ship.for_each_piece([shared_ptr,this](const ShipPiece &piece) {
         this->board_[piece.get_position().get_y()][piece.get_position().get_x()].set_ship(shared_ptr);

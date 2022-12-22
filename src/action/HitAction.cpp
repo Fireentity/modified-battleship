@@ -11,3 +11,7 @@ bool HitAction::do_action(const Point &target) {
     get_slot(target).set_state(BoardSlot::HIT);
     return true;
 }
+
+HitAction::HitAction(const std::shared_ptr<Board> &board_, const std::shared_ptr<Board> &enemy_board) : Action(board_,enemy_board) {
+
+}
