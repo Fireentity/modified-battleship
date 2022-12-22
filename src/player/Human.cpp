@@ -16,7 +16,7 @@ void Human::place_ships_inside_board() {
                   << "]: ";
 
         if (place_board(available_ships[i])) {
-            std::cout << board_;
+            print_game_boards();
             i++;
         } else {
             std::cout << "Posiziona orizzontalmente o verticalmente la nave inserendo le coordinate di poppa e prua (XY XY)"
@@ -121,6 +121,6 @@ void Human::print_game_boards() const{
         for(int j = 0; j < get_board()->width; j++) {
             std::cout<<"| "<<get_enemy_board()->at(i,j).get_state()<<" ";
         }
-        std::cout<<"|\t";
+        std::cout<<"|"<<std::endl;
     }
 }

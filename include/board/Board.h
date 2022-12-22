@@ -44,7 +44,7 @@ public:
 
     //Viene creata una copia della nave così da impedire che lo stato interno della nave possa essere
     //modificato dall'esterno. Infatti non si possono ottenere le istanze di Ship contenute in Board
-    void insert_ship(const Ship &ship);
+    void insert_ship(const std::shared_ptr<Ship> &ship);
 
 protected:
     bool move_ship(const Point &ship_center, const Point &destination);

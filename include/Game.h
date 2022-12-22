@@ -9,6 +9,7 @@ class Game {
 private:
     //Vengono utilizzati dei puntatori per evitare lo slicing.
     //Gli shared_ptr sostituiscono soltanto i raw pointers
+    bool turn = false;
     std::shared_ptr<Player> player_1;
     std::shared_ptr<Player> player_2;
     Game(const AI &player_1, const Human &player_2);

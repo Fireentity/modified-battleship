@@ -37,11 +37,10 @@ bool Player::make_and_place_armoured_ship(const Point &bow, const Point &stern, 
     }
     bool horizontal = bow.get_x() == stern.get_x();
     Point top_left_corner = Point{std::min(bow.get_x(),stern.get_x()),std::min(bow.get_y(),stern.get_y())};
-    ArmouredShip ship{top_left_corner,
-              horizontal ? ArmouredShip::armoured_ship_length : ArmouredShip::breadth,
-              horizontal ? ArmouredShip::breadth : ArmouredShip::armoured_ship_length,
-              board, enemy_board};
-    board->insert_ship(ship);
+    board->insert_ship(std::make_shared<ArmouredShip>(top_left_corner,
+                                                      horizontal ? ArmouredShip::armoured_ship_length : ArmouredShip::breadth,
+                                                      horizontal ? ArmouredShip::breadth : ArmouredShip::armoured_ship_length,
+                                                      board, enemy_board));
     return true;
 }
 
@@ -55,11 +54,10 @@ bool Player::make_and_place_support_ship(const Point &bow, const Point &stern, c
     }
     bool horizontal = bow.get_x() == stern.get_x();
     Point top_left_corner = Point{std::min(bow.get_x(),stern.get_x()),std::min(bow.get_y(),stern.get_y())};
-    SupporterShip ship{top_left_corner,
-                      horizontal ? ArmouredShip::armoured_ship_length : ArmouredShip::breadth,
-                      horizontal ? ArmouredShip::breadth : ArmouredShip::armoured_ship_length,
-                      board, enemy_board};
-    board->insert_ship(ship);
+    board->insert_ship(std::make_shared<SupporterShip>(top_left_corner,
+                                                      horizontal ? ArmouredShip::armoured_ship_length : ArmouredShip::breadth,
+                                                      horizontal ? ArmouredShip::breadth : ArmouredShip::armoured_ship_length,
+                                                      board, enemy_board));
     return true;
 }
 
@@ -70,8 +68,7 @@ bool Player::make_and_place_submarine(const Point &bow, const Point &stern, cons
         return false;
     }
 
-    Submarine ship{bow.middle_point(stern),board, enemy_board};
-    board->insert_ship(ship);
+    board->insert_ship(std::make_shared<Submarine>(bow.middle_point(stern),board, enemy_board));
     return true;
 }
 

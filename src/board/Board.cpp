@@ -30,12 +30,12 @@ BoardSlot &Board::get_slot(unsigned int x, unsigned int y) {
     return board_[y][x];
 }
 
-void Board::insert_ship(const Ship &ship) {
-    std::shared_ptr<Ship> shared_ptr = std::make_shared<Ship>(ship);
-    ship.for_each_piece([shared_ptr,this](const ShipPiece &piece) {
-        this->board_[piece.get_position().get_y()][piece.get_position().get_x()].set_ship(shared_ptr);
+//TODO try to fix this
+void Board::insert_ship(const std::shared_ptr<Ship> &ship) {
+    ship->for_each_piece([ship,this](const ShipPiece &piece) {
+        this->board_[piece.get_position().get_y()][piece.get_position().get_x()].set_ship(ship);
     });
-    ships_.push_back(shared_ptr);
+    ships_.push_back(ship);
 }
 
 bool Board::move_ship(const Point &ship_center, const Point &destination) {
@@ -84,7 +84,6 @@ const std::vector<std::shared_ptr<Ship>> &Board::get_ships() const {
 Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board): board_{board}, enemy_board_{enemy_board} {
 
 }
-
 
 BoardSlot &Board::Action::get_slot(const Point &point) {
     return board_->get_slot(point);
