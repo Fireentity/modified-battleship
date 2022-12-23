@@ -1,17 +1,15 @@
 #ifndef DEFENCEBOARD_H
 #define DEFENCEBOARD_H
 
-#include <vector>
 #include <ostream>
 #include <memory>
-#include "ship/Ship.h"
-#include "BoardPiece.h"
+#include "BoardSlot.h"
 //TODO fix this include
 #include "../../src/board/Board.hpp"
 
-class DefenceBoard: public Board<BoardPiece,12,12> {
+class DefenceBoard: public Board<BoardSlot,12,12> {
 public:
-    explicit DefenceBoard(const std::vector<std::shared_ptr<Ship>> &ships);
+    explicit DefenceBoard();
 };
 
 #endif //DEFENCEBOARD_H

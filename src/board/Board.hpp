@@ -32,12 +32,24 @@ public:
         return height;
     }
 
+    bool is_out(unsigned int x, unsigned int y) const {
+        return x > N || y > M;
+    }
+
     const T &get_slot(unsigned int x, unsigned int y) const {
-        if (x > N || y > M) {
+        if (this->is_out(x,y)) {
             throw std::invalid_argument("Position out of bounds");
         }
+        //Le coordinate sono invertite perché si usano i normali assi cartesiani e non le coordinate delle matrici
+        return this->board_[y][x];
+    }
 
-        return this->board_[x][y];
+    T &get_slot(unsigned int x, unsigned int y) {
+        if (this->is_out(x,y)) {
+            throw std::invalid_argument("Position out of bounds");
+        }
+        //Le coordinate sono invertite perché si usano i normali assi cartesiani e non le coordinate delle matrici
+        return this->board_[y][x];
     }
 
     void set_slot(unsigned int i, unsigned int j, const T &object) {

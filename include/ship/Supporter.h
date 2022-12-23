@@ -14,11 +14,13 @@ public:
     static const unsigned short length;
     static const unsigned short max_health;
 
-    Supporter(unsigned int x, unsigned int y,bool horizontal);
-
-    char get_character() const override;
+    Supporter(int x, int y,bool horizontal, DefenceBoard &defence_board);
 
     char get_damaged_character() const override;
+
+    bool do_action(int x, int y) override;
+
+    char get_character() const override;
 
     std::shared_ptr<LinearShip> get_shared_ptr() const override;
 };
