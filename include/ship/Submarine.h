@@ -3,13 +3,11 @@
 
 #include <stdexcept>
 #include "ship/Ship.h"
-#include "board/DefenceBoard.h"
-#include "board/BoardSlot.h"
 #include "ShipPiece.h"
 
 class Submarine : public Ship {
 private:
-    ShipPiece &piece_;
+    std::shared_ptr<ShipPiece> piece_;
 public:
     //TODO explain why are these public
     static const unsigned short thickness = 1;
@@ -19,7 +17,7 @@ public:
     static const char piece = 'E';
     static const char damagedPiece = 'e';
 
-    Submarine(int x, int y, DefenceBoard &defence_board);
+    Submarine(int x, int y, const std::shared_ptr<DefenceBoard> &defence_board);
 
     char get_damaged_character() const override;
 
@@ -27,11 +25,11 @@ public:
 
     char get_character() const override;
 
-    bool can_move(int x, int y) override;
+    bool is_valid_position(int x, int y) override;
 
     void move(int x, int y) override;
 
-    void place() const override;
+    bool place() override;
 
 };
 

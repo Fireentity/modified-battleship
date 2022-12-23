@@ -1,7 +1,6 @@
 #ifndef SUPPORTER_H
 #define SUPPORTER_H
 
-#include "board/DefenceBoard.h"
 #include "ship/LinearShip.h"
 
 class Supporter : public LinearShip {
@@ -14,7 +13,7 @@ public:
     static const unsigned short length;
     static const unsigned short max_health;
 
-    Supporter(int x, int y,bool horizontal, DefenceBoard &defence_board);
+    Supporter(int x, int y,bool horizontal, const std::shared_ptr<DefenceBoard> &defence_board);
 
     char get_damaged_character() const override;
 

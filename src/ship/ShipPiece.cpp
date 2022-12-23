@@ -7,8 +7,8 @@ ShipPiece::ShipPiece(const Point &position, const std::shared_ptr<DefenceBoard> 
 }
 
 void ShipPiece::move(int x, int y) {
-    defence_board_->get_slot(x,y).set_ship(ship_);
-    defence_board_->get_slot(position_.x_, position_.y_).remove_ship();
+    defence_board_->get_slot(position_.x_, position_.y_).remove_ship_piece();
+    defence_board_->get_slot(x, y).set_ship_piece(std::make_shared<ShipPiece>(*this));
     position_.x_ = x;
     position_.y_ = y;
 }
@@ -27,4 +27,12 @@ bool ShipPiece::is_hit() {
 
 void ShipPiece::hit() {
     hit_ = true;
+}
+
+std::shared_ptr<Ship> ShipPiece::get_ship() {
+    return ship_;
+}
+
+ShipPiece::ShipPiece() : position_{0,0}, defence_board_(), ship_(), hit_(false) {
+
 }

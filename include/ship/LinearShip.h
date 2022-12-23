@@ -4,15 +4,14 @@
 #include <algorithm>
 #include <stdexcept>
 #include <vector>
-#include "board/BoardSlot.h"
-#include "board/DefenceBoard.h"
+#include "ship/Ship.h"
 #include "ShipPiece.h"
 
 class LinearShip : public Ship {
 private:
     bool horizontal_;
 protected:
-    std::vector<std::shared_ptr<ShipPiece>> pieces;
+    std::vector<std::shared_ptr<ShipPiece>> pieces_;
 public:
     LinearShip(int x,
                int y,
@@ -20,19 +19,16 @@ public:
                unsigned short height,
                unsigned short health,
                unsigned short max_health,
-               DefenceBoard &defence_board,
+               const std::shared_ptr<DefenceBoard> &defence_board,
                bool horizontal);
 
     bool is_horizontal() const;
 
-    void place() const override;
+    bool place() override;
 
-    bool can_move(int x, int y) override;
+    bool is_valid_position(int x, int y) override;
 
     void move(int x, int y) override;
-
-    virtual std::shared_ptr<LinearShip> get_shared_ptr() const = 0;
-
 };
 
 #endif //ORIENTABLESHIP_H

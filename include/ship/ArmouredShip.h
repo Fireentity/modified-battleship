@@ -3,7 +3,6 @@
 
 #include <stdexcept>
 #include <vector>
-#include "board/DefenceBoard.h"
 #include "ship/LinearShip.h"
 #include "ShipPiece.h"
 
@@ -15,9 +14,7 @@ public:
     static const unsigned short length;
     static const unsigned short max_health;
 
-    ArmouredShip(int x, int y, bool horizontal, DefenceBoard &defence_board);
-
-    std::shared_ptr<LinearShip> get_shared_ptr() const override;
+    ArmouredShip(int x, int y, bool horizontal,const std::shared_ptr<DefenceBoard> &defence_board);
 
     char get_damaged_character() const override;
 

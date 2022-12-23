@@ -1,7 +1,7 @@
 #include <memory>
 #include "board/BoardSlot.h"
 
-BoardSlot::BoardSlot(const std::shared_ptr<Ship> &ship): ship_{ship}, state_{EMPTY} {
+BoardSlot::BoardSlot(const std::shared_ptr<ShipPiece> &ship): ship_{ship}, state_{EMPTY} {
 
 }
 
@@ -9,11 +9,11 @@ BoardSlot::BoardSlot(): ship_{}, state_{EMPTY} {
 
 }
 
-const std::shared_ptr <Ship> &BoardSlot::get_ship() const {
+std::shared_ptr<ShipPiece> BoardSlot::get_ship_piece() const {
     return ship_;
 }
 
-void BoardSlot::set_ship(const std::shared_ptr <Ship> &ship) {
+void BoardSlot::set_ship_piece(const std::shared_ptr<ShipPiece> &ship) {
     ship_ = ship;
 }
 
@@ -25,7 +25,7 @@ BoardSlot::State BoardSlot::get_state() const {
     return state_;
 }
 
-void BoardSlot::remove_ship() {
+void BoardSlot::remove_ship_piece() {
     ship_ = nullptr;
 }
 

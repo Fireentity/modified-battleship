@@ -5,7 +5,7 @@
 #include <ostream>
 #include "ship/Ship.h"
 
-class Ship;
+class ShipPiece;
 
 class BoardSlot {
 
@@ -18,25 +18,25 @@ public:
         EMPTY
     };
 
-    explicit BoardSlot(const std::shared_ptr<Ship> &);
+    explicit BoardSlot(const std::shared_ptr<ShipPiece> &);
 
     BoardSlot();
 
-    const std::shared_ptr<Ship> &get_ship() const;
+    std::shared_ptr<ShipPiece> get_ship_piece() const;
 
-    void set_ship(const std::shared_ptr<Ship> &ship);
+    void set_ship_piece(const std::shared_ptr<ShipPiece> &ship);
 
     void set_state(State state);
 
     State get_state() const;
 
-    void remove_ship();
+    void remove_ship_piece();
 
     bool has_ship();
 
 //I field privati sono stati dichiarati sotto perché doveva essere prima definita l'enumerazione State
 private:
-    std::shared_ptr<Ship> ship_;
+    std::shared_ptr<ShipPiece> ship_;
     State state_;
 };
 
