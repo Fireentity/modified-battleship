@@ -7,6 +7,9 @@
 
 class ShipPiece;
 
+//Rappresenta uno slot della board di gioco. Contiene un'associazione tra la nave contenuta nella board
+//e lo stato di ciò che vede il giocatore avversario.
+//Si è preferito creare una sola board per evitare di dover aggiornare oggetti in parallelo
 class BoardSlot {
 
 public:
@@ -32,7 +35,7 @@ public:
 
     void remove_ship_piece();
 
-    bool has_ship();
+    bool has_ship() const;
 
 //I field privati sono stati dichiarati sotto perché doveva essere prima definita l'enumerazione State
 private:

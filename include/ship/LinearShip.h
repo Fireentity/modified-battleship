@@ -7,26 +7,15 @@
 #include "ship/Ship.h"
 #include "ShipPiece.h"
 
+//Rappresenta una nave che può essere orientata sul piano della griglia di gioco
 class LinearShip : public Ship {
-private:
-    bool horizontal_;
 protected:
+    //Viene utilizzato un std::vector invece di un array perché non è nota la dimensione a compile time. Se si volesse
+    //usare un array bisognerebbe rendere questa classe una classe template (sarebbe più difficile da gestire)
     std::vector<std::shared_ptr<ShipPiece>> pieces_;
 public:
-    LinearShip(int x,
-               int y,
-               unsigned short width,
-               unsigned short height,
-               unsigned short health,
-               unsigned short max_health,
-               const std::shared_ptr<DefenceBoard> &defence_board,
-               bool horizontal);
-
-
-
-    bool is_horizontal() const;
-
-    bool place() override;
+    LinearShip(const Point &center, int width, int height, int health, int max_health,
+               const std::shared_ptr<DefenceBoard> &defence_board);
 
     bool is_valid_position(int x, int y) override;
 

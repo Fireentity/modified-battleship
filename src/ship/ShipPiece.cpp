@@ -6,15 +6,44 @@ ShipPiece::ShipPiece(const Point &position, const std::shared_ptr<DefenceBoard> 
 
 }
 
-void ShipPiece::move(int x, int y) {
-    defence_board_->get_slot(position_.x_, position_.y_).remove_ship_piece();
-    defence_board_->get_slot(x, y).set_ship_piece(std::make_shared<ShipPiece>(*this));
-    position_.x_ = x;
-    position_.y_ = y;
+ShipPiece::ShipPiece() : position_{0,0}, defence_board_(), ship_(), hit_(false) {
+
+}
+
+void ShipPiece::move_to(int x, int y) {
+    //Si crea un nuovo shared_ptr
+    std::shared_ptr<ShipPiece> piece = std::make_shared<ShipPiece>(*this);
+    //Prima viene rimosso il pezzo dalla posizione precedente
+    defence_board_->get_slot(position_.x, position_.y).remove_ship_piece();
+    //Poi viene inserito nella nuova posizione
+    defence_board_->get_slot(x, y).set_ship_piece(piece);
+    //Viene aggiornata la posizione corrente
+    position_.x = x;
+    position_.y = y;
+}
+
+void ShipPiece::move_to(const Point &point) {
+    //Si crea un nuovo shared_ptr
+    std::shared_ptr<ShipPiece> piece = std::make_shared<ShipPiece>(*this);
+    //Prima viene rimosso il pezzo dalla posizione precedente
+    defence_board_->get_slot(position_.x, position_.y).remove_ship_piece();
+    //Poi viene inserito nella nuova posizione
+    defence_board_->get_slot(point.x, point.y).set_ship_piece(piece);
+    //Viene aggiornata la posizione corrente
+    //TODO do i need to copy it
+    position_ = Point{point};
 }
 
 bool ShipPiece::is_valid_position(int x, int y) {
-    return defence_board_->get_slot(x,y).has_ship();
+    if(defence_board_->is_out(x,y)) {
+        return false;
+    }
+    //Controlla se il pezzo di barca presente nella griglia è un pezzo della propria barca che sarà a sua volta spostato
+    if(defence_board_->get_slot(x,y).has_ship() && defence_board_->get_slot(x,y).get_ship_piece()->get_ship() == ship_) {
+        return true;
+    }
+
+    return !defence_board_->get_slot(x,y).has_ship();
 }
 
 const Point &ShipPiece::get_position() {
@@ -31,8 +60,4 @@ void ShipPiece::hit() {
 
 std::shared_ptr<Ship> ShipPiece::get_ship() {
     return ship_;
-}
-
-ShipPiece::ShipPiece() : position_{0,0}, defence_board_(), ship_(), hit_(false) {
-
 }

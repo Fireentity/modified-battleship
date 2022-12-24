@@ -9,27 +9,33 @@ class Submarine : public Ship {
 private:
     std::shared_ptr<ShipPiece> piece_;
 public:
-    //TODO explain why are these public
-    static const unsigned short thickness = 1;
-    static const unsigned short length = 1;
-    static const unsigned short max_health = 1;
-    static const unsigned short range = 2;
+    //breadth e length rappresentano le dimensioni senza considerare l'orientamento della nave.
+    //Non si sarebbe potuto usare width o height in quando l'altezza della nave assume un valore diverso in base
+    //a se questa è disposta orizzontalmente o verticalmente. Si sono quindi scelti questi nomi per salvare le
+    //dimensioni della nave corazzata
+    static const int breadth = 1;
+    static const int length = 1;
+    static const int max_health = 1;
+    static const int range = 2;
     static const char piece = 'E';
     static const char damagedPiece = 'e';
 
-    Submarine(int x, int y, const std::shared_ptr<DefenceBoard> &defence_board);
+    Submarine(const Point &center, const std::shared_ptr<DefenceBoard> &defence_board);
 
-    char get_damaged_character() const override;
+    static std::shared_ptr<Submarine> make_ship_or_null(int x, int y, const std::shared_ptr<DefenceBoard> &defence_board);
 
-    bool do_action(int x, int y) override;
-
-    char get_character() const override;
+    bool do_action(int x, int y, DefenceBoard &enemy_board) override;
 
     bool is_valid_position(int x, int y) override;
 
+    char get_damaged_character() const override;
+
+    char get_character() const override;
+
     void move(int x, int y) override;
 
-    bool place() override;
+    //Viene cancellato l'operatore di assegnazione per evitare lo slicing
+    Submarine &operator=(Submarine &) = delete;
 
 };
 

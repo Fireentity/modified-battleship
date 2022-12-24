@@ -36,6 +36,10 @@ public:
         return x > N || y > M;
     }
 
+    bool is_out(const Point &point) const {
+        return point.x > N || point.y > M;
+    }
+
     const T &get_slot(unsigned int x, unsigned int y) const {
         if (this->is_out(x,y)) {
             throw std::invalid_argument("Position out of bounds");
@@ -43,6 +47,16 @@ public:
         //Le coordinate sono invertite perché si usano i normali assi cartesiani e non le coordinate delle matrici
         return this->board_[y][x];
     }
+
+
+    const T &get_slot(const Point &point) const {
+        if (this->is_out(point)) {
+            throw std::invalid_argument("Position out of bounds");
+        }
+        //Le coordinate sono invertite perché si usano i normali assi cartesiani e non le coordinate delle matrici
+        return this->board_[point.y][point.x];
+    }
+
 
     T &get_slot(unsigned int x, unsigned int y) {
         if (this->is_out(x,y)) {

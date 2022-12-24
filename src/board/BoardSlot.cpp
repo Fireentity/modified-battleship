@@ -29,6 +29,6 @@ void BoardSlot::remove_ship_piece() {
     ship_ = nullptr;
 }
 
-bool BoardSlot::has_ship() {
+bool BoardSlot::has_ship() const {
     return ship_ == nullptr;
 }

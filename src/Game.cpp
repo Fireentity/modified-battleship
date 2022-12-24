@@ -1,3 +1,5 @@
-//
-// Created by lorenzo on 12/21/22.
-//
+#include "Game.h"
+
+Game::Game() : player_1{std::make_shared<AI>()}, player_2{std::make_shared<>()} {
+
+}

@@ -6,7 +6,6 @@ include_directories(include)
 
 add_executable(battaglia-navale
         src/battleship.cpp
-        src/board/AttackBoard.cpp
         src/board/DefenceBoard.cpp
         src/board/BoardSlot.cpp
         src/board/Board.hpp
@@ -16,4 +15,7 @@ add_executable(battaglia-navale
         src/ship/LinearShip.cpp
         src/ship/Ship.cpp
         src/ship/ShipPiece.cpp
-        src/AI.cpp include/Player.h src/Player.cpp)
+        src/Game.cpp
+        src/Player.cpp
+        src/AI.cpp
+        src/Human.cpp)
