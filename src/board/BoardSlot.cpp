@@ -33,11 +33,11 @@ void BoardSlot::remove_ship() {
 }
 
 bool BoardSlot::has_ship() const {
-    return ship_ == nullptr;
+    return ship_ != nullptr;
 }
 
 char BoardSlot::get_piece(unsigned int x, unsigned int y) const {
-    return has_ship()? to_character(EMPTY): get_ship()->get_piece_character(x,y);
+    return has_ship()? get_ship()->get_piece_character(x,y):to_character(EMPTY);
 }
 
 char BoardSlot::to_character(State state) {

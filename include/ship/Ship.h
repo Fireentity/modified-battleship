@@ -20,9 +20,19 @@ private:
 
 public:
 
-    Ship(const Point &top_left_corner, int width, int height, unsigned short pieces_amount, const std::shared_ptr<Board::Action> &action);
+    //Rappresenta il tipo di navi disponibili nella flotta di ciascun giocatore
+    enum Ships {
+        ARMOURED,
+        SUPPORT,
+        SUBMARINE
+    };
 
-    void for_each_piece(const std::function<void(ShipPiece&)> &on_iteration);
+    static std::string to_string(Ship::Ships ship);
+
+    Ship(const Point &top_left_corner, int width, int height, unsigned short pieces_amount,
+         const std::shared_ptr<Board::Action> &action);
+
+    void for_each_piece(const std::function<void(ShipPiece &)> &on_iteration);
 
     const std::vector<ShipPiece> &get_pieces() const;
 
@@ -43,6 +53,19 @@ public:
     const Point &get_center();
 
     int get_health() const;
+
+    static bool make_and_place_support_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
+                                     const std::shared_ptr<Board> &enemy_board);
+
+    static bool make_and_place_armoured_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
+                                      const std::shared_ptr<Board> &enemy_board);
+
+    static bool make_and_place_submarine(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
+                                  const std::shared_ptr<Board> &enemy_board);
+
+    static bool instantiate_ship(Ship::Ships ship_type, const Point &bow, const Point &stern,
+                                const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
+
 };
 
 #endif //SHIP_H

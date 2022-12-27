@@ -2,7 +2,7 @@
 
 const std::regex Human::inputCharacterRegex = std::regex{R"([A-M])"};
 //Permette di verificare il formato dell'input dell'utente
-const std::regex Human::inputRegex = std::regex{R"(^([A-M])(\d{1,2}) ([A-M])(\d{1,2})$)"};
+const std::regex Human::inputRegex = std::regex{R"(^([A-IL-M])(\d{1,2}) ([A-M])(\d{1,2})$)"};
 
 Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board) : Player{board,enemy_board} {
 
@@ -11,11 +11,11 @@ Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &
 void Human::place_ships_inside_board() {
     int i = 0;
     while (i < Player::available_ships.size()) {
-        std::cout << "Inserisci le coordinate della prua e della poppa [" << Player::to_string(available_ships[i])
+        std::cout << "Inserisci le coordinate della prua e della poppa [" << Ship::to_string(available_ships[i])
                   << "]: ";
 
-        if (place_board(available_ships[i])) {
-            print_game_boards();
+        if (place_in_board(available_ships[i])) {
+            get_board()->print_with_ships();
             i++;
         } else {
             std::cout << "Posiziona orizzontalmente o verticalmente la nave inserendo le coordinate di poppa e prua (XY XY)"
@@ -33,7 +33,7 @@ int Human::to_index(const std::string &slot) {
     return character - firstUpperCaseLetter;
 }
 
-bool Human::place_board(Ships ship) {
+bool Human::place_in_board(Ship::Ships ship) {
     std::string input;
     std::getline(std::cin, input);
 
@@ -56,7 +56,7 @@ bool Human::place_board(Ships ship) {
     Point bow{std::stoi(second_char),to_index(first_char)};
     Point stern{std::stoi(fourth_char), to_index(third_char)};
 
-    return Player::instantiate_ship(ship,bow,stern,get_board(),get_enemy_board());
+    return Ship::instantiate_ship(ship,bow,stern,get_board(),get_enemy_board());
 }
 
 void Human::do_move(Board &enemy_board) {

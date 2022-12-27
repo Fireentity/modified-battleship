@@ -12,33 +12,16 @@
 #include "ship/SupporterShip.h"
 #include "ship/Submarine.h"
 
-//Rappresenta la classe che astrae un giocatore che sia umano o computer
+//Rappresenta la classe che astrae un giocatore umano o computer
 class Player {
 private:
     const std::shared_ptr<Board> board_;
     const std::shared_ptr<Board> enemy_board_;
-    static bool make_and_place_armoured_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
-                                             const std::shared_ptr<Board> &enemy_board);
-    static bool make_and_place_support_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
-                                            const std::shared_ptr<Board> &enemy_board);
-    static bool make_and_place_submarine(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
-                                         const std::shared_ptr<Board> &enemy_board);
 public:
     static const int firstUpperCaseLetter;
 
-    //Rappresenta il tipo di navi disponibili nella flotta di ciascun giocatore
-    enum class Ships {
-        ARMOURED,
-        SUPPORT,
-        SUBMARINE
-    };
-    //Permette di convertire in stringa ogni valore dell'enumerazione Ships
-    static std::string to_string(Ships ship);
     //Rappresenta le navi disponibili nelle flotte dei due giocatori
-    static const std::vector<Ships> available_ships;
-
-    static bool instantiate_ship(Player::Ships ship_type, const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
-                                 const std::shared_ptr<Board> &enemy_board);
+    static const std::vector<Ship::Ships> available_ships;
 
     Player(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
 
@@ -49,10 +32,6 @@ public:
     virtual void place_ships_inside_board() = 0;
 
     virtual void do_move(Board &enemy_board) = 0;
-
-    void print_game_boards() const;
-
-
 };
 
 #endif //PLAYER_H

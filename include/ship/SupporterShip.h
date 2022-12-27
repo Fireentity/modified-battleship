@@ -6,14 +6,15 @@
 #include "ship/Ship.h"
 #include "action/HitAction.h"
 
-class SupporterShip: public Ship {
+class SupporterShip : public Ship {
 public:
     static const char damaged_character;
     static const char character;
     static const unsigned short supporter_ship_length;
     static const int breadth;
 
-    SupporterShip(const Point &point, int width, int height, const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
+    SupporterShip(const Point &top_left_corner, bool horizontal, const std::shared_ptr<Board> &board,
+                  const std::shared_ptr<Board> &enemy_board);
 
     char get_damaged_character() const override;
 

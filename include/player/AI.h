@@ -10,7 +10,7 @@
 class AI : public Player {
 public:
     AI(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
-    static bool instantiate_ship(Player::Ships ship_type, const Point &bow, bool horizontal, const std::shared_ptr<Board> &board,
+    static bool instantiate_ship(Ship::Ships ship_type, const Point &bow, bool horizontal, const std::shared_ptr<Board> &board,
                                  const std::shared_ptr<Board> &enemy_board);
     void place_ships_inside_board() override;
     void do_move(Board &enemy_board) override;

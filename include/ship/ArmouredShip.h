@@ -13,7 +13,7 @@ public:
     static const unsigned short armoured_ship_length;
     static const int breadth;
 
-    ArmouredShip(const Point &point, int width, int height, const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
+    ArmouredShip(const Point &top_left_corner, bool horizontal, const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
 
     char get_damaged_character() const override;
 

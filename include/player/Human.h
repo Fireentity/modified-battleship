@@ -8,11 +8,12 @@
 
 class Human : public Player {
 private:
-    bool place_board(Ships ship);
+    bool place_in_board(Ship::Ships ship);
     bool ask_input(Board &enemy_board);
 public:
     //Le costanti vengono scritte in camel case invece che in maiuscolo per evitare di
-    //avere conflitti con le macro. Tutti gli altri field sono scritti in snake case
+    //avere conflitti con le macro. Tutti gli altri field sono scritti in snake case.
+    //Le regex permettono di controllare che l'input dell'utente sia del formato corretto
     static const std::regex inputCharacterRegex;
     static const std::regex inputRegex;
 
@@ -20,9 +21,9 @@ public:
 
     static int to_index(const std::string &slot);
 
-    void place_ships_inside_board() override;
+    void do_move(Board &enemy_board) override;
 
-    void do_move(Board &enemy_board);
+    void place_ships_inside_board() override;
 };
 
 #endif //HUMAN_H

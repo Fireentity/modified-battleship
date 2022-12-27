@@ -5,12 +5,12 @@
 #include <ostream>
 #include <functional>
 
-//Class forwarding
+//Class forwarding per risolvere una dipendenza circolare
 class Ship;
 
-//Rappresenta uno slot della board_ di gioco. Contiene un'associazione tra un pezzo della nave alle coordinate (x_,y_)
+//Rappresenta uno slot della Board di gioco. Contiene un'associazione tra un pezzo della nave alle coordinate (x_,y_)
 //e lo stato di ciò che vede il giocatore avversario.
-//Si è preferito creare una sola board_ per evitare di dover aggiornare oggetti in parallelo.
+//Si è preferito creare una sola Board per evitare di dover aggiornare oggetti in parallelo.
 class BoardSlot {
 
 public:
@@ -30,6 +30,7 @@ public:
 
     void set_ship(const std::shared_ptr<Ship> &ship);
 
+    //Permette di accedere ad un'istanza di Ship senza che questa possa essere modificata
     std::shared_ptr<const Ship> get_ship() const;
 
     std::shared_ptr<Ship> get_ship();

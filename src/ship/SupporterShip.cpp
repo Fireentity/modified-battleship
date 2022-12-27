@@ -6,8 +6,12 @@ const unsigned short SupporterShip::supporter_ship_length = 3;
 const int SupporterShip::breadth = 1;
 
 
-SupporterShip::SupporterShip(const Point &point, int width, int height, const std::shared_ptr<Board> &board,
-                           const std::shared_ptr<Board> &enemy_board) : Ship(point, width, height,
+SupporterShip::SupporterShip(const Point &point, bool horizontal, const std::shared_ptr<Board> &board,
+                           const std::shared_ptr<Board> &enemy_board) : Ship(point,
+                                                                             horizontal ? SupporterShip::supporter_ship_length
+                                                                                        : SupporterShip::breadth,
+                                                                             horizontal ? SupporterShip::breadth
+                                                                                        : SupporterShip::supporter_ship_length,
                                                                              SupporterShip::supporter_ship_length,
                                                                              std::make_shared<HitAction>(board,enemy_board)) {
 

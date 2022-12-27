@@ -10,7 +10,7 @@ void AI::place_ships_inside_board() {
     //Itero tutte le navi da piazzare fin quando non sono tutte posizionate
     while (i < available_ships.size()) {
 
-        Ships ship_type = Player::available_ships[i];
+        Ship::Ships ship_type = Player::available_ships[i];
 
         Point bow{rand() % Board::width, rand() % Board::height};
 
@@ -31,21 +31,21 @@ void AI::do_move(Board &enemy_board) {
     }
 }
 
-bool AI::instantiate_ship(Player::Ships ship_type, const Point &bow, bool horizontal, const std::shared_ptr<Board> &board,
+bool AI::instantiate_ship(Ship::Ships ship_type, const Point &bow, bool horizontal, const std::shared_ptr<Board> &board,
                           const std::shared_ptr<Board> &enemy_board) {
     switch (ship_type) {
-        case Player::Ships::ARMOURED: {
+        case Ship::Ships::ARMOURED: {
             int point_distance = ArmouredShip::armoured_ship_length-1;
             Point stern = horizontal ? bow.add_x(point_distance) : bow.add_y(point_distance);
-            return Player::instantiate_ship(ship_type, bow, stern, board, enemy_board);
+            return Ship::instantiate_ship(ship_type, bow, stern, board, enemy_board);
         }
-        case Player::Ships::SUPPORT: {
+        case Ship::Ships::SUPPORT: {
             int point_distance = SupporterShip::supporter_ship_length-1;
             Point stern = horizontal ? bow.add_x(point_distance) : bow.add_y(point_distance);
-            return Player::instantiate_ship(ship_type, bow, stern, board, enemy_board);
+            return Ship::instantiate_ship(ship_type, bow, stern, board, enemy_board);
         }
-        case Player::Ships::SUBMARINE: {
-            return Player::instantiate_ship(ship_type, bow, bow, board, enemy_board);
+        case Ship::Ships::SUBMARINE: {
+            return Ship::instantiate_ship(ship_type, bow, bow, board, enemy_board);
         }
     }
     throw std::invalid_argument("Invalid ship type");
