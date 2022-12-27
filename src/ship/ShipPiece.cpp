@@ -16,7 +16,7 @@ const Point &ShipPiece::get_position() const {
     return position_;
 }
 
-bool ShipPiece::is_hit() {
+bool ShipPiece::is_hit() const {
     return hit_;
 }
 

@@ -8,8 +8,6 @@
 #include "Player.h"
 
 class AI : public Player {
-private:
-    std::vector<std::shared_ptr<Ship>> ships;
 public:
     AI(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
     static bool instantiate_ship(Player::Ships ship_type, const Point &bow, bool horizontal, const std::shared_ptr<Board> &board,

@@ -4,17 +4,19 @@
 #include <vector>
 #include <stdexcept>
 #include <functional>
+#include <iostream>
 #include "action/HitAction.h"
 #include "action/MoveAndHealAction.h"
 #include "action/MoveAndRevealAction.h"
+#include "ship/ArmouredShip.h"
+#include "ship/SupporterShip.h"
+#include "ship/Submarine.h"
 
 //Rappresenta la classe che astrae un giocatore che sia umano o computer
 class Player {
 private:
     const std::shared_ptr<Board> board_;
     const std::shared_ptr<Board> enemy_board_;
-public:
-
     static bool make_and_place_armoured_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
                                              const std::shared_ptr<Board> &enemy_board);
     static bool make_and_place_support_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
@@ -22,6 +24,8 @@ public:
     static bool make_and_place_submarine(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
                                          const std::shared_ptr<Board> &enemy_board);
 public:
+    static const int firstUpperCaseLetter;
+
     //Rappresenta il tipo di navi disponibili nella flotta di ciascun giocatore
     enum class Ships {
         ARMOURED,
@@ -45,6 +49,9 @@ public:
     virtual void place_ships_inside_board() = 0;
 
     virtual void do_move(Board &enemy_board) = 0;
+
+    void print_game_boards() const;
+
 
 };
 

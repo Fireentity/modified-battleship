@@ -5,6 +5,7 @@ AI::AI(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_
 }
 
 void AI::place_ships_inside_board() {
+    srand(time(nullptr));
     int i = 0;
     //Itero tutte le navi da piazzare fin quando non sono tutte posizionate
     while (i < available_ships.size()) {
@@ -34,11 +35,13 @@ bool AI::instantiate_ship(Player::Ships ship_type, const Point &bow, bool horizo
                           const std::shared_ptr<Board> &enemy_board) {
     switch (ship_type) {
         case Player::Ships::ARMOURED: {
-            Point stern = horizontal ? bow.add_x(ArmouredShip::armoured_ship_length) : bow.add_y(ArmouredShip::armoured_ship_length);
+            int point_distance = ArmouredShip::armoured_ship_length-1;
+            Point stern = horizontal ? bow.add_x(point_distance) : bow.add_y(point_distance);
             return Player::instantiate_ship(ship_type, bow, stern, board, enemy_board);
         }
         case Player::Ships::SUPPORT: {
-            Point stern = horizontal ? bow.add_x(SupporterShip::supporter_ship_length) : bow.add_y(SupporterShip::supporter_ship_length);
+            int point_distance = SupporterShip::supporter_ship_length-1;
+            Point stern = horizontal ? bow.add_x(point_distance) : bow.add_y(point_distance);
             return Player::instantiate_ship(ship_type, bow, stern, board, enemy_board);
         }
         case Player::Ships::SUBMARINE: {

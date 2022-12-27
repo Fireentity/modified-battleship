@@ -13,6 +13,7 @@ Game::Game(const AI &player_1, const AI &player_2) : player_1{std::make_shared<A
 
 void Game::start_loop() {
     player_1->place_ships_inside_board();
+    player_1->print_game_boards();
     player_2->place_ships_inside_board();
 
 

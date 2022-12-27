@@ -15,12 +15,18 @@ private:
     std::vector<ShipPiece> pieces_;
     Point center_;
     int health_;
+    const int height_;
+    const int width_;
 
 public:
 
     Ship(const Point &top_left_corner, int width, int height, unsigned short pieces_amount, const std::shared_ptr<Board::Action> &action);
 
     void for_each_piece(const std::function<void(ShipPiece&)> &on_iteration);
+
+    const std::vector<ShipPiece> &get_pieces() const;
+
+    char get_piece_character(unsigned int x, unsigned int y) const;
 
     virtual char get_damaged_character() const = 0;
 

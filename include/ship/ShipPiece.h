@@ -20,7 +20,7 @@ public:
 
     const Point &get_position() const;
 
-    bool is_hit();
+    bool is_hit() const;
 
     void hit();
 };

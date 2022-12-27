@@ -52,7 +52,7 @@ protected:
     BoardSlot &get_slot(unsigned int x, unsigned int y);
 
 private:
-    BoardSlot board_[Board::width][Board::height];
+    BoardSlot board_[Board::height][Board::width];
     std::vector<std::shared_ptr<Ship>> ships_;
 };
 

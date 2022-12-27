@@ -24,6 +24,10 @@ public:
 
     BoardSlot();
 
+    static char to_character(State state);
+
+    char get_piece(unsigned int x, unsigned int y) const;
+
     void set_ship(const std::shared_ptr<Ship> &ship);
 
     std::shared_ptr<const Ship> get_ship() const;
@@ -37,9 +41,6 @@ public:
     bool has_ship() const;
 
     void remove_ship();
-
-    std::ostream &operator<<(std::ostream &os);
-
 //I field privati sono stati dichiarati sotto perché doveva essere prima definita l'enumerazione State
 private:
     std::shared_ptr<Ship> ship_;

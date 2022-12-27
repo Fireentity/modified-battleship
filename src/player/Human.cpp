@@ -1,6 +1,5 @@
 #include "player/Human.h"
 
-const int Human::firstUpperCaseLetter = 101;
 const std::regex Human::inputCharacterRegex = std::regex{R"([A-M])"};
 //Permette di verificare il formato dell'input dell'utente
 const std::regex Human::inputRegex = std::regex{R"(^([A-M])(\d{1,2}) ([A-M])(\d{1,2})$)"};
@@ -36,7 +35,7 @@ int Human::to_index(const std::string &slot) {
 
 bool Human::place_board(Ships ship) {
     std::string input;
-    std::cin >> input;
+    std::getline(std::cin, input);
 
     if (!std::regex_match(input, inputRegex)) {
         return false;
@@ -54,8 +53,8 @@ bool Human::place_board(Ships ship) {
     std::string third_char = match[3];
     std::string fourth_char = match[4];
 
-    Point bow{to_index(first_char), std::stoi(second_char)};
-    Point stern{to_index(third_char), std::stoi(fourth_char)};
+    Point bow{std::stoi(second_char),to_index(first_char)};
+    Point stern{std::stoi(fourth_char), to_index(third_char)};
 
     return Player::instantiate_ship(ship,bow,stern,get_board(),get_enemy_board());
 }
@@ -98,29 +97,3 @@ bool Human::ask_input(Board &enemy_board) {
     return slot.get_ship()->do_action(destination);
 }
 
-void Human::print_game_boards() const{
-    for(int i = 0; i < get_board()->height; i++) {
-
-        std::cout<< i <<"\t";
-        for(int j = 0; j < get_enemy_board()->width; j++) {
-            std::cout<<"+---";
-        }
-
-        std::cout<<"+"<<"\t";
-
-        for(int j = 0; j < get_board()->width; j++) {
-            std::cout<<"+---";
-        }
-        std::cout<<"+"<<std::endl;
-
-        for(int j = 0; j < get_enemy_board()->width; j++) {
-            std::cout<<"| "<<get_enemy_board()->at(i,j).get_state()<<" ";
-        }
-        std::cout<<"|\t";
-
-        for(int j = 0; j < get_board()->width; j++) {
-            std::cout<<"| "<<get_enemy_board()->at(i,j).get_state()<<" ";
-        }
-        std::cout<<"|"<<std::endl;
-    }
-}
