@@ -23,10 +23,16 @@ const BoardSlot &Board::at(const Point &point) const {
 }
 
 BoardSlot &Board::get_slot(const Point &point) {
+    if(is_out(point)){
+        throw std::invalid_argument("Position out of bounds");
+    }
     return board_[point.get_y()][point.get_x()];
 }
 
 BoardSlot &Board::get_slot(unsigned int x, unsigned int y) {
+    if(is_out(x,y)){
+        throw std::invalid_argument("Position out of bounds");
+    }
     return board_[y][x];
 }
 
@@ -90,7 +96,11 @@ void Board::print_with_ships() const{
 
     std::cout<<"\t";
     for(int i = 0; i < Board::width; i++) {
-        std::cout<<"  "<<i<<" ";
+        if (i < 10) {
+            std::cout<< "  " + std::to_string(i + 1) + " ";
+        } else {
+            std::cout<< " " + std::to_string(i + 1) + " ";
+        }
     }
 
     std::cout<<std::endl;
@@ -103,8 +113,7 @@ void Board::print_with_ships() const{
         }
         std::cout<<"+"<<std::endl;
 
-        char index = 'A' + i;
-        std::cout<< index <<"\t";
+        std::cout<< number_to_letter(i+1) <<"\t";
 
         for(int j = 0; j < Board::width; j++) {
             std::cout<<"| "<< at(j,i).get_piece(j,i)<<" ";
@@ -120,10 +129,15 @@ void Board::print_with_ships() const{
     std::cout<<"+"<<std::endl;
 }
 
+
 void Board::print_without_Ships() const {
     std::cout<<"\t";
     for(int i = 0; i < Board::width; i++) {
-        std::cout<<"  "<<i<<" ";
+        if (i < 10) {
+            std::cout<< "  " + std::to_string(i + 1) + " ";
+        } else {
+            std::cout<< " " + std::to_string(i + 1) + " ";
+        }
     }
 
     std::cout<<"\t";
@@ -141,8 +155,7 @@ void Board::print_without_Ships() const {
         }
         std::cout<<"+"<<std::endl;
 
-        char index = 'A' + i;
-        std::cout<< index <<"\t";
+        std::cout<< number_to_letter(i+1) <<"\t";
 
         for(int j = 0; j < Board::width; j++) {
             std::cout<<"| "<< BoardSlot::to_character(at(j,i).get_state())<<" ";
@@ -156,6 +169,14 @@ void Board::print_without_Ships() const {
         std::cout<<"+---";
     }
     std::cout<<"+"<<std::endl;
+}
+
+std::string Board::number_to_letter(int n) {
+    char letter = 'A' + (n - 1);
+    if (letter >= 'J') {
+        letter += 2;
+    }
+    return {0, letter};
 }
 
 Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board): board_{board}, enemy_board_{enemy_board} {
@@ -176,4 +197,8 @@ BoardSlot &Board::Action::get_enemy_slot(unsigned int x, unsigned int y) {
 
 bool Board::Action::move_ship(const Point &ship_center, const Point &destination) {
     return board_->move_ship(ship_center,destination);
+}
+
+BoardSlot &Board::Action::get_slot(unsigned int x, unsigned int y) {
+    return board_->get_slot(x,y);
 }

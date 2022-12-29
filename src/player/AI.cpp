@@ -22,7 +22,8 @@ void AI::place_ships_inside_board() {
     }
 }
 
-void AI::do_move(Board &enemy_board) {
+
+void AI::do_move() {
     const std::vector<std::shared_ptr<Ship>> &ships =get_board()->get_ships();
     int action = rand()%ships.size();
     Point target{rand()%get_board()->width,rand()%get_board()->height};

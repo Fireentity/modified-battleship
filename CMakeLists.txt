@@ -15,8 +15,8 @@ add_executable(battaglia-navale
         src/player/AI.cpp
         src/player/Human.cpp
         src/Point.cpp
-        src/action/HitAction.cpp
-        src/action/MoveAndHealAction.cpp
-        src/action/MoveAndRevealAction.cpp
+        src/actions/HitAction.cpp
+        src/actions/MoveAndHealAction.cpp
+        src/actions/MoveAndRevealAction.cpp
         src/ship/ArmouredShip.cpp
-        src/ship/SupporterShip.cpp include/ship/SupporterShip.h include/ship/Submarine.h src/ship/Submarine.cpp)
+        src/ship/SupporterShip.cpp include/ship/SupporterShip.h include/ship/Submarine.h src/ship/Submarine.cpp src/commands/Command.cpp include/commands/Command.h src/commands/RemoveRevealedCommand.cpp include/commands/RemoveRevealedCommand.h src/actions/RemoveRevealedAction.cpp include/actions/RemoveRevealedAction.h src/actions/RemoveHitAction.cpp include/actions/RemoveHitAction.h src/actions/RemoveHitMissAction.cpp include/actions/RemoveHitMissAction.h src/commands/RemoveHitCommand.cpp include/commands/RemoveHitCommand.h src/actions/RemoveHitMissCommand.cpp include/commands/RemoveHitMissCommand.h)

@@ -31,7 +31,7 @@ public:
 
     virtual void place_ships_inside_board() = 0;
 
-    virtual void do_move(Board &enemy_board) = 0;
+    virtual void do_move() = 0;
 };
 
 #endif //PLAYER_H

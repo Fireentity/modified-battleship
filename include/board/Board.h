@@ -22,12 +22,14 @@ public:
         //Vengono creati dei delegate per rendere disponibili i metodi di Board anche nelle possibili
         //implementazioni di Action
         BoardSlot &get_slot(const Point &point);
+        BoardSlot &get_slot(unsigned int x, unsigned int y);
         BoardSlot &get_enemy_slot(const Point &point);
         BoardSlot &get_enemy_slot(unsigned int x, unsigned int y);
         bool move_ship(const Point &ship_center, const Point &destination);
     public:
         Action(const std::shared_ptr<Board> &board_, const std::shared_ptr<Board> &enemy_board);
         virtual bool do_action(const Point &target) = 0;
+        virtual bool do_action()=0;
 
     };
 
@@ -60,6 +62,8 @@ protected:
 private:
     BoardSlot board_[Board::height][Board::width];
     std::vector<std::shared_ptr<Ship>> ships_;
+
+    static std::string number_to_letter(int n) ;
 };
 
 #endif //DEFENCEBOARD_H

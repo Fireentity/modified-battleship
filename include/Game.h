@@ -4,12 +4,15 @@
 #include "player/Player.h"
 #include "player/Human.h"
 #include "player/AI.h"
+#include "commands/Command.h"
 
 class Game {
 private:
+    std::vector<std::shared_ptr<Command>> commands;
     //Vengono utilizzati dei puntatori per evitare lo slicing.
     //Gli shared_ptr sostituiscono soltanto i raw pointers
-    bool turn = false;
+    static const unsigned int maxMoves = 30;
+    bool turn = rand()%2; //true turno del player 1
     std::shared_ptr<Player> player_1;
     std::shared_ptr<Player> player_2;
     Game(const AI &player_1, const Human &player_2);
