@@ -8,15 +8,13 @@
 
 class Game {
 private:
-    std::vector<std::shared_ptr<Command>> commands;
-    //Vengono utilizzati dei puntatori per evitare lo slicing.
-    //Gli shared_ptr sostituiscono soltanto i raw pointers
-    static const unsigned int maxMoves = 30;
-    bool turn = rand()%2; //true turno del player 1
+    static const unsigned int maxMoves;
+    //true turno del player 1
+    bool turn;
     std::shared_ptr<Player> player_1;
     std::shared_ptr<Player> player_2;
-    Game(const AI &player_1, const Human &player_2);
-    Game(const AI &player_1, const AI &player_2);
+    Game(const std::shared_ptr<AI> &ai, const std::shared_ptr<Human> &human);
+    Game(const std::shared_ptr<AI> &ai, const std::shared_ptr<AI> &human);
 public:
 
     //Si usa (static method factory design pattern) per creare le possibili configurazioni
@@ -24,13 +22,13 @@ public:
     static Game make_human_vs_ai() {
         std::shared_ptr<Board> board_1 = std::make_shared<Board>();
         std::shared_ptr<Board> board_2 = std::make_shared<Board>();
-        return Game{AI{board_1,board_2},Human{board_2,board_1}};
+        return Game{std::make_shared<AI>(board_1,board_2),std::make_shared<Human>(board_2,board_1)};
     }
 
     static Game make_ai_vs_ai() {
         std::shared_ptr<Board> board_1 = std::make_shared<Board>();
         std::shared_ptr<Board> board_2 = std::make_shared<Board>();
-        return Game{AI{board_1,board_2},AI{board_2,board_1}};
+        return Game{std::make_shared<AI>(board_1,board_2),std::make_shared<AI>(board_2,board_1)};
     }
 
     void start_loop();

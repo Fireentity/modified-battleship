@@ -4,7 +4,7 @@
 #include "Point.h"
 #include "ShipPiece.h"
 #include "ship/Ship.h"
-#include "action/HitAction.h"
+#include "actions/HitAction.h"
 
 class ArmouredShip: public Ship {
 public:

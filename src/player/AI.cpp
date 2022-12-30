@@ -16,7 +16,7 @@ void AI::place_ships_inside_board() {
 
         bool horizontal = rand() % 2 == 0;
 
-        if (AI::instantiate_ship(ship_type, bow, horizontal, get_board(), get_enemy_board())) {
+        if (AI::instantiate_ship(ship_type, bow, horizontal, board_, enemy_board_)) {
             i++;
         }
     }
@@ -24,11 +24,11 @@ void AI::place_ships_inside_board() {
 
 
 void AI::do_move() {
-    const std::vector<std::shared_ptr<Ship>> &ships =get_board()->get_ships();
+    const std::vector<std::shared_ptr<Ship>> &ships =board_->get_ships();
     int action = rand()%ships.size();
-    Point target{rand()%get_board()->width,rand()%get_board()->height};
+    Point target{rand()%board_->width,rand()%board_->height};
     while(ships[action]->do_action(target)) {
-        target = {rand()%get_board()->width,rand()%get_board()->height};
+        target = {rand()%board_->width,rand()%board_->height};
     }
 }
 

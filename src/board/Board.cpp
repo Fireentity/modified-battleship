@@ -171,12 +171,23 @@ void Board::print_without_Ships() const {
     std::cout<<"+"<<std::endl;
 }
 
+//TODO remove hardcoded chars
 std::string Board::number_to_letter(int n) {
     char letter = 'A' + (n - 1);
     if (letter >= 'J') {
         letter += 2;
     }
     return {0, letter};
+}
+
+void Board::remove_state(BoardSlot::State state) {
+    for(int i = 0; i < height; i++) {
+        for(int j = 0; j < width; j++) {
+            if(get_slot(i,j).get_state() == state) {
+                get_slot(i,j).set_state(BoardSlot::EMPTY);
+            }
+        }
+    }
 }
 
 Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board): board_{board}, enemy_board_{enemy_board} {

@@ -1,6 +1,5 @@
-#include "action/MoveAndRevealAction.h"
+#include "actions/MoveAndRevealAction.h"
 
-//TODO controllare il range di heal
 const int MoveAndRevealAction::range = 3;
 
 MoveAndRevealAction::MoveAndRevealAction(const std::shared_ptr<Board> &board_,

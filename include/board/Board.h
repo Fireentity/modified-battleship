@@ -28,10 +28,11 @@ public:
         bool move_ship(const Point &ship_center, const Point &destination);
     public:
         Action(const std::shared_ptr<Board> &board_, const std::shared_ptr<Board> &enemy_board);
+        Action(Action &) = delete;
         virtual bool do_action(const Point &target) = 0;
-        virtual bool do_action()=0;
-
+        Action &operator=(const Action &) = delete;
     };
+
 
     static const int height = 12;
     static const int width = 12;
@@ -45,6 +46,8 @@ public:
     const BoardSlot &at(const Point &point) const;
 
     const std::vector<std::shared_ptr<Ship>> &get_ships() const;
+
+    void remove_state(BoardSlot::State state);
 
     void print_with_ships() const;
 

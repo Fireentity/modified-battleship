@@ -33,7 +33,6 @@ bool Ship::make_and_place_armoured_ship(const Point &bow, const Point &stern, co
     if (Board::is_out(bow) || Board::is_out(stern)) {
         return false;
     }
-    //TODO inserire controllo per vedere che non si sovrappongano pezzi di nave
 
     bool horizontal = bow.get_x() != stern.get_x();
     Point top_left_corner = Point{std::min(bow.get_x(), stern.get_x()), std::min(bow.get_y(), stern.get_y())};
@@ -112,7 +111,7 @@ int Ship::get_max_health() const {
     return max_health_;
 }
 
-const Point &Ship::get_center() {
+const Point &Ship::get_center() const {
     return center_;
 }
 

@@ -32,6 +32,8 @@ public:
     Ship(const Point &top_left_corner, int width, int height, unsigned short pieces_amount,
          const std::shared_ptr<Board::Action> &action);
 
+    Ship(Ship &ship) = delete;
+
     void for_each_piece(const std::function<void(ShipPiece &)> &on_iteration);
 
     const std::vector<ShipPiece> &get_pieces() const;
@@ -50,7 +52,7 @@ public:
 
     int get_max_health() const;
 
-    const Point &get_center();
+    const Point &get_center() const;
 
     int get_health() const;
 
@@ -65,6 +67,8 @@ public:
 
     static bool instantiate_ship(Ship::Ships ship_type, const Point &bow, const Point &stern,
                                 const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
+
+    Ship &operator=(const Ship &) = delete;
 
 };
 

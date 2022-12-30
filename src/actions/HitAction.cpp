@@ -1,4 +1,4 @@
-#include "action/HitAction.h"
+#include "actions/HitAction.h"
 
 bool HitAction::do_action(const Point &target) {
     if(!get_slot(target).has_ship()) {

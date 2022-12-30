@@ -19,4 +19,11 @@ add_executable(battaglia-navale
         src/actions/MoveAndHealAction.cpp
         src/actions/MoveAndRevealAction.cpp
         src/ship/ArmouredShip.cpp
-        src/ship/SupporterShip.cpp include/ship/SupporterShip.h include/ship/Submarine.h src/ship/Submarine.cpp src/commands/Command.cpp include/commands/Command.h src/commands/RemoveRevealedCommand.cpp include/commands/RemoveRevealedCommand.h src/actions/RemoveRevealedAction.cpp include/actions/RemoveRevealedAction.h src/actions/RemoveHitAction.cpp include/actions/RemoveHitAction.h src/actions/RemoveHitMissAction.cpp include/actions/RemoveHitMissAction.h src/commands/RemoveHitCommand.cpp include/commands/RemoveHitCommand.h src/actions/RemoveHitMissCommand.cpp include/commands/RemoveHitMissCommand.h)
+        src/ship/SupporterShip.cpp
+        src/ship/Submarine.cpp
+        src/commands/Command.cpp
+        src/commands/RemoveRevealedCommand.cpp
+        src/commands/RemoveHitCommand.cpp
+        src/commands/RemoveMissedCommand.cpp
+        src/commands/ShipActionCommand.cpp
+        src/Logger.cpp)
