@@ -34,8 +34,6 @@ public:
     //Viene utilizzata la distanza al quadrato perché è più veloce moltiplicare che fare la radice quadrata
     double squared_distance(const Point &point) const;
 
-    Point middle_point(const Point &point) const;
-
     //TODO controllare i tipi di ritorno degli operatori
     //Ritorna Point & invece che void per permettere di concatenare questo operatore
     Point &operator=(const Point &);
@@ -48,8 +46,7 @@ public:
 
     bool operator!=(const Point &point) const;
 
-    std::ostream &operator<<(std::ostream &os) const;
-
+    std::string to_string() const;
 };
 
 #endif //POINT_H

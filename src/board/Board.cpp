@@ -51,6 +51,8 @@ bool Board::insert_ship(const std::shared_ptr<Ship> &ship) {
 }
 
 bool Board::move_ship(const Point &ship_center, const Point &destination) {
+    //Le coordinate vengono invertite perché si è deciso di usare come riferimento le ascisse e le ordinate
+    //di un piano cartesiano che sono invertite rispetto ad una matrice
     BoardSlot &slot = board_[ship_center.get_y()][ship_center.get_x()];
     //Controlliamo ship_center sia effettivamente il centro della nave da spostare
     std::shared_ptr<Ship> ship = slot.get_ship();
@@ -70,19 +72,22 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
 
     //Controllo che non ci siano altre navi nella destinazione
     //Se c'è una nave controllo che non sia quella che sto spostando
-    bool can_move = std::any_of(positions.begin(),positions.end(),[this,ship](const Point &position){
-       return get_slot(position).get_ship() != ship;
+    bool cannot_move = std::any_of(positions.begin(), positions.end(), [this,ship](const Point &position){
+        return Board::is_out(position) || (get_slot(position).get_ship() != nullptr && get_slot(position).get_ship() != ship);
     });
 
-    if(!can_move) {
+    if(cannot_move) {
         return false;
     }
 
     iter = positions.begin();
     slot.get_ship()->for_each_piece([iter,this,ship](ShipPiece &piece) {
+        Point piece_position = piece.get_position();
         piece.move_to((*iter));
-        get_slot(piece.get_position()).remove_ship();
-        get_slot(*iter).set_ship(ship);
+        if(!Board::is_out(piece_position)) {
+            get_slot(piece_position).remove_ship();
+            get_slot(*iter).set_ship(ship);
+        }
     });
 
     return true;
@@ -130,7 +135,7 @@ void Board::print_with_ships() const{
 }
 
 
-void Board::print_without_Ships() const {
+void Board::print_without_ships() const {
     std::cout<<"\t";
     for(int i = 0; i < Board::width; i++) {
         if (i < 10) {
@@ -138,11 +143,6 @@ void Board::print_without_Ships() const {
         } else {
             std::cout<< " " + std::to_string(i + 1) + " ";
         }
-    }
-
-    std::cout<<"\t";
-    for(int i = 0; i < Board::width; i++) {
-        std::cout<<"  "<<i<<" ";
     }
 
     std::cout<<std::endl;
@@ -177,7 +177,7 @@ std::string Board::number_to_letter(int n) {
     if (letter >= 'J') {
         letter += 2;
     }
-    return {0, letter};
+    return std::string{letter};
 }
 
 void Board::remove_state(BoardSlot::State state) {
@@ -191,7 +191,6 @@ void Board::remove_state(BoardSlot::State state) {
 }
 
 Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board): board_{board}, enemy_board_{enemy_board} {
-
 }
 
 BoardSlot &Board::Action::get_slot(const Point &point) {

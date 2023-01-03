@@ -56,17 +56,10 @@ public:
 
     int get_health() const;
 
-    static bool make_and_place_support_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
-                                     const std::shared_ptr<Board> &enemy_board);
+    static bool instantiate_ship(Ship::Ships ship_type, const Point &top_left_corner, bool horizontal,
+                                 const std::shared_ptr<Board> &board,const std::shared_ptr<Board> &enemy_board);
 
-    static bool make_and_place_armoured_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
-                                      const std::shared_ptr<Board> &enemy_board);
-
-    static bool make_and_place_submarine(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
-                                  const std::shared_ptr<Board> &enemy_board);
-
-    static bool instantiate_ship(Ship::Ships ship_type, const Point &bow, const Point &stern,
-                                const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
+    static int get_length(Ship::Ships ship_type);
 
     Ship &operator=(const Ship &) = delete;
 

@@ -3,15 +3,19 @@
 
 #include "board/Board.h"
 #include "Player.h"
+#include "commands/ShipPlaceCommand.h"
+#include "commands/ShipActionCommand.h"
+#include "commands/ShipCommand.h"
+#include "commands/RemoveHitCommand.h"
 #include <iostream>
 #include <regex>
 
 class Human : public Player {
 private:
-    bool place_in_board(Ship::Ships ship);
-    bool ask_action();
+    ShipPlaceCommand place_command_;
 public:
-    Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
+    Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board,
+          const std::shared_ptr<Logger> &logger, const std::function<void()> &change_turn);
 
     void do_move() override;
 

@@ -6,20 +6,16 @@
 #include <memory>
 
 class Command {
-private:
-    static std::vector<std::shared_ptr<Command>> commands;
-protected:
-    virtual bool check_command(const std::string &argument) = 0;
-
 public:
-    Command(Command &command) = delete;
 
+    Command(Command &command) = delete;
     Command();
 
-    static void register_command(const std::shared_ptr<Command> &command);
+    //Controlla se l'input viene accettato dal comando.
+    //In questo gioco l'input del comando identifica il comando stesso in quando non sono presenti labels.
+    virtual bool check_command(const std::string &argument) = 0;
 
-    bool dispatch(const std::string &input);
-
+    //Ritorna true se il comando viene correttamente eseguito altrimenti false.
     virtual bool execute(const std::string &argument) = 0;
 
     Command &operator=(const Command &) = delete;

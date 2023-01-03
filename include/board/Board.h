@@ -29,7 +29,7 @@ public:
     public:
         Action(const std::shared_ptr<Board> &board_, const std::shared_ptr<Board> &enemy_board);
         Action(Action &) = delete;
-        virtual bool do_action(const Point &target) = 0;
+        virtual bool do_action(const Point &ship_center, const Point &target) = 0;
         Action &operator=(const Action &) = delete;
     };
 
@@ -51,7 +51,7 @@ public:
 
     void print_with_ships() const;
 
-    void print_without_Ships() const;
+    void print_without_ships() const;
 
     //Viene creata una copia della nave così da impedire che lo stato interno della nave possa essere
     //modificato dall'esterno. Infatti non si possono ottenere le istanze di Ship contenute in Board

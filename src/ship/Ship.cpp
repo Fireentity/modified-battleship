@@ -1,5 +1,5 @@
 #include "ship/Ship.h"
-#include "ship/SupporterShip.h"
+#include "ship/Supporter.h"
 #include "ship/Submarine.h"
 #include "player/Player.h"
 
@@ -21,58 +21,29 @@ Ship::Ship(const Point &top_left_corner, int width, int height, unsigned short p
     }
 }
 
-bool Ship::make_and_place_armoured_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
-                                        const std::shared_ptr<Board> &enemy_board) {
-    int point_distance = ArmouredShip::armoured_ship_length - 1;
-    if (bow.squared_distance(stern) != std::pow(point_distance, 2)) {
-        return false;
-    }
-    if (bow.get_x() != stern.get_x() && bow.get_y() != stern.get_y()) {
-        return false;
-    }
-    if (Board::is_out(bow) || Board::is_out(stern)) {
-        return false;
-    }
-
-    bool horizontal = bow.get_x() != stern.get_x();
-    Point top_left_corner = Point{std::min(bow.get_x(), stern.get_x()), std::min(bow.get_y(), stern.get_y())};
-    return board->insert_ship(std::make_shared<ArmouredShip>(top_left_corner, horizontal, board, enemy_board));
-}
-
-bool Ship::make_and_place_support_ship(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
-                                       const std::shared_ptr<Board> &enemy_board) {
-    int point_distance = SupporterShip::supporter_ship_length - 1;
-    if (bow.squared_distance(stern) != std::pow(point_distance, 2)) {
-        return false;
-    }
-    if (bow.get_x() != stern.get_x() && bow.get_y() != stern.get_y()) {
-        return false;
-    }
-    bool horizontal = bow.get_x() != stern.get_x();
-    Point top_left_corner = Point{std::min(bow.get_x(), stern.get_x()), std::min(bow.get_y(), stern.get_y())};
-    return board->insert_ship(std::make_shared<SupporterShip>(top_left_corner, horizontal, board, enemy_board));
-}
-
-bool Ship::make_and_place_submarine(const Point &bow, const Point &stern, const std::shared_ptr<Board> &board,
-                                    const std::shared_ptr<Board> &enemy_board) {
-
-    if (bow != stern) {
-        return false;
-    }
-
-    return board->insert_ship(std::make_shared<Submarine>(bow.middle_point(stern), board, enemy_board));
-}
-
-bool Ship::instantiate_ship(Ship::Ships ship_type, const Point &bow, const Point &stern,
+bool Ship::instantiate_ship(Ship::Ships ship_type, const Point &top_left_corner, bool horizontal,
                             const std::shared_ptr<Board> &board,
                             const std::shared_ptr<Board> &enemy_board) {
     switch (ship_type) {
-        case Ships::ARMOURED:
-            return make_and_place_armoured_ship(bow, stern, board, enemy_board);
+        case Ships::ARMOURED: {
+            return board->insert_ship(std::make_shared<Armoured>(top_left_corner, horizontal, board, enemy_board));
+        }
         case Ships::SUPPORT:
-            return make_and_place_support_ship(bow, stern, board, enemy_board);
+            return board->insert_ship(std::make_shared<Supporter>(top_left_corner, horizontal, board, enemy_board));
         case Ships::SUBMARINE:
-            return make_and_place_submarine(bow, stern, board, enemy_board);
+            return board->insert_ship(std::make_shared<Submarine>(top_left_corner, board, enemy_board));
+    }
+    throw std::invalid_argument("Invalid ship type");
+}
+
+int Ship::get_length(Ship::Ships ship_type) {
+    switch (ship_type) {
+        case Ship::Ships::ARMOURED:
+            return Armoured::armoured_ship_length;
+        case Ship::Ships::SUPPORT:
+            return Supporter::supporter_ship_length;
+        case Ship::Ships::SUBMARINE:
+            return Submarine::submarine_length;
     }
     throw std::invalid_argument("Invalid ship type");
 }
@@ -96,7 +67,7 @@ void Ship::for_each_piece(const std::function<void(ShipPiece &)> &on_iteration) 
 }
 
 bool Ship::do_action(const Point &target) const {
-    return action_->do_action(target);
+    return action_->do_action(get_center(), target);
 }
 
 unsigned int Ship::get_pieces_amount() const {

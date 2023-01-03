@@ -9,7 +9,7 @@ private:
     static const int range;
 public:
     MoveAndRevealAction(const std::shared_ptr<Board> &board_, const std::shared_ptr<Board> &enemy_board);
-    bool do_action(const Point &target) override;
+    bool do_action(const Point &ship_center, const Point &target) override;
 };
 
 #endif //MOVEANDREVEAL_H

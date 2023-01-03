@@ -6,12 +6,12 @@ Point::Point(int x, int y) : x_{x}, y_{y} {
 
 }
 
-Point::Point(int y,char x) : x_{to_index(x)}, y_{y} {
+Point::Point(int x,char y) : x_{x}, y_{to_index(y)} {
 
 }
 
-double Point::squared_distance(const Point &point) const {
-    return std::pow(point.get_x() - get_x(), 2) + std::pow(point.get_y() - get_y(), 2);
+Point::Point() : x_{-1}, y_{-1} {
+
 }
 
 int Point::get_x() const {
@@ -22,12 +22,8 @@ int Point::get_y() const {
     return y_;
 }
 
-Point Point::middle_point(const Point &point) const {
-    return Point{(point.get_x() + get_x()) / 2, (point.get_y() + get_y()) / 2};
-}
-
-Point::Point() : x_{-1}, y_{-1} {
-
+double Point::squared_distance(const Point &point) const {
+    return std::pow(point.get_x() - get_x(), 2) + std::pow(point.get_y() - get_y(), 2);
 }
 
 Point Point::operator+(const Point &point) const {
@@ -83,6 +79,6 @@ int Point::to_index(char x) {
     return x - firstUpperCaseLetter;
 }
 
-std::ostream &Point::operator<<(std::ostream &os) const {
-    return os << to_char(x_) << y_;
+std::string Point::to_string() const {
+    return std::string{to_char(y_)} + std::to_string(x_);
 }

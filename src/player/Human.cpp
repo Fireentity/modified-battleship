@@ -1,67 +1,47 @@
 #include "player/Human.h"
+#include "commands/RemoveMissedCommand.h"
+#include "commands/RemoveRevealedCommand.h"
 
+//Il comando ShipPlaceCommand non viene registrato perché registrare i comandi serve unicamente
+//per semplificare e incapsulare la scelta del comando corretto in base all'input a runtime.
+//In questo caso il comando viene usato una sola volta.
+Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board,
+             const std::shared_ptr<Logger> &logger, const std::function<void()> &change_turn) : Player{board, enemy_board},
+                                                      place_command_{board, enemy_board, logger} {
 
-Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board) : Player{board,
-                                                                                                      enemy_board} {
-
+    register_command(std::make_shared<RemoveHitCommand>(board));
+    register_command(std::make_shared<RemoveMissedCommand>(board));
+    register_command(std::make_shared<RemoveRevealedCommand>(board));
+    register_command(std::make_shared<ShipActionCommand>(board,logger, change_turn));
 }
 
 void Human::place_ships_inside_board() {
     int i = 0;
-    while (i < Player::available_ships.size()) {
-        std::cout << "Inserisci le coordinate della prua e della poppa [" << Ship::to_string(available_ships[i])
+    while (i < ShipPlaceCommand::availableShips.size()) {
+        std::cout << "Inserisci le coordinate della prua e della poppa ["
+                  << Ship::to_string(ShipPlaceCommand::availableShips[i])
                   << "]: ";
 
-        if (place_in_board(available_ships[i])) {
-            get_board()->print_with_ships();
+        std::string input;
+        std::getline(std::cin, input);
+        //Trasforma la stringa in uppercase
+        std::transform(input.begin(), input.end(), input.begin(), toupper);
+
+        if (place_command_.execute(input)) {
+            board_->print_with_ships();
             i++;
         } else {
-            std::cout
-                    << "Posiziona orizzontalmente o verticalmente la nave inserendo le coordinate di poppa e prua (XY XY)"
-                    << std::endl;
+            std::cout << "Posiziona orizzontalmente o verticalmente la nave usando le coordinate di poppa e prua "
+                      << std::endl;
         }
     }
 }
 
-bool Human::place_in_board(Ship::Ships ship) {
-    std::string input;
-    std::getline(std::cin, input);
-    std::transform(input.begin(), input.end(), input.begin(), toupper); //trasforma la stringa in maiuscola
-    if (!std::regex_match(input, inputRegex)) {
-        return false;
-    }
-
-    //Applico la regex sull'input dell'utente
-    std::smatch match;
-    std::regex_search(input, match, inputRegex);
-
-    //Coordinate della prua
-    std::string first_coordinate = match[1];
-    std::string second_coordinate = match[2];
-
-    //Coordinate della poppa
-    std::string third_coordinate = match[3];
-    std::string fourth_coordinate = match[4];
-
-    Point bow{std::stoi(second_coordinate), Point::to_index(first_coordinate[0])};
-    Point stern{std::stoi(fourth_coordinate), Point::to_index(third_coordinate[0])};
-
-    return Ship::instantiate_ship(ship, bow, stern, get_board(), get_enemy_board());
-}
-
 void Human::do_move() {
-    while (!ask_action()) {
-        std::cout << "Azione non valida" << std::endl;
-    }
-}
-
-bool Human::ask_action() {
-    std::cout << "Inserisci l'azione che vuoi eseguire: ";
+    std::cout << "Inserisci le coordinate della nave e del target: " << std::endl;
     std::string input;
-    std::getline(std::cin, input);
-
-
-
-
+    do {
+        std::getline(std::cin, input);
+    } while (dispatch_command(input));
 }
 

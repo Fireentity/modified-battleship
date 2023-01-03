@@ -4,17 +4,17 @@
 #include "Point.h"
 #include "ShipPiece.h"
 #include "ship/Ship.h"
-#include "actions/HitAction.h"
+#include "actions/MoveAndHealAction.h"
 
-class SupporterShip : public Ship {
+class Supporter : public Ship {
 public:
     static const char damaged_character;
     static const char character;
     static const unsigned short supporter_ship_length;
     static const int breadth;
 
-    SupporterShip(const Point &top_left_corner, bool horizontal, const std::shared_ptr<Board> &board,
-                  const std::shared_ptr<Board> &enemy_board);
+    Supporter(const Point &top_left_corner, bool horizontal, const std::shared_ptr<Board> &board,
+              const std::shared_ptr<Board> &enemy_board);
 
     char get_damaged_character() const override;
 

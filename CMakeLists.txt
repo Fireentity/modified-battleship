@@ -5,8 +5,8 @@ project(progetto_finale)
 include_directories(include)
 
 add_executable(battaglia-navale
-        src/ship/Ship.cpp
         src/battleship.cpp
+        src/ship/Ship.cpp
         src/board/Board.cpp
         src/board/BoardSlot.cpp
         src/ship/ShipPiece.cpp
@@ -18,12 +18,40 @@ add_executable(battaglia-navale
         src/actions/HitAction.cpp
         src/actions/MoveAndHealAction.cpp
         src/actions/MoveAndRevealAction.cpp
-        src/ship/ArmouredShip.cpp
-        src/ship/SupporterShip.cpp
+        src/ship/Armoured.cpp
+        src/ship/Supporter.cpp
         src/ship/Submarine.cpp
         src/commands/Command.cpp
         src/commands/RemoveRevealedCommand.cpp
         src/commands/RemoveHitCommand.cpp
         src/commands/RemoveMissedCommand.cpp
+        src/commands/ShipCommand.cpp
+        src/commands/ShipPlaceCommand.cpp
+        src/commands/ShipActionCommand.cpp
+        src/Logger.cpp)
+
+add_executable(test
+        test/test.cpp
+        src/ship/Ship.cpp
+        src/board/Board.cpp
+        src/board/BoardSlot.cpp
+        src/ship/ShipPiece.cpp
+        src/Game.cpp
+        src/player/Player.cpp
+        src/player/AI.cpp
+        src/player/Human.cpp
+        src/Point.cpp
+        src/actions/HitAction.cpp
+        src/actions/MoveAndHealAction.cpp
+        src/actions/MoveAndRevealAction.cpp
+        src/ship/Armoured.cpp
+        src/ship/Supporter.cpp
+        src/ship/Submarine.cpp
+        src/commands/Command.cpp
+        src/commands/RemoveRevealedCommand.cpp
+        src/commands/RemoveHitCommand.cpp
+        src/commands/RemoveMissedCommand.cpp
+        src/commands/ShipCommand.cpp
+        src/commands/ShipPlaceCommand.cpp
         src/commands/ShipActionCommand.cpp
         src/Logger.cpp)
