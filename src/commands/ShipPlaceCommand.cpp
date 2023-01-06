@@ -28,7 +28,7 @@ bool ShipPlaceCommand::execute_action(const Point &bow, const Point &stern) {
         return false;
     }
 
-    bool horizontal = bow.get_x() == stern.get_x();
+    bool horizontal = bow.get_y() == stern.get_y();
     Point top_left_corner = Point{std::min(bow.get_x(), stern.get_x()), std::min(bow.get_y(), stern.get_y())};
 
     bool was_placed = Ship::instantiate_ship(ship_type, top_left_corner, horizontal, board_, enemy_board_);

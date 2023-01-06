@@ -34,8 +34,8 @@ bool ShipCommand::execute(const std::string &argument) {
         return false;
     }
 
-    Point first_point{std::stoi(second_coordinate), first_coordinate[0]};
-    Point second_point{std::stoi(fourth_coordinate), third_coordinate[0]};
+    Point first_point{std::stoi(second_coordinate)-1, first_coordinate[0]};
+    Point second_point{std::stoi(fourth_coordinate)-1, third_coordinate[0]};
 
     return execute(first_point, second_point);
 }
