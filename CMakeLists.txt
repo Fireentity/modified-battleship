@@ -28,7 +28,7 @@ add_executable(battaglia-navale
         src/commands/ShipCommand.cpp
         src/commands/ShipPlaceCommand.cpp
         src/commands/ShipActionCommand.cpp
-        src/Logger.cpp)
+        src/Logger.cpp src/commands/PrintCommand.cpp include/commands/PrintCommand.h)
 
 add_executable(test
         test/test.cpp

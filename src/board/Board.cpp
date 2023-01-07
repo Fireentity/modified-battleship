@@ -19,31 +19,33 @@ const BoardSlot &Board::at(unsigned int x, unsigned int y) const {
 }
 
 const BoardSlot &Board::at(const Point &point) const {
-    return at(point.get_x(),point.get_y());
+    return at(point.get_x(), point.get_y());
 }
 
 BoardSlot &Board::get_slot(const Point &point) {
-    if(is_out(point)){
+    if (is_out(point)) {
         throw std::invalid_argument("Position out of bounds");
     }
     return board_[point.get_y()][point.get_x()];
 }
 
 BoardSlot &Board::get_slot(unsigned int x, unsigned int y) {
-    if(is_out(x,y)){
+    if (is_out(x, y)) {
         throw std::invalid_argument("Position out of bounds");
     }
     return board_[y][x];
 }
 
 bool Board::insert_ship(const std::shared_ptr<Ship> &ship) {
-    bool unable_to_place = std::any_of(ship->get_pieces().begin(),ship->get_pieces().end(),[this](const ShipPiece &piece){
-        return Board::is_out(piece.get_position()) || at(piece.get_position()).has_ship();
-    });
-    if(unable_to_place) {
+    bool unable_to_place = std::any_of(ship->get_pieces().begin(), ship->get_pieces().end(),
+                                       [this](const ShipPiece &piece) {
+                                           return Board::is_out(piece.get_position()) ||
+                                                  at(piece.get_position()).has_ship();
+                                       });
+    if (unable_to_place) {
         return false;
     }
-    std::for_each(ship->get_pieces().begin(), ship->get_pieces().end(),[this, ship](const ShipPiece &piece){
+    std::for_each(ship->get_pieces().begin(), ship->get_pieces().end(), [this, ship](const ShipPiece &piece) {
         this->board_[piece.get_position().get_y()][piece.get_position().get_x()].set_ship(ship);
     });
     ships_.push_back(ship);
@@ -56,35 +58,36 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
     BoardSlot &slot = board_[ship_center.get_y()][ship_center.get_x()];
     //Controlliamo ship_center sia effettivamente il centro della nave da spostare
     std::shared_ptr<Ship> ship = slot.get_ship();
-    if(ship->get_center() != ship_center) {
+    if (ship->get_center() != ship_center) {
         return false;
     }
 
-    Point translation = destination-ship_center;
+    Point translation = destination - ship_center;
 
     std::vector<Point> positions{ship->get_pieces_amount()};
 
     auto iter = positions.begin();
 
-    slot.get_ship()->for_each_piece([iter,translation](ShipPiece &piece) {
+    slot.get_ship()->for_each_piece([iter, translation](ShipPiece &piece) {
         (*iter) = piece.get_position() + translation;
     });
 
     //Controllo che non ci siano altre navi nella destinazione
     //Se c'è una nave controllo che non sia quella che sto spostando
-    bool cannot_move = std::any_of(positions.begin(), positions.end(), [this,ship](const Point &position){
-        return Board::is_out(position) || (get_slot(position).get_ship() != nullptr && get_slot(position).get_ship() != ship);
+    bool cannot_move = std::any_of(positions.begin(), positions.end(), [this, ship](const Point &position) {
+        return Board::is_out(position) ||
+               (get_slot(position).get_ship() != nullptr && get_slot(position).get_ship() != ship);
     });
 
-    if(cannot_move) {
+    if (cannot_move) {
         return false;
     }
 
     iter = positions.begin();
-    slot.get_ship()->for_each_piece([iter,this,ship](ShipPiece &piece) {
+    slot.get_ship()->for_each_piece([iter, this, ship](ShipPiece &piece) {
         Point piece_position = piece.get_position();
         piece.move_to((*iter));
-        if(!Board::is_out(piece_position)) {
+        if (!Board::is_out(piece_position)) {
             get_slot(piece_position).remove_ship();
             get_slot(*iter).set_ship(ship);
         }
@@ -97,79 +100,6 @@ const std::vector<std::shared_ptr<Ship>> &Board::get_ships() const {
     return ships_;
 }
 
-void Board::print_with_ships() const{
-
-    std::cout<<"\t";
-    for(int i = 0; i < Board::width; i++) {
-        if (i < 10) {
-            std::cout<< "  " + std::to_string(i + 1) + " ";
-        } else {
-            std::cout<< " " + std::to_string(i + 1) + " ";
-        }
-    }
-
-    std::cout<<std::endl;
-    for(int i = 0; i < Board::height; i++) {
-
-        std::cout<<"\t";
-
-        for(int j = 0; j < Board::width; j++) {
-            std::cout<<"+---";
-        }
-        std::cout<<"+"<<std::endl;
-
-        std::cout<< number_to_letter(i+1) <<"\t";
-
-        for(int j = 0; j < Board::width; j++) {
-            std::cout<<"| "<< at(j,i).get_piece(j,i)<<" ";
-        }
-        std::cout<<"|"<<std::endl;
-    }
-
-    std::cout<<"\t";
-
-    for(int j = 0; j < Board::width; j++) {
-        std::cout<<"+---";
-    }
-    std::cout<<"+"<<std::endl;
-}
-
-
-void Board::print_without_ships() const {
-    std::cout<<"\t";
-    for(int i = 0; i < Board::width; i++) {
-        if (i < 10) {
-            std::cout<< "  " + std::to_string(i + 1) + " ";
-        } else {
-            std::cout<< " " + std::to_string(i + 1) + " ";
-        }
-    }
-
-    std::cout<<std::endl;
-    for(int i = 0; i < Board::height; i++) {
-
-        std::cout<<"\t";
-
-        for(int j = 0; j < Board::width; j++) {
-            std::cout<<"+---";
-        }
-        std::cout<<"+"<<std::endl;
-
-        std::cout<< number_to_letter(i+1) <<"\t";
-
-        for(int j = 0; j < Board::width; j++) {
-            std::cout<<"| "<< BoardSlot::to_character(at(j,i).get_state())<<" ";
-        }
-        std::cout<<"|"<<std::endl;
-    }
-
-    std::cout<<"\t";
-
-    for(int j = 0; j < Board::width; j++) {
-        std::cout<<"+---";
-    }
-    std::cout<<"+"<<std::endl;
-}
 
 //TODO remove hardcoded chars
 std::string Board::number_to_letter(int n) {
@@ -181,16 +111,84 @@ std::string Board::number_to_letter(int n) {
 }
 
 void Board::remove_state(BoardSlot::State state) {
-    for(int i = 0; i < height; i++) {
-        for(int j = 0; j < width; j++) {
-            if(get_slot(i,j).get_state() == state) {
-                get_slot(i,j).set_state(BoardSlot::EMPTY);
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            if (get_slot(i, j).get_state() == state) {
+                get_slot(i, j).set_state(BoardSlot::EMPTY);
             }
         }
     }
 }
 
-Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board): board_{board}, enemy_board_{enemy_board} {
+void Board::print() const {
+
+
+    std::cout << "\t  ";
+    for (int i = 0; i < Board::width; i++) {
+        if (i < 10) {
+            std::cout << "  " + std::to_string(i + 1) + " ";
+        } else {
+            std::cout << " " + std::to_string(i + 1) + " ";
+        }
+    }
+
+    std::cout << "\t\t  ";
+    for (int i = 0; i < Board::width; i++) {
+        if (i < 10) {
+            std::cout << "  " + std::to_string(i + 1) + " ";
+        } else {
+            std::cout << " " + std::to_string(i + 1) + " ";
+        }
+    }
+
+    std::cout << std::endl;
+    for (int i = 0; i < Board::height; i++) {
+
+        std::cout << "\t  ";
+
+        for (int j = 0; j < 2 * Board::width; j++) {
+            std::cout << "+---";
+            if ((j + 1) % Board::width == 0 && j != 0) {
+                std::cout << "+\t\t  ";
+            }
+        }
+
+        std::cout << std::endl;
+
+        std::cout << "\t"<< number_to_letter(i + 1)<<" " ;
+
+        for (int j = 0; j < 2*Board::width; j++) {
+            if(j<Board::width){
+                std::cout << "| " << at(j, i).get_piece(j, i) << " ";
+            } else {
+                if(j==Board::width){
+                    std::cout << number_to_letter(i + 1)<<" ";
+                }
+                std::cout << "| " << BoardSlot::to_character(at(j-Board::width, i).get_state()) << " ";
+            }
+            if ((j + 1) % Board::width == 0 && j != 0) {
+                std::cout << "|\t\t";
+            }
+        }
+        std::cout<<std::endl;
+    }
+
+    std::cout << "\t  ";
+
+    for (int j = 0; j < 2*Board::width; j++) {
+        std::cout << "+---";
+        if ((j + 1) % Board::width == 0 && j != 0) {
+            std::cout << "+\t\t  ";
+        }
+    }
+    std::cout << std::endl;
+    std::cout<<"\t\t\t  "<<"Griglia di difesa"<<"\t\t\t\t\t\t "<<"Griglia di attacco"<<std::endl;
+
+}
+
+Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board) : board_{board},
+                                                                                                        enemy_board_{
+                                                                                                                enemy_board} {
 }
 
 BoardSlot &Board::Action::get_slot(const Point &point) {
@@ -202,13 +200,13 @@ BoardSlot &Board::Action::get_enemy_slot(const Point &point) {
 }
 
 BoardSlot &Board::Action::get_enemy_slot(unsigned int x, unsigned int y) {
-    return enemy_board_->get_slot(x,y);
+    return enemy_board_->get_slot(x, y);
 }
 
 bool Board::Action::move_ship(const Point &ship_center, const Point &destination) {
-    return board_->move_ship(ship_center,destination);
+    return board_->move_ship(ship_center, destination);
 }
 
 BoardSlot &Board::Action::get_slot(unsigned int x, unsigned int y) {
-    return board_->get_slot(x,y);
+    return board_->get_slot(x, y);
 }

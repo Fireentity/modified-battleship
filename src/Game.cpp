@@ -28,52 +28,20 @@ Game::Game(GameType game_type, const std::shared_ptr<Board> &board_1, const std:
             break;
         }
     }
-
 }
 
-void Game::start_cc_loop() {
+void Game::start_loop() {
     player_1->place_ships_inside_board();
-    player_1->get_board()->print_with_ships();
     player_2->place_ships_inside_board();
-    player_2->get_board()->print_with_ships();
     do {
         if (turn) { //TODO sistemare la stampa
             player_1->do_move();
-            std::cout<<"Player 1"<<std::endl;
-            player_1->get_board()->print_with_ships();
-            player_1->get_board()->print_without_ships();
         } else {
             player_2->do_move();
-            std::cout<<"Player 2"<<std::endl;
-            player_2->get_board()->print_with_ships();
-            player_2->get_board()->print_without_ships();
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         //Il contatore delle mosse non viene incrementato qua ma nel comando che esegue l'azione
         //del giocatore
     } while (moves <= maxMoves);
-}
-
-void Game::start_pc_loop() {
-    player_1->place_ships_inside_board();
-    player_2->place_ships_inside_board();
-    do {
-        if (turn) {
-            player_1->do_move();
-        } else { //giocatore umano
-            std::cout<<"È il tuo turno: "<<std::endl;
-            player_2->get_board()->print_with_ships(); //TODO fare il cambio di griglia con il comando apposito
-            player_2->get_board()->print_without_ships();
-            player_2->do_move(); //TODO non funzionano le azioni per il player
-            //std::cout<<"Player 2"<<std::endl;
-            player_2->get_board()->print_with_ships();
-            player_2->get_board()->print_without_ships();
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        //Il contatore delle mosse non viene incrementato qua ma nel comando che esegue l'azione
-        //del giocatore
-    } while (moves <= maxMoves);
-
 }
 
 Game Game::make_human_vs_ai() {

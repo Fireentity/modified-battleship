@@ -21,9 +21,7 @@ public:
 
     static Game make_ai_vs_ai();
 
-    void start_cc_loop();
-
-    void start_pc_loop();
+    void start_loop();
 
 private:
     static const std::string logName;

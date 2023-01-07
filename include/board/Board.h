@@ -49,9 +49,7 @@ public:
 
     void remove_state(BoardSlot::State state);
 
-    void print_with_ships() const;
-
-    void print_without_ships() const;
+    void print() const;
 
     //Viene creata una copia della nave così da impedire che lo stato interno della nave possa essere
     //modificato dall'esterno. Infatti non si possono ottenere le istanze di Ship contenute in Board

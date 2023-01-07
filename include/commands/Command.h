@@ -7,7 +7,6 @@
 
 class Command {
 public:
-
     Command(Command &command) = delete;
     Command();
 
