@@ -4,7 +4,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-class Logger {
+class Logger { //TODO il logger se scrivo a7 a9 mette a6 a8
 private:
     std::string file_;
     std::fstream file_stream_;

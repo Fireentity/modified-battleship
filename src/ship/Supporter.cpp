@@ -1,23 +1,23 @@
 #include "ship/Supporter.h"
 
-const char Supporter::damaged_character = 's';
+const char Supporter::damagedCharacter = 's';
 const char Supporter::character = 'S';
-const unsigned short Supporter::supporter_ship_length = 3;
+const unsigned short Supporter::supporterShipLength = 3;
 const int Supporter::breadth = 1;
 
 Supporter::Supporter(const Point &point, bool horizontal, const std::shared_ptr<Board> &board,
                      const std::shared_ptr<Board> &enemy_board) : Ship(point,
-                                                                       horizontal ? Supporter::supporter_ship_length
+                                                                       horizontal ? Supporter::supporterShipLength
                                                                                         : Supporter::breadth,
                                                                        horizontal ? Supporter::breadth
-                                                                                        : Supporter::supporter_ship_length,
-                                                                       Supporter::supporter_ship_length,
+                                                                                        : Supporter::supporterShipLength,
+                                                                       Supporter::supporterShipLength,
                                                                        std::make_shared<MoveAndHealAction>(board,enemy_board)) {
 
 }
 
 char Supporter::get_damaged_character() const {
-    return damaged_character;
+    return damagedCharacter;
 }
 
 char Supporter::get_character() const {

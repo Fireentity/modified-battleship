@@ -13,13 +13,10 @@ bool ShipCommand::check_command(const std::string &argument) {
 }
 
 bool ShipCommand::execute(const std::string &argument) {
-    std::string input = argument;
-    //trasforma la stringa in maiuscola
-    std::transform(input.begin(), input.end(), input.begin(), toupper);
 
     //Applico la regex sull'input dell'utente
     std::smatch match;
-    std::regex_search(input, match, inputRegex);
+    std::regex_search(argument, match, inputRegex);
 
     //Coordinate della prua
     std::string first_coordinate = match[1];

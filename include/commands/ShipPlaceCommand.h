@@ -5,7 +5,7 @@
 
 class ShipPlaceCommand : public ShipCommand {
 private:
-    int index;
+    int index_;
     std::shared_ptr<Board> enemy_board_;
 public:
     static const std::vector<Ship::Ships> availableShips;

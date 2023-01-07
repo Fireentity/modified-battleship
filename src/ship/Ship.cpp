@@ -39,11 +39,11 @@ bool Ship::instantiate_ship(Ship::Ships ship_type, const Point &top_left_corner,
 int Ship::get_length(Ship::Ships ship_type) {
     switch (ship_type) {
         case Ship::Ships::ARMOURED:
-            return Armoured::armoured_ship_length;
+            return Armoured::armouredShipLength;
         case Ship::Ships::SUPPORT:
-            return Supporter::supporter_ship_length;
+            return Supporter::supporterShipLength;
         case Ship::Ships::SUBMARINE:
-            return Submarine::submarine_length;
+            return Submarine::submarineLength;
     }
     throw std::invalid_argument("Invalid ship type");
 }

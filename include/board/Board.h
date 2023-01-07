@@ -12,7 +12,7 @@
 class Board {
 public:
     //La classe Action rappresenta un'azione eseguibile da una nave sulla Board. Si è scelto di usare una nested class
-    //in modo da non esporre metodi che possano cambiare lo stato interno delle navi all'esterno della board. La nested
+    //in modo da non esporre metodi che possano cambiare lo stato interno delle navi all'esterno della board_. La nested
     //class infatti permette di accedere ai metodi protected della Board
     class Action {
     private:

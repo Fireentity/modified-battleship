@@ -8,9 +8,9 @@
 
 class Submarine: public Ship {
 public:
-    static const char damaged_character;
+    static const char damagedCharacter;
     static const char character;
-    static const unsigned short submarine_length;
+    static const unsigned short submarineLength;
     static const int breadth;
 
     Submarine(const Point &point, const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);

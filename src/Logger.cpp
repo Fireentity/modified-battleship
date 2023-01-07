@@ -1,7 +1,8 @@
 #include "Logger.h"
 
 Logger::Logger(const std::string &file_name): file_{file_name}, file_stream_{file_name,std::ios::app} {
-
+    std::ofstream file(file_, std::ofstream::trunc);
+    file.close();
 }
 
 void Logger::log_action(const std::string &log) {
