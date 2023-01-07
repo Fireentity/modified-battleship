@@ -57,6 +57,11 @@ Point Point::add_y(int y) const {
     return Point{x_, y_ + y};
 }
 
+/**
+ *
+ * @param index è l'intero da trasformare in lettera per la tabella
+ * @return ritorna la lettera associata all'intero corrispondente
+ */
 char Point::to_char(int index) {
     // Calcoliamo il valore ASCII della lettera corrispondente
     // al numero passato come argomento.
@@ -69,10 +74,15 @@ char Point::to_char(int index) {
     if (letter >= 'J') letter +=2;
 
 
-    return letter;
+    return letter-1;
 }
-
+/**
+ *
+ * @param x il carattere associato alle ordinate del punto
+ * @return ritorna il numero associato al carattere partendo da A=1 e saltando J,K
+ */
 int Point::to_index(char x) {
+    x++; //A=1;
     if (x > 'I' && x < 'Z') { //toglie due per le lettere dopo jk
         return x - firstUpperCaseLetter - 2;
     }

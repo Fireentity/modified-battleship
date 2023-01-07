@@ -15,14 +15,14 @@ void AI::place_ships_inside_board() {
     Point bow{};
     bool horizontal;
     do {
-        bow = {rand() % Board::width, rand() % Board::height};
+        bow = {(rand() % Board::width)+1, (rand() % Board::height)+1};
         horizontal = rand() % 2 == 0;
     } while (place_command_.execute_action(bow, horizontal));
 }
 
 void AI::do_move() {
     const std::vector<std::shared_ptr<Ship>> &ships = board_->get_ships();
-    Point target{rand() % board_->width, rand() % board_->height};
+    Point target{(rand() % board_->width)+1, (rand() % board_->height)+1};
     action_command_.execute(ships[rand() % ships.size()]->get_center(), target);
 }
 

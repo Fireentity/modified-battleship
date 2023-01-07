@@ -2,8 +2,15 @@
 //Ship viene inclusa soltanto nel file .cpp per risolvere la dipendenza circolare
 #include "ship/Ship.h"
 
+/**
+ *
+ * @param x ascissa del punto da controllare
+ * @param y ordinata del punto da controllare
+ * Le coordinate partono da 1 fino agli estremi della tabella
+ * @return vero se il punto è fuori dalla tabella, falso altrimenti
+ */
 bool Board::is_out(unsigned int x, unsigned int y) {
-    return x >= Board::width || y >= Board::height;
+    return x == 0 || y==0 || x > Board::width || y > Board::height;
 }
 
 bool Board::is_out(const Point &point) {
@@ -15,7 +22,7 @@ const BoardSlot &Board::at(unsigned int x, unsigned int y) const {
         throw std::invalid_argument("Position out of bounds");
     }
     //Le coordinate sono invertite perché si usano i normali assi cartesiani e non le coordinate delle matrici
-    return this->board_[y][x];
+    return this->board_[y-1][x-1];
 }
 
 const BoardSlot &Board::at(const Point &point) const {
@@ -26,14 +33,14 @@ BoardSlot &Board::get_slot(const Point &point) {
     if (is_out(point)) {
         throw std::invalid_argument("Position out of bounds");
     }
-    return board_[point.get_y()][point.get_x()];
+    return board_[point.get_y()-1][point.get_x()-1];
 }
 
 BoardSlot &Board::get_slot(unsigned int x, unsigned int y) {
     if (is_out(x, y)) {
         throw std::invalid_argument("Position out of bounds");
     }
-    return board_[y][x];
+    return board_[y-1][x-1];
 }
 
 bool Board::insert_ship(const std::shared_ptr<Ship> &ship) {
@@ -46,7 +53,7 @@ bool Board::insert_ship(const std::shared_ptr<Ship> &ship) {
         return false;
     }
     std::for_each(ship->get_pieces().begin(), ship->get_pieces().end(), [this, ship](const ShipPiece &piece) {
-        this->board_[piece.get_position().get_y()][piece.get_position().get_x()].set_ship(ship);
+        this->board_[piece.get_position().get_y()-1][piece.get_position().get_x()-1].set_ship(ship);
     });
     ships_.push_back(ship);
     return true;
@@ -55,7 +62,7 @@ bool Board::insert_ship(const std::shared_ptr<Ship> &ship) {
 bool Board::move_ship(const Point &ship_center, const Point &destination) {
     //Le coordinate vengono invertite perché si è deciso di usare come riferimento le ascisse e le ordinate
     //di un piano cartesiano che sono invertite rispetto ad una matrice
-    BoardSlot &slot = board_[ship_center.get_y()][ship_center.get_x()];
+    BoardSlot &slot = get_slot(ship_center);
     //Controlliamo ship_center sia effettivamente il centro della nave da spostare
     std::shared_ptr<Ship> ship = slot.get_ship();
     if (ship->get_center() != ship_center) {
@@ -68,8 +75,9 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
 
     auto iter = positions.begin();
 
-    slot.get_ship()->for_each_piece([iter, translation](ShipPiece &piece) {
+    slot.get_ship()->for_each_piece([&iter, translation](ShipPiece &piece) {
         (*iter) = piece.get_position() + translation;
+        iter++;
     });
 
     //Controllo che non ci siano altre navi nella destinazione
@@ -84,13 +92,13 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
     }
 
     iter = positions.begin();
-    slot.get_ship()->for_each_piece([iter, this, ship](ShipPiece &piece) {
+    slot.get_ship()->for_each_piece([&iter, this, ship](ShipPiece &piece) {
+
         Point piece_position = piece.get_position();
         piece.move_to((*iter));
-        if (!Board::is_out(piece_position)) {
-            get_slot(piece_position).remove_ship();
-            get_slot(*iter).set_ship(ship);
-        }
+        get_slot(piece_position).remove_ship();
+        get_slot(*iter).set_ship(ship);
+        iter++;
     });
 
     return true;
@@ -111,8 +119,8 @@ std::string Board::number_to_letter(int n) {
 }
 
 void Board::remove_state(BoardSlot::State state) {
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
+    for (int i = 1; i <= height; i++) {
+        for (int j = 1; j <= width; j++) {
             if (get_slot(i, j).get_state() == state) {
                 get_slot(i, j).set_state(BoardSlot::EMPTY);
             }
@@ -159,12 +167,12 @@ void Board::print() const {
 
         for (int j = 0; j < 2*Board::width; j++) {
             if(j<Board::width){
-                std::cout << "| " << at(j, i).get_piece(j, i) << " ";
+                std::cout << "| " << at(j+1, i+1).get_piece(j+1, i+1) << " ";
             } else {
                 if(j==Board::width){
                     std::cout << number_to_letter(i + 1)<<" ";
                 }
-                std::cout << "| " << BoardSlot::to_character(at(j-Board::width, i).get_state()) << " ";
+                std::cout << "| " << BoardSlot::to_character(at(j+1-Board::width, i+1).get_state()) << " ";
             }
             if ((j + 1) % Board::width == 0 && j != 0) {
                 std::cout << "|\t\t";

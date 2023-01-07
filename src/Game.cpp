@@ -6,7 +6,7 @@ const unsigned int Game::maxMoves = 30;
 const std::string Game::logName = "moves_.txt";
 
 Game::Game(GameType game_type, const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
-           const std::shared_ptr<Logger> &logger) : turn_(rand() % 2), moves_{0} {
+           const std::shared_ptr<Logger> &logger) : turn_(false), moves_{0} {
 
     //Viene eseguito in caso di successo
     std::function<void()> on_action_success = [this]() {

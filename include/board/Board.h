@@ -37,13 +37,13 @@ public:
     static const int height = 12;
     static const int width = 12;
 
-    static bool is_out(unsigned int x, unsigned int y);
+    static bool is_out(unsigned int x, unsigned int y); //
 
-    static bool is_out(const Point &point);
+    static bool is_out(const Point &point); //
 
-    const BoardSlot &at(unsigned int x, unsigned int y) const;
+    const BoardSlot &at(unsigned int x, unsigned int y) const; //
 
-    const BoardSlot &at(const Point &point) const;
+    const BoardSlot &at(const Point &point) const; //
 
     const std::vector<std::shared_ptr<Ship>> &get_ships() const;
 
@@ -57,8 +57,8 @@ public:
 
 protected:
     bool move_ship(const Point &ship_center, const Point &destination);
-    BoardSlot &get_slot(const Point &point);
-    BoardSlot &get_slot(unsigned int x, unsigned int y);
+    BoardSlot &get_slot(const Point &point); //
+    BoardSlot &get_slot(unsigned int x, unsigned int y); //
 
 private:
     BoardSlot board_[Board::height][Board::width];
