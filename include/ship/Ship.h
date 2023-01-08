@@ -50,6 +50,8 @@ public:
 
     void set_health(unsigned short health);
 
+    void set_center(const Point &center);
+
     int get_max_health() const;
 
     const Point &get_center() const;

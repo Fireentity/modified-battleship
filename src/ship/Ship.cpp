@@ -102,3 +102,7 @@ char Ship::get_piece_character(unsigned int x, unsigned int y) const {
 const std::vector<ShipPiece> &Ship::get_pieces() const {
     return pieces_;
 }
+
+void Ship::set_center(const Point &center) {
+    center_ = center;
+}

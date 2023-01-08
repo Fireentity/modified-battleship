@@ -1,6 +1,6 @@
 #include "actions/MoveAndRevealAction.h"
 
-const int MoveAndRevealAction::range = 3;
+const int MoveAndRevealAction::range = 5;
 
 MoveAndRevealAction::MoveAndRevealAction(const std::shared_ptr<Board> &board_,
                                          const std::shared_ptr<Board> &enemy_board) : Action(board_, enemy_board) {
@@ -32,7 +32,7 @@ bool MoveAndRevealAction::do_action(const Point &ship_center, const Point &targe
         }
     }
 
-    return false;
+    return true;
 }
 
 

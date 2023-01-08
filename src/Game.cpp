@@ -3,7 +3,7 @@
 #include "Game.h"
 
 const unsigned int Game::maxMoves = 30;
-const std::string Game::logName = "moves_.txt";
+const std::string Game::logName = "moves.txt";
 
 Game::Game(GameType game_type, const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
            const std::shared_ptr<Logger> &logger) : turn_(false), moves_{0} {
@@ -34,6 +34,7 @@ void Game::start_loop() {
     player_1_->place_ships_inside_board();
     player_2_->place_ships_inside_board();
     do {
+        player_1_->get_board()->print();
         if (turn_) {
             player_1_->do_move();
         } else {

@@ -51,9 +51,9 @@ bool ShipPlaceCommand::execute_action(const Point &top_left_corner, bool horizon
     std::shared_ptr<Board> enemy_board = enemy_board_;
     bool was_placed = Ship::instantiate_ship(ship_type, top_left_corner, horizontal, board, enemy_board);
     if (was_placed) {
-        std::string str = top_left_corner.to_string();
         logger_->log_action(top_left_corner.to_string() + " " + stern.to_string());
         index_++;
+        return true;
     }
-    return true;
+    return false;
 }

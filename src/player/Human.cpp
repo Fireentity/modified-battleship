@@ -19,8 +19,8 @@ Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &
 
 void Human::place_ships_inside_board() {
     int i = 0;
+    board_->print();
     while (i < ShipPlaceCommand::availableShips.size()) {
-        board_->print();
         std::cout << "Inserisci le coordinate della prua e della poppa ["
                   << Ship::to_string(ShipPlaceCommand::availableShips[i])
                   << "]: ";
@@ -31,6 +31,7 @@ void Human::place_ships_inside_board() {
         std::transform(input.begin(), input.end(), input.begin(), toupper);
         if (place_command_.execute(input)) {
             i++;
+            board_->print();
         } else {
             std::cout << "Posiziona orizzontalmente o verticalmente la nave usando le coordinate di poppa e prua "
                       << std::endl;
@@ -39,11 +40,11 @@ void Human::place_ships_inside_board() {
 }
 
 void Human::do_move() {
-    std::cout << "Inserisci le coordinate della nave e del target: " << std::endl;
     std::string input;
     do {
+        std::cout << "Inserisci le coordinate della nave e del target: ";
         std::getline(std::cin, input);
         std::transform(input.begin(), input.end(), input.begin(), toupper);
-    } while (dispatch_command(input));
+    } while (!dispatch_command(input));
 }
 

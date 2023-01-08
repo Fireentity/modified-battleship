@@ -11,13 +11,16 @@ AI::AI(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_
 
 void AI::place_ships_inside_board() {
     srand(time(nullptr));
-    //Itero tutte le navi da piazzare fin quando non sono tutte posizionate
-    Point bow{};
-    bool horizontal;
-    do {
-        bow = {(rand() % Board::width)+1, (rand() % Board::height)+1};
-        horizontal = rand() % 2 == 0;
-    } while (place_command_.execute_action(bow, horizontal));
+    int i = 0;
+    board_->print();
+    while (i < ShipPlaceCommand::availableShips.size()) {
+        Point bow{(rand() % Board::width)+1, (rand() % Board::height)+1};
+        bool horizontal = rand() % 2 == 0;
+        if (place_command_.execute_action(bow, horizontal)) {
+            i++;
+            board_->print();
+        }
+    }
 }
 
 void AI::do_move() {

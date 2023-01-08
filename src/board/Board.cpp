@@ -101,6 +101,8 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
         iter++;
     });
 
+    ship->set_center(destination);
+
     return true;
 }
 
@@ -190,7 +192,7 @@ void Board::print() const {
         }
     }
     std::cout << std::endl;
-    std::cout<<"\t\t\t  "<<"Griglia di difesa"<<"\t\t\t\t\t\t "<<"Griglia di attacco"<<std::endl;
+    std::cout<<"\t\t\t\t\t  "<<"Griglia di difesa"<<"\t\t\t\t\t\t\t\t "<<"Griglia di attacco"<<std::endl;
 
 }
 

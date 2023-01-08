@@ -82,11 +82,10 @@ char Point::to_char(int index) {
  * @return ritorna il numero associato al carattere partendo da A=1 e saltando J,K
  */
 int Point::to_index(char x) {
-    x++; //A=1;
     if (x > 'I' && x < 'Z') { //toglie due per le lettere dopo jk
-        return x - firstUpperCaseLetter - 2;
+        return x - firstUpperCaseLetter - 2 +1;
     }
-    return x - firstUpperCaseLetter;
+    return x - firstUpperCaseLetter+1;
 }
 
 std::string Point::to_string() const {

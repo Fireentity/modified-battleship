@@ -31,5 +31,5 @@ bool MoveAndHealAction::do_action(const Point &ship_center, const Point &target)
         }
     }
 
-    return false;
+    return true;
 }
