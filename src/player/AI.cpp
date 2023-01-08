@@ -27,5 +27,6 @@ void AI::do_move() {
     const std::vector<std::shared_ptr<Ship>> &ships = board_->get_ships();
     Point target{(rand() % board_->width)+1, (rand() % board_->height)+1};
     action_command_.execute(ships[rand() % ships.size()]->get_center(), target);
+    board_->print();
 }
 

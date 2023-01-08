@@ -23,9 +23,9 @@ bool MoveAndHealAction::do_action(const Point &ship_center, const Point &target)
     for (int i = 0; i < range; i++) {
         for (int j = 0; j < range; j++) {
             if(!Board::is_out(center_x + j, center_y + i)) {
-                BoardSlot &slot = get_enemy_slot(center_x + j, center_y + i);
+                BoardSlot &slot = get_slot(center_x + j, center_y + i);
                 if (slot.has_ship()) {
-                    slot.get_ship()->set_health(ship->get_max_health());
+                    slot.get_ship()->heal();
                 }
             }
         }

@@ -23,3 +23,7 @@ char Armoured::get_damaged_character() const {
 char Armoured::get_character() const {
     return character;
 }
+
+Ship::Ships Armoured::get_type() const {
+    return Ship::ARMOURED;
+}

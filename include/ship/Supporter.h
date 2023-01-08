@@ -18,6 +18,8 @@ public:
 
     char get_damaged_character() const override;
 
+    Ships get_type() const override;
+
     char get_character() const override;
 };
 

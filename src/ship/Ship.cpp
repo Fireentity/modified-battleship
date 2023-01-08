@@ -8,8 +8,6 @@ Ship::Ship(const Point &top_left_corner, int width, int height, unsigned short p
                                                            pieces_amount_{pieces_amount},
                                                            pieces_{pieces_amount},
                                                            health_{pieces_amount},
-                                                           width_{width},
-                                                           height_{height},
                                                            max_health_{pieces_amount},
                                                            action_{action} {
     int index = 0;
@@ -74,14 +72,6 @@ unsigned int Ship::get_pieces_amount() const {
     return pieces_amount_;
 }
 
-void Ship::set_health(unsigned short health) {
-    this->health_ = health;
-}
-
-int Ship::get_max_health() const {
-    return max_health_;
-}
-
 const Point &Ship::get_center() const {
     return center_;
 }
@@ -105,4 +95,22 @@ const std::vector<ShipPiece> &Ship::get_pieces() const {
 
 void Ship::set_center(const Point &center) {
     center_ = center;
+}
+
+void Ship::hit(const Point &point) {
+    for(auto &piece : pieces_) {
+        if(piece.get_position() == point) {
+            piece.hit();
+            health_--;
+            return;
+        }
+    }
+    throw std::invalid_argument("Unable to find piece for that point");
+}
+
+void Ship::heal() {
+    for(auto &piece : pieces_) {
+        piece.heal();
+    }
+    health_ = max_health_;
 }

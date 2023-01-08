@@ -12,7 +12,7 @@ class Game {
 public:
     enum GameType {
         AI_VS_AI,
-        HUMAN_VS_AI //HUMAN è il player_2_
+        HUMAN_VS_AI //HUMAN è il player_2
     };
 
     //Si usa (static method factory design pattern) per creare le possibili configurazioni
@@ -24,7 +24,7 @@ public:
     void start_loop();
 
 private:
-    static const std::string logName;
+    static const std::string logFileName;
     static const unsigned int maxMoves;
     //true turno del player 1
     bool turn_;

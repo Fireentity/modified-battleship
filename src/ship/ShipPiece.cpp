@@ -23,3 +23,7 @@ bool ShipPiece::is_hit() const {
 void ShipPiece::hit() {
     hit_ = true;
 }
+
+void ShipPiece::heal() {
+    hit_ = false;
+}

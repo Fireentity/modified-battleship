@@ -15,8 +15,6 @@ private:
     std::vector<ShipPiece> pieces_;
     Point center_;
     int health_;
-    const int height_;
-    const int width_;
 
 public:
 
@@ -48,15 +46,17 @@ public:
 
     unsigned int get_pieces_amount() const;
 
-    void set_health(unsigned short health);
-
     void set_center(const Point &center);
-
-    int get_max_health() const;
 
     const Point &get_center() const;
 
+    virtual Ships get_type() const = 0;
+
     int get_health() const;
+
+    void hit(const Point &point);
+
+    void heal();
 
     static bool instantiate_ship(Ship::Ships ship_type, const Point &top_left_corner, bool horizontal,
                                  const std::shared_ptr<Board> &board,const std::shared_ptr<Board> &enemy_board);

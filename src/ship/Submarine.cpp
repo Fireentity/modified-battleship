@@ -17,3 +17,7 @@ char Submarine::get_damaged_character() const {
 char Submarine::get_character() const {
     return character;
 }
+
+Ship::Ships Submarine::get_type() const {
+    return Ship::SUBMARINE;
+}

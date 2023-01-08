@@ -2,15 +2,8 @@
 //Ship viene inclusa soltanto nel file .cpp per risolvere la dipendenza circolare
 #include "ship/Ship.h"
 
-/**
- *
- * @param x ascissa del punto da controllare
- * @param y ordinata del punto da controllare
- * Le coordinate partono da 1 fino agli estremi della tabella
- * @return vero se il punto è fuori dalla tabella, falso altrimenti
- */
 bool Board::is_out(unsigned int x, unsigned int y) {
-    return x == 0 || y==0 || x > Board::width || y > Board::height;
+    return x == 0 || y == 0 || x > Board::width || y > Board::height;
 }
 
 bool Board::is_out(const Point &point) {
@@ -22,7 +15,7 @@ const BoardSlot &Board::at(unsigned int x, unsigned int y) const {
         throw std::invalid_argument("Position out of bounds");
     }
     //Le coordinate sono invertite perché si usano i normali assi cartesiani e non le coordinate delle matrici
-    return this->board_[y-1][x-1];
+    return this->board_[y - 1][x - 1];
 }
 
 const BoardSlot &Board::at(const Point &point) const {
@@ -33,14 +26,14 @@ BoardSlot &Board::get_slot(const Point &point) {
     if (is_out(point)) {
         throw std::invalid_argument("Position out of bounds");
     }
-    return board_[point.get_y()-1][point.get_x()-1];
+    return board_[point.get_y() - 1][point.get_x() - 1];
 }
 
 BoardSlot &Board::get_slot(unsigned int x, unsigned int y) {
     if (is_out(x, y)) {
         throw std::invalid_argument("Position out of bounds");
     }
-    return board_[y-1][x-1];
+    return board_[y - 1][x - 1];
 }
 
 bool Board::insert_ship(const std::shared_ptr<Ship> &ship) {
@@ -53,7 +46,7 @@ bool Board::insert_ship(const std::shared_ptr<Ship> &ship) {
         return false;
     }
     std::for_each(ship->get_pieces().begin(), ship->get_pieces().end(), [this, ship](const ShipPiece &piece) {
-        this->board_[piece.get_position().get_y()-1][piece.get_position().get_x()-1].set_ship(ship);
+        this->board_[piece.get_position().get_y() - 1][piece.get_position().get_x() - 1].set_ship(ship);
     });
     ships_.push_back(ship);
     return true;
@@ -165,35 +158,49 @@ void Board::print() const {
 
         std::cout << std::endl;
 
-        std::cout << "\t"<< number_to_letter(i + 1)<<" " ;
+        std::cout << "\t" << number_to_letter(i + 1) << " ";
 
-        for (int j = 0; j < 2*Board::width; j++) {
-            if(j<Board::width){
-                std::cout << "| " << at(j+1, i+1).get_piece(j+1, i+1) << " ";
+        for (int j = 0; j < 2 * Board::width; j++) {
+            if (j < Board::width) {
+                std::cout << "| " << at(j + 1, i + 1).get_piece(j + 1, i + 1) << " ";
             } else {
-                if(j==Board::width){
-                    std::cout << number_to_letter(i + 1)<<" ";
+                if (j == Board::width) {
+                    std::cout << number_to_letter(i + 1) << " ";
                 }
-                std::cout << "| " << BoardSlot::to_character(at(j+1-Board::width, i+1).get_state()) << " ";
+                std::cout << "| " << BoardSlot::to_character(at(j + 1 - Board::width, i + 1).get_state()) << " ";
             }
             if ((j + 1) % Board::width == 0 && j != 0) {
                 std::cout << "|\t\t";
             }
         }
-        std::cout<<std::endl;
+        std::cout << std::endl;
     }
 
     std::cout << "\t  ";
 
-    for (int j = 0; j < 2*Board::width; j++) {
+    for (int j = 0; j < 2 * Board::width; j++) {
         std::cout << "+---";
         if ((j + 1) % Board::width == 0 && j != 0) {
             std::cout << "+\t\t  ";
         }
     }
     std::cout << std::endl;
-    std::cout<<"\t\t\t\t\t  "<<"Griglia di difesa"<<"\t\t\t\t\t\t\t\t "<<"Griglia di attacco"<<std::endl;
+    std::cout << "\t\t\t\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t\t\t " << "Griglia di attacco" << std::endl;
 
+}
+
+void Board::remove_ship(const Point &point) {
+    std::shared_ptr<Ship> ship = get_slot(point).get_ship();
+    ship->for_each_piece([this](ShipPiece &piece) {
+        get_slot(piece.get_position()).remove_ship();
+    });
+    ships_.erase(std::remove(ships_.begin(),ships_.end(),ship),ships_.end());
+}
+
+bool Board::has_armoured() const {
+    return std::any_of(ships_.begin(), ships_.end(), [](const std::shared_ptr<Ship> &ship) {
+        return ship->get_type() == Ship::Ships::ARMOURED;
+    });
 }
 
 Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board) : board_{board},
@@ -202,21 +209,25 @@ Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr
 }
 
 BoardSlot &Board::Action::get_slot(const Point &point) {
-    return board_->get_slot(point);
+    return board_.lock()->get_slot(point);
 }
 
 BoardSlot &Board::Action::get_enemy_slot(const Point &point) {
-    return enemy_board_->get_slot(point);
+    return enemy_board_.lock()->get_slot(point);
 }
 
 BoardSlot &Board::Action::get_enemy_slot(unsigned int x, unsigned int y) {
-    return enemy_board_->get_slot(x, y);
+    return enemy_board_.lock()->get_slot(x, y);
 }
 
 bool Board::Action::move_ship(const Point &ship_center, const Point &destination) {
-    return board_->move_ship(ship_center, destination);
+    return board_.lock()->move_ship(ship_center, destination);
 }
 
 BoardSlot &Board::Action::get_slot(unsigned int x, unsigned int y) {
-    return board_->get_slot(x, y);
+    return board_.lock()->get_slot(x, y);
+}
+
+void Board::Action::remove_ship(const Point &point) {
+    enemy_board_.lock()->remove_ship(point);
 }

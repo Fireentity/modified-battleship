@@ -1,7 +1,6 @@
 #ifndef SHIPPIECE_H
 #define SHIPPIECE_H
 
-class Board;
 #include <memory>
 #include <ostream>
 #include "Point.h"
@@ -23,6 +22,8 @@ public:
     bool is_hit() const;
 
     void hit();
+
+    void heal();
 };
 
 #endif //SHIPPIECE_H

@@ -1,7 +1,6 @@
 #ifndef REMOVEHITCOMMAND_H
 #define REMOVEHITCOMMAND_H
 
-
 #include "Command.h"
 #include "board/Board.h"
 
@@ -15,6 +14,5 @@ public:
     bool execute(const std::string &argument) override;
 
 };
-
 
 #endif //REMOVEHITCOMMAND_H
