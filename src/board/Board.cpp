@@ -185,7 +185,7 @@ void Board::print() const {
         }
     }
     std::cout << std::endl;
-    std::cout << "\t\t\t\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t\t\t " << "Griglia di attacco" << std::endl;
+    std::cout << "\t\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t " << "Griglia di attacco" << std::endl;
 
 }
 
