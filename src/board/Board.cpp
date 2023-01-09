@@ -194,13 +194,11 @@ void Board::remove_ship(const Point &point) {
     ship->for_each_piece([this](ShipPiece &piece) {
         get_slot(piece.get_position()).remove_ship();
     });
-    ships_.erase(std::remove(ships_.begin(),ships_.end(),ship),ships_.end());
+    ships_.erase(std::remove(ships_.begin(), ships_.end(), ship), ships_.end());
 }
 
-bool Board::has_armoured() const {
-    return std::any_of(ships_.begin(), ships_.end(), [](const std::shared_ptr<Ship> &ship) {
-        return ship->get_type() == Ship::Ships::ARMOURED;
-    });
+bool Board::has_ships() const {
+    return !ships_.empty();
 }
 
 Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board) : board_{board},

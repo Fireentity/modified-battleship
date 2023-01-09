@@ -21,6 +21,8 @@ public:
 
     static Game make_ai_vs_ai();
 
+    static Game make_replay(const std::vector<std::string> &moves);
+
     void start_loop();
 
 private:
@@ -31,8 +33,14 @@ private:
     int moves_;
     std::shared_ptr<Player> player_1_;
     std::shared_ptr<Player> player_2_;
+
     Game(GameType game_type, const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
          const std::shared_ptr<Logger> &logger);
+
+    Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
+         const std::shared_ptr<Logger> &logger,
+         const std::shared_ptr<std::vector<std::string>::const_iterator> &moves_iterator,
+         const std::vector<std::string>::const_iterator &end_iterator);
 };
 
 #endif //GAME_H

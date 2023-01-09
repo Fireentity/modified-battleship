@@ -23,7 +23,3 @@ char Supporter::get_damaged_character() const {
 char Supporter::get_character() const {
     return character;
 }
-
-Ship::Ships Supporter::get_type() const {
-    return Ship::SUPPORT;
-}

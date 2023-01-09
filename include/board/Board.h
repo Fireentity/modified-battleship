@@ -159,7 +159,7 @@ public:
      * di vittoria è soddisfatta
      * @return
      */
-    bool has_armoured() const;
+    bool has_ships() const;
 protected:
 
     /**
@@ -179,7 +179,7 @@ protected:
      * @param y ordinata dello slot
      * @return ritorna una reference ad un BoardSlot
      */
-    BoardSlot &get_slot(unsigned int x, unsigned int y); //
+    BoardSlot &get_slot(unsigned int x, unsigned int y);
 
     /**
      * Metodo per ottenere una reference ad un BoardSlot. Questo metodo permette di cambiare lo stato interno
@@ -187,7 +187,7 @@ protected:
      * @param point punto dello slot
      * @return ritorna una reference ad un BoardSlot
      */
-    BoardSlot &get_slot(const Point &point); //
+    BoardSlot &get_slot(const Point &point);
 
     /**
      * Permette di togliere una nave dalla matrice della board e dal vettore contenente tutte le navi

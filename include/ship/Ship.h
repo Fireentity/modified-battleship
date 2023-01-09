@@ -50,7 +50,6 @@ public:
 
     const Point &get_center() const;
 
-    virtual Ships get_type() const = 0;
 
     int get_health() const;
 
