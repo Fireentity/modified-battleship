@@ -24,6 +24,7 @@ private:
     const std::vector<std::string>::const_iterator end_iterator_;
     ShipPlaceCommand place_command_;
 
+
     const bool print_in_terminal_; //true -> stampa nel terminale e NON nel file
     const std::string file_name_;
     void print();

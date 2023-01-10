@@ -1,11 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <chrono>
+#include <thread>
 #include "player/Player.h"
 #include "player/Human.h"
 #include "player/AI.h"
 #include "commands/Command.h"
 #include "commands/RemoveHitCommand.h"
+#include "player/ReplayPlayer.h"
 
 
 class Game {

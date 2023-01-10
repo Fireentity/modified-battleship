@@ -28,9 +28,10 @@ add_executable(battaglia_navale
         src/commands/ShipCommand.cpp
         src/commands/ShipPlaceCommand.cpp
         src/commands/ShipActionCommand.cpp
-        src/Logger.cpp
+        src/player/ReplayPlayer.cpp
         src/commands/PrintCommand.cpp
-        src/player/ReplayPlayer.cpp)
+        src/logger/ConsoleLogger.cpp
+        src/logger/FileLogger.cpp)
 
 add_executable(replay
         src/replay.cpp
@@ -56,7 +57,7 @@ add_executable(replay
         src/commands/ShipCommand.cpp
         src/commands/ShipPlaceCommand.cpp
         src/commands/ShipActionCommand.cpp
-        src/Logger.cpp src/commands/PrintCommand.cpp
+        src/commands/PrintCommand.cpp
         src/player/ReplayPlayer.cpp)
 
 

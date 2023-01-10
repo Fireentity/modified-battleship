@@ -1,7 +1,4 @@
-#include <chrono>
-#include <thread>
 #include "Game.h"
-#include "player/ReplayPlayer.h"
 
 const unsigned int Game::maxMoves = 30;
 const std::string Game::logFileName = "moves.txt";
@@ -83,8 +80,7 @@ Game::Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &
            const std::shared_ptr<Logger> &logger,
            const std::shared_ptr<std::vector<std::string>::const_iterator> &moves_iterator,
            const std::vector<std::string>::const_iterator &end_iterator, bool print_in_terminal,
-           const std::string &file_name) : turn_(true),
-                                           moves_{0} { //TODO vedere se serve che il player 1 di una vecchia partita rimanga il player 1 del replay
+           const std::string &file_name) : turn_(true), moves_{0} { //TODO vedere se serve che il player 1 di una vecchia partita rimanga il player 1 del replay
 
     //Viene eseguito in caso di successo
     std::function<void()> on_action_success = [this]() {
