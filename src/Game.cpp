@@ -7,7 +7,7 @@ const unsigned int Game::maxMoves = 30;
 const std::string Game::logFileName = "moves.txt";
 
 Game::Game(GameType game_type, const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
-           const std::shared_ptr<Logger> &logger) : turn_(rand()%2), moves_{0} {
+           const std::shared_ptr<Logger> &logger) : turn_(rand() % 2), moves_{0} {
     //Viene eseguito in caso di successo
     std::function<void()> on_action_success = [this]() {
         //Quando viene eseguito il comando action viene cambiato il turno
@@ -82,7 +82,9 @@ Game Game::make_ai_vs_ai() {
 Game::Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
            const std::shared_ptr<Logger> &logger,
            const std::shared_ptr<std::vector<std::string>::const_iterator> &moves_iterator,
-           const std::vector<std::string>::const_iterator &end_iterator) : turn_(true), moves_{0} { //TODO vedere se serve che il player 1 di una vecchia partita rimanga il player 1 del replay
+           const std::vector<std::string>::const_iterator &end_iterator, bool print_in_terminal,
+           const std::string &file_name) : turn_(true),
+                                           moves_{0} { //TODO vedere se serve che il player 1 di una vecchia partita rimanga il player 1 del replay
 
     //Viene eseguito in caso di successo
     std::function<void()> on_action_success = [this]() {
@@ -92,20 +94,25 @@ Game::Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &
         moves_++;
     };
     player_1_ = std::make_shared<ReplayPlayer>(board_1, board_2, logger, on_action_success, moves_iterator,
-                                               end_iterator);
+                                               end_iterator, print_in_terminal, file_name);
     player_2_ = std::make_shared<ReplayPlayer>(board_2, board_1, logger, on_action_success, moves_iterator,
-                                               end_iterator);
+                                               end_iterator, print_in_terminal, file_name);
 }
 
 Game Game::make_replay(
-        const std::vector<std::string> &moves) { //TODO verificare che il giocatore con le navi A esegua il comando del player A e non B
+        const std::vector<std::string> &moves, bool print_in_terminal,
+        const std::string &file_name) { //TODO verificare che il giocatore con le navi A esegua il comando del player A e non B
     srand(time(nullptr));
     std::shared_ptr<Board> board_1 = std::make_shared<Board>();
     std::shared_ptr<Board> board_2 = std::make_shared<Board>();
     std::shared_ptr<Logger> logger = std::make_shared<Logger>(logFileName);
     std::shared_ptr<std::vector<std::string>::const_iterator> moves_iterator = std::make_shared<std::vector<std::string>::const_iterator>(
             moves.begin());
-    return {board_1, board_2, logger, moves_iterator, moves.end()};
+    //crea il file o lo sovrascrive
+    if (print_in_terminal) { //TODO il nome del file deve essere controllato in qualche modo? (Magari metti come nome uno di sistema bla bla bla)
+        std::ofstream file_stream_{file_name, std::ios::trunc};
+    }
+    return {board_1, board_2, logger, moves_iterator, moves.end(), print_in_terminal, file_name};
 }
 
 

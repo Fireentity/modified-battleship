@@ -11,7 +11,7 @@ PrintCommand::PrintCommand(const std::shared_ptr<Board> &board) : board_{board}{
 
 bool PrintCommand::execute(const std::string &argument) {
     if(check_command(argument)){
-        board_->print();
+        std::cout<<(*board_);
         return true;
     } else {
         return false;

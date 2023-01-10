@@ -145,11 +145,6 @@ public:
      */
     void remove_state(BoardSlot::State state);
 
-    /**
-     * Permette di stampare la tabella di attacco e di difesa.
-     */
-    void print() const;
-
     //Viene creata una copia della nave così da impedire che lo stato interno della nave possa essere
     //modificato dall'esterno. Infatti non si possono ottenere le istanze di Ship contenute in Board
     bool insert_ship(const std::shared_ptr<Ship> &ship);
@@ -160,6 +155,10 @@ public:
      * @return
      */
     bool has_ships() const;
+
+    //TODO metodo duplicato
+    static std::string number_to_letter(int n);
+
 protected:
 
     /**
@@ -199,8 +198,6 @@ private:
     BoardSlot board_[Board::height][Board::width];
     std::vector<std::shared_ptr<Ship>> ships_;
 
-    //TODO metodo duplicato
-    static std::string number_to_letter(int n);
 };
-
+std::ostream &operator<<(std::ostream &os, const Board &board);
 #endif //DEFENCEBOARD_H

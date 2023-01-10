@@ -12,13 +12,13 @@ AI::AI(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_
 void AI::place_ships_inside_board() {
     srand(time(nullptr));
     int i = 0;
-    board_->print();
+    std::cout<<(*board_);
     while (i < ShipPlaceCommand::availableShips.size()) {
         Point bow{(rand() % Board::width)+1, (rand() % Board::height)+1};
         bool horizontal = rand() % 2 == 0;
         if (place_command_.execute_action(bow, horizontal)) {
             i++;
-            board_->print();
+            std::cout<<(*board_);
         }
     }
 }
@@ -27,6 +27,6 @@ void AI::do_move() {
     const std::vector<std::shared_ptr<Ship>> &ships = board_->get_ships();
     Point target{(rand() % board_->width)+1, (rand() % board_->height)+1};
     action_command_.execute(ships[rand() % ships.size()]->get_center(), target);
-    board_->print();
+    std::cout<<(*board_);
 }
 

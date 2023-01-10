@@ -123,71 +123,6 @@ void Board::remove_state(BoardSlot::State state) {
     }
 }
 
-void Board::print() const {
-
-
-    std::cout << "\t  ";
-    for (int i = 0; i < Board::width; i++) {
-        if (i < 10) {
-            std::cout << "  " + std::to_string(i + 1) + " ";
-        } else {
-            std::cout << " " + std::to_string(i + 1) + " ";
-        }
-    }
-
-    std::cout << "\t\t  ";
-    for (int i = 0; i < Board::width; i++) {
-        if (i < 10) {
-            std::cout << "  " + std::to_string(i + 1) + " ";
-        } else {
-            std::cout << " " + std::to_string(i + 1) + " ";
-        }
-    }
-
-    std::cout << std::endl;
-    for (int i = 0; i < Board::height; i++) {
-
-        std::cout << "\t  ";
-
-        for (int j = 0; j < 2 * Board::width; j++) {
-            std::cout << "+---";
-            if ((j + 1) % Board::width == 0 && j != 0) {
-                std::cout << "+\t\t  ";
-            }
-        }
-
-        std::cout << std::endl;
-
-        std::cout << "\t" << number_to_letter(i + 1) << " ";
-
-        for (int j = 0; j < 2 * Board::width; j++) {
-            if (j < Board::width) {
-                std::cout << "| " << at(j + 1, i + 1).get_piece(j + 1, i + 1) << " ";
-            } else {
-                if (j == Board::width) {
-                    std::cout << number_to_letter(i + 1) << " ";
-                }
-                std::cout << "| " << BoardSlot::to_character(at(j + 1 - Board::width, i + 1).get_state()) << " ";
-            }
-            if ((j + 1) % Board::width == 0 && j != 0) {
-                std::cout << "|\t\t";
-            }
-        }
-        std::cout << std::endl;
-    }
-
-    std::cout << "\t  ";
-
-    for (int j = 0; j < 2 * Board::width; j++) {
-        std::cout << "+---";
-        if ((j + 1) % Board::width == 0 && j != 0) {
-            std::cout << "+\t\t  ";
-        }
-    }
-    std::cout << std::endl;
-    std::cout << "\t\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t " << "Griglia di attacco" << std::endl;
-
-}
 
 void Board::remove_ship(const Point &point) {
     std::shared_ptr<Ship> ship = get_slot(point).get_ship();
@@ -199,6 +134,72 @@ void Board::remove_ship(const Point &point) {
 
 bool Board::has_ships() const {
     return !ships_.empty();
+}
+
+std::ostream &operator<<(std::ostream &os, const Board &board){
+
+    os << "\t  ";
+    for (int i = 0; i < Board::width; i++) {
+        if (i < 10) {
+            os << "  " + std::to_string(i + 1) + " ";
+        } else {
+            os << " " + std::to_string(i + 1) + " ";
+        }
+    }
+
+    os << "\t\t  ";
+    for (int i = 0; i < Board::width; i++) {
+        if (i < 10) {
+            os << "  " + std::to_string(i + 1) + " ";
+        } else {
+            os << " " + std::to_string(i + 1) + " ";
+        }
+    }
+
+    os << std::endl;
+    for (int i = 0; i < Board::height; i++) {
+
+        os << "\t  ";
+
+        for (int j = 0; j < 2 * Board::width; j++) {
+            os << "+---";
+            if ((j + 1) % Board::width == 0 && j != 0) {
+                os << "+\t\t  ";
+            }
+        }
+
+        os << std::endl;
+
+        os << "\t" << Board::number_to_letter(i + 1) << " ";
+
+        for (int j = 0; j < 2 * Board::width; j++) {
+            if (j < Board::width) {
+                os << "| " << board.at(j + 1, i + 1).get_piece(j + 1, i + 1) << " ";
+            } else {
+                if (j == Board::width) {
+                    os << Board::number_to_letter(i + 1) << " ";
+                }
+                os << "| " << BoardSlot::to_character(board.at(j + 1 - Board::width, i + 1).get_state()) << " ";
+            }
+            if ((j + 1) % Board::width == 0 && j != 0) {
+                os << "|\t\t";
+            }
+        }
+        os << std::endl;
+    }
+
+    os << "\t  ";
+
+    for (int j = 0; j < 2 * Board::width; j++) {
+        os << "+---";
+        if ((j + 1) % Board::width == 0 && j != 0) {
+            os << "+\t\t  ";
+        }
+    }
+    os << std::endl;
+    os << "\t\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t " << "Griglia di attacco" << std::endl;
+
+    return os;
 }
 
 Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board) : board_{board},
