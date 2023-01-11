@@ -33,7 +33,7 @@ bool ShipPlaceCommand::execute_action(const Point &bow, const Point &stern) {
 
     bool was_placed = Ship::instantiate_ship(ship_type, top_left_corner, horizontal, board_, enemy_board_);
     if (was_placed) {
-        logger_->log_action(bow.to_string() + " " + stern.to_string());
+        logger_->log(bow.to_string() + " " + stern.to_string());
         index_++;
     }
     return was_placed;
@@ -51,7 +51,7 @@ bool ShipPlaceCommand::execute_action(const Point &top_left_corner, bool horizon
     std::shared_ptr<Board> enemy_board = enemy_board_;
     bool was_placed = Ship::instantiate_ship(ship_type, top_left_corner, horizontal, board, enemy_board);
     if (was_placed) {
-        logger_->log_action(top_left_corner.to_string() + " " + stern.to_string());
+        logger_->log(top_left_corner.to_string() + " " + stern.to_string());
         index_++;
         return true;
     }

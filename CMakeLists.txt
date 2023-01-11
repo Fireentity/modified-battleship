@@ -31,7 +31,8 @@ add_executable(battaglia_navale
         src/player/ReplayPlayer.cpp
         src/commands/PrintCommand.cpp
         src/logger/ConsoleLogger.cpp
-        src/logger/FileLogger.cpp)
+        src/logger/FileLogger.cpp
+        src/Utilities.hpp)
 
 add_executable(replay
         src/replay.cpp

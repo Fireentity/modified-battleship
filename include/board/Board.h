@@ -94,7 +94,8 @@ public:
         Action &operator=(const Action &) = delete;
     };
 
-
+    static const std::string columns;
+    static const std::string separator;
     static const int height = 12;
     static const int width = 12;
 
@@ -158,6 +159,8 @@ public:
 
     //TODO metodo duplicato
     static std::string number_to_letter(int n);
+
+    std::string to_string() const;
 
 protected:
 

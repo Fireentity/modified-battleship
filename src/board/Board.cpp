@@ -1,6 +1,15 @@
 #include "board/Board.h"
 //Ship viene inclusa soltanto nel file .cpp per risolvere la dipendenza circolare
 #include "ship/Ship.h"
+#include "../Utilities.hpp"
+
+/**
+ * Si è preferito utilizzare delle stringhe pensando che con un sistema migliore queste possano essere lette
+ * da un file di configurazione così da creare un sistema di localizzazione per i messaggi in output del programma.
+ * Non potendo usare file esterni (non c'è scritto nelle specifiche del progetto) abbiamo risolto il problema così
+ */
+const std::string Board::columns = "{} | {} | {} | {} | {} | {} | {} | {} | {} | {} | {} | {} | {} |\t\t";
+const std::string Board::separator = "+---+---+---+---+---+---+---+---+---+---+---+---+\t\t";
 
 bool Board::is_out(unsigned int x, unsigned int y) {
     return x == 0 || y == 0 || x > Board::width || y > Board::height;
@@ -136,7 +145,16 @@ bool Board::has_ships() const {
     return !ships_.empty();
 }
 
-std::ostream &operator<<(std::ostream &os, const Board &board){
+std::string Board::to_string() {
+    for(int i = 0; i < height; i++) {
+        utils::format(Board::columns,board_[i],[](const BoardSlot &slot) {
+            return std::string{BoardSlot::to_character(slot.get_state())};
+        });
+    }
+}
+
+std::ostream &operator<<(std::ostream &os, const Board &board) {
+
 
     os << "\t  ";
     for (int i = 0; i < Board::width; i++) {
@@ -202,9 +220,8 @@ std::ostream &operator<<(std::ostream &os, const Board &board){
     return os;
 }
 
-Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board) : board_{board},
-                                                                                                        enemy_board_{
-                                                                                                                enemy_board} {
+Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board)
+        : board_{board}, enemy_board_{enemy_board} {
 }
 
 BoardSlot &Board::Action::get_slot(const Point &point) {

@@ -4,7 +4,7 @@
 #include "Command.h"
 #include "board/Board.h"
 #include "ship/Ship.h"
-#include "Logger.h"
+#include "logger/Logger.h"
 #include <regex>
 #include <algorithm>
 

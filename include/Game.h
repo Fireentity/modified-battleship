@@ -3,12 +3,16 @@
 
 #include <chrono>
 #include <thread>
+#include <fstream>
 #include "player/Player.h"
 #include "player/Human.h"
 #include "player/AI.h"
 #include "commands/Command.h"
 #include "commands/RemoveHitCommand.h"
 #include "player/ReplayPlayer.h"
+#include "logger/ConsoleLogger.h"
+#include "logger/FileLogger.h"
+#include "logger/Logger.h"
 
 
 class Game {
@@ -24,8 +28,8 @@ public:
 
     static Game make_ai_vs_ai();
 
-    static Game
-    make_replay(const std::vector<std::string> &moves, bool print_in_terminal, const std::string &file_name);
+    static Game make_replay(const std::shared_ptr<Logger> &logger, const std::vector<std::string> &moves,
+                            const std::string &file_name);
 
     void start_loop();
 

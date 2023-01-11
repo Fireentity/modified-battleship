@@ -2,6 +2,7 @@
 #include "Game.h"
 
 
+
 std::vector<std::string> get_vector(const std::string &name_file_log) {
     std::vector<std::string> moves;
     std::ifstream file(name_file_log);
@@ -18,6 +19,8 @@ std::vector<std::string> get_vector(const std::string &name_file_log) {
 }
 
 int main(int argc, char *argv[]) {
+
+    std::regex regex{R"(([\w-_\.]+).txt)"};
 
     if (argc != 3 && argc != 4) { //argc tiene conto anche del nome del programma stesso
         std::cout << "Argomento da riga di comando non dato o non nel numero richiesto" << std::endl;
