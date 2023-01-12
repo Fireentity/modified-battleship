@@ -68,13 +68,14 @@ char Point::to_char(int index) {
     // La lettera A ha valore ASCII 65, quindi basta sottrarre 65
     // al numero passato come argomento per ottenere il valore ASCII
     // della lettera corrispondente.
-    char letter = char(index + firstUpperCaseLetter);
+    char letter = char(index + firstUpperCaseLetter-1); //TODO forse qua +1
 
     // Se la lettera ottenuta è J o K, saltiamo alla successiva
-    if (letter >= 'J') letter +=2;
+    if (letter >= 'J'){
+        letter +=2;
+    }
 
-
-    return letter-1;
+    return letter;
 }
 /**
  *

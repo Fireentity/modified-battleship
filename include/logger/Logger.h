@@ -5,7 +5,7 @@
 
 class Logger {
 public:
-    virtual const Logger & log(const std::string &log) const = 0;
+    virtual const Logger &log(const std::string &log) const = 0;
     Logger() = default;
     Logger(Logger &) = delete;
     Logger &operator=(const Logger &) = delete;

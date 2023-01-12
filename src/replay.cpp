@@ -3,7 +3,6 @@
 #include "Game.h"
 
 
-
 std::vector<std::string> get_moves_or_empty(const std::string &name_file_log) {
     std::ifstream file(name_file_log);
     if (!file.good() || !file.is_open()) {
@@ -20,6 +19,23 @@ std::vector<std::string> get_moves_or_empty(const std::string &name_file_log) {
 }
 
 int main(int argc, char *argv[]) {
+
+    //TESTING: *****************************************************
+    std::vector<std::string> moves = get_moves_or_empty("moves.txt");
+    if (moves.empty()) {
+        std::cout
+                << "C'è un problema nella lettura del file, riprovare inserendo come argomento il nome di un file valido"
+                << std::endl;
+    } else {
+        Game replay = Game::make_replay(std::make_shared<ConsoleLogger>(), moves);
+        std::cout << "Moves" << std::endl;
+        replay.start_loop();
+    }
+
+
+
+
+    //*****************************************************************
 
     std::regex regex{R"(([\w\-_\.]+).txt)"};
 
@@ -38,14 +54,14 @@ int main(int argc, char *argv[]) {
                     << "C'è un problema nella lettura del file, riprovare inserendo come argomento il nome di un file valido"
                     << std::endl;
         } else {
-            Game replay = Game::make_replay(std::make_shared<ConsoleLogger>(),moves);
+            Game replay = Game::make_replay(std::make_shared<ConsoleLogger>(), moves);
             replay.start_loop();
         }
     } else if (command == "f" && argc == 4) {
         std::string name_file_log(argv[2]);
         std::string name_file_output_replay(argv[3]);
-        if(name_file_output_replay.empty()){
-            std::cout<<"Il file di output per il replay non è valido!"<<std::endl;
+        if (name_file_output_replay.empty()) {
+            std::cout << "Il file di output per il replay non è valido!" << std::endl;
             return 0;
         }
         std::vector<std::string> moves = get_moves_or_empty(name_file_log);
@@ -54,7 +70,7 @@ int main(int argc, char *argv[]) {
                     << "C'è un problema nella lettura del file, riprovare inserendo come argomento il nome di un file valido"
                     << std::endl;
         } else {
-            Game replay = Game::make_replay(std::make_shared<FileLogger>(name_file_output_replay),moves);
+            Game replay = Game::make_replay(std::make_shared<FileLogger>(name_file_output_replay), moves);
             replay.start_loop();
         }
     } else {

@@ -25,8 +25,12 @@ bool MoveAndRevealAction::do_action(const Point &ship_center, const Point &targe
         for (int j = 0; j < range; j++) {
             if(!Board::is_out(center_x + j, center_y + i)) {
                 BoardSlot &slot = get_enemy_slot(center_x + j, center_y + i);
-                if (slot.has_ship()) {  //TODO le navi colpite devono essere viste come colpite e non come Y
-                    get_slot(center_x + j, center_y + i).set_state(BoardSlot::REVEALED);
+                if (slot.has_ship()) {
+                    if(slot.get_ship()->get_damaged_character()==slot.get_ship()->get_piece_character(center_x + j, center_y + i)){
+                        get_slot(center_x + j, center_y + i).set_state(BoardSlot::HIT);
+                    } else{
+                        get_slot(center_x + j, center_y + i).set_state(BoardSlot::REVEALED);
+                    }
                 }
             }
         }

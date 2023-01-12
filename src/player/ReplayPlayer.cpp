@@ -2,7 +2,7 @@
 
 void ReplayPlayer::place_ships_inside_board() {
     int i = 0;
-    while (i < ShipPlaceCommand::availableShips.size() && *moves_iterator_ != end_iterator_) {
+    while (i < ShipPlaceCommand::availableShips.size() && *moves_iterator_ < end_iterator_) {
         if (place_command_.execute(**moves_iterator_)) {
             (*moves_iterator_)++;
             i++;
@@ -12,7 +12,7 @@ void ReplayPlayer::place_ships_inside_board() {
 }
 
 void ReplayPlayer::do_move() {
-    while (*moves_iterator_ != end_iterator_) {
+    if (*moves_iterator_ < end_iterator_) {
         if (dispatch_command(**moves_iterator_)) {
             (*moves_iterator_)++;
         } else {
@@ -27,9 +27,10 @@ ReplayPlayer::ReplayPlayer(const std::shared_ptr<Board> &board, const std::share
                            const std::function<void()> &change_turn,
                            const std::shared_ptr<std::vector<std::string>::const_iterator> &begin,
                            const std::vector<std::string>::const_iterator &end) : Player{board, enemy_board},
-                                                           place_command_{board, enemy_board, moves_logger},
-                                                           moves_iterator_{begin},
-                                                           end_iterator_{end},
-                                                           logger_{output_logger} {
+                                                                                  place_command_{board, enemy_board,
+                                                                                                 moves_logger},
+                                                                                  moves_iterator_{begin},
+                                                                                  end_iterator_{end},
+                                                                                  logger_{output_logger} {
     register_command(std::make_shared<ShipActionCommand>(board, moves_logger, change_turn));
 }

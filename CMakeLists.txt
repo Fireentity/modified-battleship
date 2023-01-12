@@ -52,15 +52,16 @@ add_executable(replay
         src/ship/Supporter.cpp
         src/ship/Submarine.cpp
         src/commands/Command.cpp
-        src/logger/ConsoleLogger.cpp
-        src/logger/FileLogger.cpp
         src/commands/RemoveRevealedCommand.cpp
         src/commands/RemoveHitCommand.cpp
         src/commands/RemoveMissedCommand.cpp
         src/commands/ShipCommand.cpp
         src/commands/ShipPlaceCommand.cpp
         src/commands/ShipActionCommand.cpp
+        src/player/ReplayPlayer.cpp
         src/commands/PrintCommand.cpp
-        src/player/ReplayPlayer.cpp)
+        src/logger/ConsoleLogger.cpp
+        src/logger/FileLogger.cpp
+        src/Utilities.hpp)
 
 
