@@ -1,7 +1,9 @@
 #include "board/BoardSlot.h"
 #include "ship/Ship.h"
 
-BoardSlot::BoardSlot(): ship_{}, state_{EMPTY} {
+BoardSlot::BoardSlot() = default;
+
+BoardSlot::BoardSlot(const Point &position) : ship_{}, state_{EMPTY}, position_{position} {
 
 }
 
@@ -36,8 +38,8 @@ bool BoardSlot::has_ship() const {
     return ship_ != nullptr;
 }
 
-char BoardSlot::get_piece(unsigned int x, unsigned int y) const {
-    return has_ship()? get_ship()->get_piece_character(x,y):to_character(EMPTY);
+char BoardSlot::get_piece() const {
+    return has_ship()? get_ship()->get_piece_character(position_) : to_character(EMPTY);
 }
 
 char BoardSlot::to_character(State state) {

@@ -4,6 +4,7 @@
 #include <memory>
 #include <ostream>
 #include <functional>
+#include "Point.h"
 
 //Class forwarding per risolvere una dipendenza circolare
 class Ship;
@@ -24,9 +25,11 @@ public:
 
     BoardSlot();
 
+    explicit BoardSlot(const Point &point);
+
     static char to_character(State state);
 
-    char get_piece(unsigned int x, unsigned int y) const;
+    char get_piece() const;
 
     void set_ship(const std::shared_ptr<Ship> &ship);
 
@@ -45,6 +48,7 @@ public:
 //I field privati sono stati dichiarati sotto perché doveva essere prima definita l'enumerazione State
 private:
     std::shared_ptr<Ship> ship_;
+    Point position_;
     State state_;
 };
 

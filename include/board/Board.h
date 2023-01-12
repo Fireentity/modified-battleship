@@ -4,6 +4,7 @@
 #include <regex>
 #include <iostream>
 #include <memory>
+#include <array>
 #include "Point.h"
 #include "BoardSlot.h"
 
@@ -94,6 +95,7 @@ public:
         Action &operator=(const Action &) = delete;
     };
 
+    static const std::string numbers;
     static const std::string columns;
     static const std::string separator;
     static const int height = 12;
@@ -105,14 +107,17 @@ public:
      * @param y ordinata del punto da controllare
      * @return ritorna true se il punto è all'esterno della board
      */
-    static bool is_out(unsigned int x, unsigned int y); //
+    static bool is_out(unsigned int x, unsigned int y);
 
     /**
      * Metodo per controllare se il punto è o meno all'interno della board.
      * @param point punto da controllare
      * @return ritorna true se il punto è all'esterno della board
      */
-    static bool is_out(const Point &point); //
+    static bool is_out(const Point &point);
+
+
+    Board();
 
     /**
      * Metodo per ottenere una reference ad un BoardSlot. Questo metodo non permette di cambiare lo stato interno
@@ -202,5 +207,4 @@ private:
     std::vector<std::shared_ptr<Ship>> ships_;
 
 };
-std::ostream &operator<<(std::ostream &os, const Board &board);
 #endif //DEFENCEBOARD_H

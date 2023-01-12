@@ -1,3 +1,4 @@
+#include <numeric>
 #include "board/Board.h"
 //Ship viene inclusa soltanto nel file .cpp per risolvere la dipendenza circolare
 #include "ship/Ship.h"
@@ -8,8 +9,9 @@
  * da un file di configurazione così da creare un sistema di localizzazione per i messaggi in output del programma.
  * Non potendo usare file esterni (non c'è scritto nelle specifiche del progetto) abbiamo risolto il problema così
  */
-const std::string Board::columns = "{} | {} | {} | {} | {} | {} | {} | {} | {} | {} | {} | {} | {} |\t\t";
-const std::string Board::separator = "+---+---+---+---+---+---+---+---+---+---+---+---+\t\t";
+const std::string Board::numbers = "\t  {0}   {1}   {2}   {3}   {4}   {5}   {6}   {7}   {8}  {9}  {10}  {11}  \t\t";
+const std::string Board::columns = "{12}\t| {0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | {8} | {9} | {10} | {11} |\t\t";
+const std::string Board::separator = "\t+---+---+---+---+---+---+---+---+---+---+---+---+\t\t";
 
 bool Board::is_out(unsigned int x, unsigned int y) {
     return x == 0 || y == 0 || x > Board::width || y > Board::height;
@@ -145,79 +147,43 @@ bool Board::has_ships() const {
     return !ships_.empty();
 }
 
-std::string Board::to_string() {
-    for(int i = 0; i < height; i++) {
-        utils::format(Board::columns,board_[i],[](const BoardSlot &slot) {
-            return std::string{BoardSlot::to_character(slot.get_state())};
+std::string Board::to_string() const {
+    std::stringstream ss{};
+    int numbers_to_print[width];
+    char chars_to_print[width];
+    std::iota(numbers_to_print, numbers_to_print + width, 1);
+
+    ss << utils::format(numbers, numbers_to_print) << utils::format(numbers, numbers_to_print) << std::endl;
+
+
+    for (const auto &i: board_) {
+
+        std::transform(i, i + width, chars_to_print, [](const BoardSlot &slot) {
+            return slot.get_piece();
         });
+
+        ss << utils::format(columns, chars_to_print);
+
+        std::transform(i, i + width, chars_to_print, [](const BoardSlot &slot) {
+            return BoardSlot::to_character(slot.get_state());
+        });
+
+        ss << utils::format(columns, chars_to_print) << std::endl << separator << "\t\t" << separator << std::endl;
     }
+
+
+    ss << separator << std::endl;
+    ss << "\t\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t " << "Griglia di attacco" << std::endl;
+
+    return ss.str();
 }
 
-std::ostream &operator<<(std::ostream &os, const Board &board) {
-
-
-    os << "\t  ";
-    for (int i = 0; i < Board::width; i++) {
-        if (i < 10) {
-            os << "  " + std::to_string(i + 1) + " ";
-        } else {
-            os << " " + std::to_string(i + 1) + " ";
-        }
-    }
-
-    os << "\t\t  ";
-    for (int i = 0; i < Board::width; i++) {
-        if (i < 10) {
-            os << "  " + std::to_string(i + 1) + " ";
-        } else {
-            os << " " + std::to_string(i + 1) + " ";
-        }
-    }
-
-    os << std::endl;
+Board::Board() {
     for (int i = 0; i < Board::height; i++) {
-
-        os << "\t  ";
-
-        for (int j = 0; j < 2 * Board::width; j++) {
-            os << "+---";
-            if ((j + 1) % Board::width == 0 && j != 0) {
-                os << "+\t\t  ";
-            }
-        }
-
-        os << std::endl;
-
-        os << "\t" << Board::number_to_letter(i + 1) << " ";
-
-        for (int j = 0; j < 2 * Board::width; j++) {
-            if (j < Board::width) {
-                os << "| " << board.at(j + 1, i + 1).get_piece(j + 1, i + 1) << " ";
-            } else {
-                if (j == Board::width) {
-                    os << Board::number_to_letter(i + 1) << " ";
-                }
-                os << "| " << BoardSlot::to_character(board.at(j + 1 - Board::width, i + 1).get_state()) << " ";
-            }
-            if ((j + 1) % Board::width == 0 && j != 0) {
-                os << "|\t\t";
-            }
-        }
-        os << std::endl;
-    }
-
-    os << "\t  ";
-
-    for (int j = 0; j < 2 * Board::width; j++) {
-        os << "+---";
-        if ((j + 1) % Board::width == 0 && j != 0) {
-            os << "+\t\t  ";
+        for (int j = 0; j < Board::width; j++) {
+            board_[i][j] = BoardSlot{{j, i}};
         }
     }
-    os << std::endl;
-    os << "\t\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t " << "Griglia di attacco" << std::endl;
-
-    return os;
 }
 
 Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board)

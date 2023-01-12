@@ -38,6 +38,8 @@ public:
 
     char get_piece_character(unsigned int x, unsigned int y) const;
 
+    char get_piece_character(const Point &position) const;
+
     virtual char get_damaged_character() const = 0;
 
     bool do_action(const Point &target) const;

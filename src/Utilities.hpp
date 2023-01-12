@@ -6,16 +6,26 @@
 
 namespace utils {
 
-    template <int dim,typename T>
-    std::string format(const std::string &replaced, const T (&replacements)[dim], const std::function<std::string(const T &)> &to_string) {
+    template <unsigned long dim>
+    std::string format(const std::string &replaced, const int (&replacements)[dim]) {
         std::string result {replaced};
-        for(int i = 0; i < dim;i++ ) {
-            std::string placeholder = "{" + std::to_string(i) + "}";
-            std::replace(result.begin(), result.end(), placeholder, to_string(replacements[i]));
+        for(int i = 0; i < 12; i++) {
+            std::stringstream placeholder{""} ;
+            placeholder << "{" << i << "}";
+            result = std::regex_replace(result,std::regex{placeholder.str()},std::to_string(replacements[i]));
         }
-        return result;
     }
 
-};
+    template <unsigned long dim>
+    std::string format(const std::string &replaced, const char (&replacements)[dim]) {
+        std::string result {replaced};
+        for(int i = 0; i < 12; i++) {
+            std::stringstream placeholder{""} ;
+            placeholder << "{" << i << "}";
+            result = std::regex_replace(result,std::regex{placeholder.str()},std::to_string(replacements[i]));
+        }
+    }
+
+}
 
 #endif //UTILITIES_H

@@ -89,6 +89,10 @@ char Ship::get_piece_character(unsigned int x, unsigned int y) const {
     throw std::invalid_argument("Unable to find piece for that point");
 }
 
+char Ship::get_piece_character(const Point &position) const {
+    return get_piece_character(position.get_x(), position.get_y());
+}
+
 const std::vector<ShipPiece> &Ship::get_pieces() const {
     return pieces_;
 }
