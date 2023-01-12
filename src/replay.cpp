@@ -1,19 +1,16 @@
+#include <iterator>
 #include "player/ReplayPlayer.h"
 #include "Game.h"
 
 
 
-std::vector<std::string> get_vector(const std::string &name_file_log) {
-    std::vector<std::string> moves;
+std::vector<std::string> get_moves(const std::string &name_file_log) {
     std::ifstream file(name_file_log);
     if (!file.good() || !file.is_open()) {
-        std::cout << "Error opening file!" << std::endl;
-        return {}; //ritorna un vettore vuoto
+        throw std::invalid_argument("Cannot open file");
     }
-    std::string line;
-    while (std::getline(file, line)) {
-        moves.push_back(line);
-    }
+    std::istream_iterator<std::string> start(file), end;
+    std::vector<std::string> moves(start, end);
     file.close();
     return moves;
 }
@@ -31,13 +28,13 @@ int main(int argc, char *argv[]) {
 
     if (command == "v" && argc == 3) {
         std::string name_file_log(argv[2]);
-        std::vector<std::string> moves = get_vector(name_file_log);
+        std::vector<std::string> moves = get_moves(name_file_log);
         if (moves.empty()) {
             std::cout
                     << "C'è un problema nella lettura del file, riprovare inserendo come argomento il nome di un file valido"
                     << std::endl;
         } else {
-            Game replay = Game::make_replay(moves, false, "");
+            Game replay = Game::make_replay(std::make_shared<ConsoleLogger>(),moves);
             replay.start_loop();
         }
     } else if (command == "f" && argc == 4) {
@@ -47,13 +44,13 @@ int main(int argc, char *argv[]) {
             std::cout<<"Il file di output per il replay non è valido!"<<std::endl;
             return 0;
         }
-        std::vector<std::string> moves = get_vector(name_file_log);
+        std::vector<std::string> moves = get_moves(name_file_log);
         if (moves.empty()) {
             std::cout
                     << "C'è un problema nella lettura del file, riprovare inserendo come argomento il nome di un file valido"
                     << std::endl;
         } else {
-            Game replay = Game::make_replay(moves, true, name_file_output_replay);
+            Game replay = Game::make_replay(std::make_shared<FileLogger>(name_file_output_replay),moves);
             replay.start_loop();
         }
     } else {

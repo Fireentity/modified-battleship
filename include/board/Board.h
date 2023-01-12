@@ -8,6 +8,7 @@
 #include "Point.h"
 #include "BoardSlot.h"
 
+//TODO dire perchè non abbiamo una attack board e una defence board
 /**
  * Questa classe rappresenta la tabella di gioco e permette di modificare lo stato interno delle navi in modo sicuro
  * senza che venga dato l'accesso all'esterno. Anche se implementata come matrice si è preferito usare un sistema
@@ -98,8 +99,8 @@ public:
     static const std::string numbers;
     static const std::string columns;
     static const std::string separator;
-    static const int height = 12;
-    static const int width = 12;
+    static constexpr int width = 12;
+    static constexpr int height = 12;
 
     /**
      * Metodo per controllare se il punto è o meno all'interno della board.
@@ -126,7 +127,7 @@ public:
      * @param y ordinata dello slot
      * @return ritorna una const reference ad un BoardSlot
      */
-    const BoardSlot &at(unsigned int x, unsigned int y) const; //
+    const BoardSlot &at(unsigned int x, unsigned int y) const;
 
     /**
      * Metodo per ottenere una reference ad un BoardSlot. Questo metodo non permette di cambiare lo stato interno
@@ -134,7 +135,7 @@ public:
      * @param point punto dello slot
      * @return ritorna una const reference ad un BoardSlot
      */
-    const BoardSlot &at(const Point &point) const; //
+    const BoardSlot &at(const Point &point) const;
 
     /**
      * Metodo per ottenere una lista delle istanze delle navi presenti nella board
@@ -151,20 +152,28 @@ public:
      */
     void remove_state(BoardSlot::State state);
 
-    //Viene creata una copia della nave così da impedire che lo stato interno della nave possa essere
-    //modificato dall'esterno. Infatti non si possono ottenere le istanze di Ship contenute in Board
+    //TODO commentare questo metodo
+    /**
+     *
+     * @param ship
+     * @return
+     */
     bool insert_ship(const std::shared_ptr<Ship> &ship);
 
     /**
      * Metodo che controlla se sono rimaste delle navi corazzate nella board. Serve per controllare se la condizione
      * di vittoria è soddisfatta
-     * @return
+     * @return true se rimangono navi nella board false altrimenti
      */
     bool has_ships() const;
 
-    //TODO metodo duplicato
-    static std::string number_to_letter(int n);
-
+    /**
+     * Metodo per poter mandare in output il contenuto della board. Si è deciso di usare un metodo to_string invece
+     * che l'overloading dell'operatore di output per evitare di scrivere codice duplicato.
+     * Infatti l'operatore di output di ofstream non accetta ostream come parametro di input quindi è impossibile
+     * fare: file_stream << board
+     * @return la stringa contente la attackboard e la defenceboard
+     */
     std::string to_string() const;
 
 protected:

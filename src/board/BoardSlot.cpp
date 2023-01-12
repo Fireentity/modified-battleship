@@ -38,8 +38,12 @@ bool BoardSlot::has_ship() const {
     return ship_ != nullptr;
 }
 
-char BoardSlot::get_piece() const {
+char BoardSlot::get_defence_char() const {
     return has_ship()? get_ship()->get_piece_character(position_) : to_character(EMPTY);
+}
+
+char BoardSlot::get_attack_char() const {
+    return to_character(get_state());
 }
 
 char BoardSlot::to_character(State state) {

@@ -13,9 +13,11 @@
 class Human : public Player {
 private:
     ShipPlaceCommand place_command_;
+    const std::shared_ptr<Logger> logger_;
 public:
     Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board,
-          const std::shared_ptr<Logger> &logger, const std::function<void()> &change_turn);
+          const std::shared_ptr<Logger> &moves_logger, const std::shared_ptr<Logger> &output_logger,
+          const std::function<void()> &change_turn);
 
     void do_move() override;
 

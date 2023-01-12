@@ -3,7 +3,22 @@
 const unsigned int Game::maxMoves = 30;
 const std::string Game::logFileName = "moves.txt";
 
-Game::Game(GameType game_type, const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
+Game::Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
+           const std::shared_ptr<Logger> &logger, const std::shared_ptr<Logger> &output_logger) : turn_(rand() % 2),
+                                                                                                  moves_{0} {
+    //Viene eseguito in caso di successo
+    std::function<void()> on_action_success = [this]() {
+        //Quando viene eseguito il comando action viene cambiato il turno
+        this->turn_ = !this->turn_;
+        //Incrementa il contatore delle mosse
+        moves_++;
+    };
+
+    player_1_ = std::make_shared<AI>(board_1, board_2, logger, on_action_success);
+    player_2_ = std::make_shared<Human>(board_2, board_1, logger, output_logger, on_action_success);
+}
+
+Game::Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
            const std::shared_ptr<Logger> &logger) : turn_(rand() % 2), moves_{0} {
     //Viene eseguito in caso di successo
     std::function<void()> on_action_success = [this]() {
@@ -13,20 +28,29 @@ Game::Game(GameType game_type, const std::shared_ptr<Board> &board_1, const std:
         moves_++;
     };
 
-    switch (game_type) {
-        case GameType::HUMAN_VS_AI: {
-            player_1_ = std::make_shared<AI>(board_1, board_2, logger, on_action_success);
-            player_2_ = std::make_shared<Human>(board_2, board_1, logger, on_action_success);
-            break;
-        }
-        case GameType::AI_VS_AI: {
-            player_1_ = std::make_shared<AI>(board_1, board_2, logger, on_action_success);
-            player_2_ = std::make_shared<AI>(board_2, board_1, logger, on_action_success);
-            break;
-        }
-
-    }
+    player_1_ = std::make_shared<AI>(board_1, board_2, logger, on_action_success);
+    player_2_ = std::make_shared<AI>(board_2, board_1, logger, on_action_success);
 }
+
+Game::Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
+           const std::shared_ptr<Logger> &moves_logger,
+           const std::shared_ptr<Logger> &output_logger,
+           const std::shared_ptr<std::vector<std::string>::const_iterator> &moves_iterator,
+           const std::vector<std::string>::const_iterator &end_iterator) : turn_(true), moves_{0} {
+
+    //Viene eseguito in caso di successo
+    std::function<void()> on_action_success = [this]() {
+        //Quando viene eseguito il comando action viene cambiato il turno
+        this->turn_ = !this->turn_;
+        //Incrementa il contatore delle mosse
+        moves_++;
+    };
+    player_1_ = std::make_shared<ReplayPlayer>(board_1, board_2, moves_logger, output_logger, on_action_success,
+                                               moves_iterator, end_iterator);
+    player_2_ = std::make_shared<ReplayPlayer>(board_2, board_1, moves_logger, output_logger, on_action_success,
+                                               moves_iterator, end_iterator);
+}
+
 
 void Game::start_loop() {
     if (turn_) {
@@ -59,13 +83,13 @@ void Game::start_loop() {
     std::cout << "Le mosse sono finite quindi l'esito è un pareggio" << std::endl;
 }
 
-
 Game Game::make_human_vs_ai() {
     srand(time(nullptr));
     std::shared_ptr<Board> board_1 = std::make_shared<Board>();
     std::shared_ptr<Board> board_2 = std::make_shared<Board>();
-    std::shared_ptr<Logger> logger = std::make_shared<FileLogger>(logFileName);
-    return Game{GameType::HUMAN_VS_AI, board_1, board_2, logger};
+    std::shared_ptr<Logger> moves_logger = std::make_shared<FileLogger>(logFileName);
+    std::shared_ptr<Logger> output_logger = std::make_shared<ConsoleLogger>();
+    return Game{board_1, board_2, moves_logger, output_logger};
 }
 
 Game Game::make_ai_vs_ai() {
@@ -73,35 +97,16 @@ Game Game::make_ai_vs_ai() {
     std::shared_ptr<Board> board_1 = std::make_shared<Board>();
     std::shared_ptr<Board> board_2 = std::make_shared<Board>();
     std::shared_ptr<Logger> logger = std::make_shared<FileLogger>(logFileName);
-    return Game{GameType::AI_VS_AI, board_1, board_2, logger};
+    return Game{board_1, board_2, logger};
 }
 
-Game::Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
-           const std::shared_ptr<Logger> &logger,
-           const std::shared_ptr<std::vector<std::string>::const_iterator> &moves_iterator,
-           const std::vector<std::string>::const_iterator &end_iterator,
-           const std::string &file_name) : turn_(true), moves_{0} { //TODO vedere se serve che il player 1 di una vecchia partita rimanga il player 1 del replay
-
-    //Viene eseguito in caso di successo
-    std::function<void()> on_action_success = [this]() {
-        //Quando viene eseguito il comando action viene cambiato il turno
-        this->turn_ = !this->turn_;
-        //Incrementa il contatore delle mosse
-        moves_++;
-    };
-    player_1_ = std::make_shared<ReplayPlayer>(board_1, board_2, logger, on_action_success, moves_iterator,
-                                               end_iterator, file_name);
-    player_2_ = std::make_shared<ReplayPlayer>(board_2, board_1, logger, on_action_success, moves_iterator,
-                                               end_iterator, file_name);
-}
-
-Game Game::make_replay(const std::shared_ptr<Logger> &logger, const std::vector<std::string> &moves,
-                       const std::string &file_name) { //TODO verificare che il giocatore con le navi A esegua il comando del player A e non B
+Game Game::make_replay(const std::shared_ptr<Logger> &output_logger, const std::vector<std::string> &moves) {
     srand(time(nullptr));
     std::shared_ptr<Board> board_1 = std::make_shared<Board>();
     std::shared_ptr<Board> board_2 = std::make_shared<Board>();
+    std::shared_ptr<Logger> moves_logger = std::make_shared<FileLogger>(logFileName);
     auto moves_iterator = std::make_shared<std::vector<std::string>::const_iterator>(moves.begin());
-    return {board_1, board_2, logger, moves_iterator, moves.end(), file_name};
+    return Game{board_1, board_2, moves_logger, output_logger, moves_iterator, moves.end()};
 }
 
 

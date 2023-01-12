@@ -17,19 +17,13 @@
 
 class Game {
 public:
-    enum GameType {
-        AI_VS_AI,
-        HUMAN_VS_AI //HUMAN è il player_2
-    };
-
     //Si usa (static method factory design pattern) per creare le possibili configurazioni
     //di gioco: Human vs AI, AI vs AI ma si potrebbe implementare anche Human vs Human
     static Game make_human_vs_ai();
 
     static Game make_ai_vs_ai();
 
-    static Game make_replay(const std::shared_ptr<Logger> &logger, const std::vector<std::string> &moves,
-                            const std::string &file_name);
+    static Game make_replay(const std::shared_ptr<Logger> &output_logger, const std::vector<std::string> &moves);
 
     void start_loop();
 
@@ -42,14 +36,17 @@ private:
     std::shared_ptr<Player> player_1_;
     std::shared_ptr<Player> player_2_;
 
-    Game(GameType game_type, const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
-         const std::shared_ptr<Logger> &logger);
+    Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
+         const std::shared_ptr<Logger> &moves_logger, const std::shared_ptr<Logger> &output_logger);
 
     Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
-         const std::shared_ptr<Logger> &logger,
+         const std::shared_ptr<Logger> &moves_logger);
+
+    Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
+         const std::shared_ptr<Logger> &moves_logger,
+         const std::shared_ptr<Logger> &output_logger,
          const std::shared_ptr<std::vector<std::string>::const_iterator> &moves_iterator,
-         const std::vector<std::string>::const_iterator &end_iterator, bool print_in_terminal,
-         const std::string &file_name);
+         const std::vector<std::string>::const_iterator &end_iterator);
 };
 
 #endif //GAME_H

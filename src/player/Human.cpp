@@ -7,19 +7,22 @@
 //per semplificare e incapsulare la scelta del comando corretto in base all'input a runtime.
 //In questo caso il comando viene usato una sola volta.
 Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board,
-             const std::shared_ptr<Logger> &logger, const std::function<void()> &change_turn) : Player{board, enemy_board},
-                                                      place_command_{board, enemy_board, logger} {
+             const std::shared_ptr<Logger> &moves_logger, const std::shared_ptr<Logger> &output_logger,
+             const std::function<void()> &change_turn) : Player{board, enemy_board},
+                                                         place_command_{board, enemy_board, moves_logger},
+                                                         logger_{output_logger} {
 
-    register_command(std::make_shared<PrintCommand>(board));
+    register_command(std::make_shared<PrintCommand>(board,output_logger));
     register_command(std::make_shared<RemoveHitCommand>(board));
     register_command(std::make_shared<RemoveMissedCommand>(board));
     register_command(std::make_shared<RemoveRevealedCommand>(board));
-    register_command(std::make_shared<ShipActionCommand>(board,logger, change_turn));
+    register_command(std::make_shared<ShipActionCommand>(board, moves_logger, change_turn));
 }
 
 void Human::place_ships_inside_board() {
+    logger_->log(board_->to_string());
+
     int i = 0;
-    std::cout<<(*board_);
     while (i < ShipPlaceCommand::availableShips.size()) {
         std::cout << "Inserisci le coordinate della prua e della poppa ["
                   << Ship::to_string(ShipPlaceCommand::availableShips[i])
@@ -31,7 +34,7 @@ void Human::place_ships_inside_board() {
         std::transform(input.begin(), input.end(), input.begin(), toupper);
         if (place_command_.execute(input)) {
             i++;
-            std::cout<<(*board_);
+            logger_->log(board_->to_string());
         } else {
             std::cout << "Posiziona orizzontalmente o verticalmente la nave usando le coordinate di poppa e prua "
                       << std::endl;
