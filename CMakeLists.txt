@@ -52,6 +52,8 @@ add_executable(replay
         src/ship/Supporter.cpp
         src/ship/Submarine.cpp
         src/commands/Command.cpp
+        src/logger/ConsoleLogger.cpp
+        src/logger/FileLogger.cpp
         src/commands/RemoveRevealedCommand.cpp
         src/commands/RemoveHitCommand.cpp
         src/commands/RemoveMissedCommand.cpp

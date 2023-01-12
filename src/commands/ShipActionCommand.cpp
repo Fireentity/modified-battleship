@@ -19,7 +19,7 @@ bool ShipActionCommand::execute_action(const Point &ship_center, const Point &ta
     }
 
     if (ship->do_action(target)) {
-        logger_->log(ship_center.to_string() + " " + target.to_string());
+        logger_->log(ship_center.to_string() + " " + target.to_string()).log("\n");
         execute_then_();
         return true;
     }

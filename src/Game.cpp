@@ -104,11 +104,7 @@ Game Game::make_replay(const std::shared_ptr<Logger> &output_logger, const std::
     srand(time(nullptr));
     std::shared_ptr<Board> board_1 = std::make_shared<Board>();
     std::shared_ptr<Board> board_2 = std::make_shared<Board>();
-    std::shared_ptr<Logger> moves_logger = std::make_shared<FileLogger>(logFileName);
+    std::shared_ptr<Logger> moves_logger = std::make_shared<ConsoleLogger>();
     auto moves_iterator = std::make_shared<std::vector<std::string>::const_iterator>(moves.begin());
     return Game{board_1, board_2, moves_logger, output_logger, moves_iterator, moves.end()};
 }
-
-
-
-

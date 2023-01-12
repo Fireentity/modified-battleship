@@ -1,4 +1,3 @@
-#include <numeric>
 #include "board/Board.h"
 //Ship viene inclusa soltanto nel file .cpp per risolvere la dipendenza circolare
 #include "ship/Ship.h"
@@ -9,9 +8,9 @@
  * da un file di configurazione così da creare un sistema di localizzazione per i messaggi in output del programma.
  * Non potendo usare file esterni (non c'è scritto nelle specifiche del progetto) abbiamo risolto il problema così
  */
-const std::string Board::numbers = "\t  %0%   %1%   %2%   %3%   %4%   %5%   %6%   %7%   %8%  %9%  %10%  %11%  \t\t";
-const std::string Board::columns = "%12%\t| %0% | %1% | %2% | %3% | %4% | %5% | %6% | %7% | %8% | %9% | %10% | %11% |\t\t";
-const std::string Board::separator = "\t" + utils::repeat("+---", Board::width) + "+\t\t";
+const std::string Board::numbers = "    %0%   %1%   %2%   %3%   %4%   %5%   %6%   %7%   %8%  %9%  %10%  %11%  \t\t";
+const std::string Board::columns = "%12% | %0% | %1% | %2% | %3% | %4% | %5% | %6% | %7% | %8% | %9% | %10% | %11% |\t\t";
+const std::string Board::separator = "  " + utils::repeat("+---", Board::width) + "+\t\t";
 
 Board::Board() {
     for (int i = 0 ;i < Board::height; i++) {
@@ -175,7 +174,7 @@ std::string Board::to_string() const {
         ss << utils::format(columns, chars_to_print) << std::endl << separator << separator << std::endl;
     }
 
-    ss << "\t\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t " << "Griglia di attacco" << std::endl;
+    ss << "\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t " << "Griglia di attacco" << std::endl;
 
     return ss.str();
 }

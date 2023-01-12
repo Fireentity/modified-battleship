@@ -5,7 +5,10 @@
 
 class Logger {
 public:
-    virtual void log(const std::string &log) const = 0;
+    virtual const Logger & log(const std::string &log) const = 0;
+    Logger() = default;
+    Logger(Logger &) = delete;
+    Logger &operator=(const Logger &) = delete;
 };
 
 #endif //LOGGER_H

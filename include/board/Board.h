@@ -4,6 +4,7 @@
 #include <regex>
 #include <iostream>
 #include <memory>
+#include <numeric>
 #include <array>
 #include "Point.h"
 #include "BoardSlot.h"

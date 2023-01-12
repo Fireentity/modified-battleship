@@ -4,20 +4,24 @@
 
 
 
-std::vector<std::string> get_moves(const std::string &name_file_log) {
+std::vector<std::string> get_moves_or_empty(const std::string &name_file_log) {
     std::ifstream file(name_file_log);
     if (!file.good() || !file.is_open()) {
-        throw std::invalid_argument("Cannot open file");
+        std::cout << "Error opening file!" << std::endl;
+        return {}; //ritorna un vettore vuoto
     }
-    std::istream_iterator<std::string> start(file), end;
-    std::vector<std::string> moves(start, end);
+    std::vector<std::string> moves;
+    std::string line;
+    while (std::getline(file, line)) {
+        moves.push_back(line);
+    }
     file.close();
     return moves;
 }
 
 int main(int argc, char *argv[]) {
 
-    std::regex regex{R"(([\w-_\.]+).txt)"};
+    std::regex regex{R"(([\w\-_\.]+).txt)"};
 
     if (argc != 3 && argc != 4) { //argc tiene conto anche del nome del programma stesso
         std::cout << "Argomento da riga di comando non dato o non nel numero richiesto" << std::endl;
@@ -28,7 +32,7 @@ int main(int argc, char *argv[]) {
 
     if (command == "v" && argc == 3) {
         std::string name_file_log(argv[2]);
-        std::vector<std::string> moves = get_moves(name_file_log);
+        std::vector<std::string> moves = get_moves_or_empty(name_file_log);
         if (moves.empty()) {
             std::cout
                     << "C'è un problema nella lettura del file, riprovare inserendo come argomento il nome di un file valido"
@@ -44,7 +48,7 @@ int main(int argc, char *argv[]) {
             std::cout<<"Il file di output per il replay non è valido!"<<std::endl;
             return 0;
         }
-        std::vector<std::string> moves = get_moves(name_file_log);
+        std::vector<std::string> moves = get_moves_or_empty(name_file_log);
         if (moves.empty()) {
             std::cout
                     << "C'è un problema nella lettura del file, riprovare inserendo come argomento il nome di un file valido"

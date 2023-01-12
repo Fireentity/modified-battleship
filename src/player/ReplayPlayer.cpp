@@ -8,7 +8,7 @@ void ReplayPlayer::place_ships_inside_board() {
             i++;
         }
     }
-    logger_->log(board_->to_string());
+    logger_->log(board_->to_string()).log("\n");
 }
 
 void ReplayPlayer::do_move() {
@@ -18,7 +18,7 @@ void ReplayPlayer::do_move() {
         } else {
             throw std::invalid_argument("Invalid move from file!");
         }
-        logger_->log(board_->to_string());
+        logger_->log(board_->to_string()).log("\n");
     }
 }
 
@@ -30,6 +30,6 @@ ReplayPlayer::ReplayPlayer(const std::shared_ptr<Board> &board, const std::share
                                                            place_command_{board, enemy_board, moves_logger},
                                                            moves_iterator_{begin},
                                                            end_iterator_{end},
-                                                           logger_{moves_logger} {
+                                                           logger_{output_logger} {
     register_command(std::make_shared<ShipActionCommand>(board, moves_logger, change_turn));
 }

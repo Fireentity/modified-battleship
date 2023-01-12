@@ -7,7 +7,7 @@
 namespace utils {
 
     static constexpr char firstLetter = 'A';
-    static constexpr char letterToAvoid = 'J';
+    static constexpr char firstLetterToAvoid = 'J';
 
     std::string format(const std::string &replaced, const std::string &placeholder, const std::string &replacement) {
         return std::regex_replace(replaced, std::regex{placeholder}, replacement);
@@ -45,7 +45,7 @@ namespace utils {
 
     char number_to_letter(int n) {
         char letter = firstLetter + (n - 1);
-        if (letter >= letterToAvoid) {
+        if (letter >= firstLetterToAvoid) {
             letter += 2;
         }
         return letter;
