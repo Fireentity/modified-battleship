@@ -10,7 +10,7 @@ class Supporter : public Ship {
 public:
     static const char damagedCharacter;
     static const char character;
-    static const unsigned short supporterShipLength;
+    static const unsigned short length;
     static const int breadth;
 
     Supporter(const Point &top_left_corner, bool horizontal, const std::shared_ptr<Board> &board,

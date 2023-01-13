@@ -8,8 +8,13 @@ class FileLogger : public Logger {
 private:
     const std::string file_name_;
 public:
+    /**
+     *
+     * @param file_name il nome del file sul quale loggare
+     */
     explicit FileLogger(const std::string &file_name);
-    void log(const std::string &log) const override;
+
+    const Logger & log(const std::string &log) const override;
 };
 
 #endif //FILELOGGER_H

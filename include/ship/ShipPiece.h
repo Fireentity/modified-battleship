@@ -11,6 +11,10 @@ private:
     bool hit_ = false;
 public:
 
+    /**
+     *
+     * @param position la posizione del pezzo di nave
+     */
     explicit ShipPiece(const Point &position);
 
     ShipPiece();

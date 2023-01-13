@@ -2,17 +2,17 @@
 
 const char Armoured::damagedCharacter = 'c';
 const char Armoured::character = 'C';
-const unsigned short Armoured::armouredShipLength = 5;
+const unsigned short Armoured::length = 5;
 const int Armoured::breadth = 1;
 
 
 Armoured::Armoured(const Point &top_left_corner, bool horizontal, const std::shared_ptr<Board> &board,
                    const std::shared_ptr<Board> &enemy_board) : Ship(top_left_corner,
-                                                                     horizontal ? Armoured::armouredShipLength
+                                                                     horizontal ? Armoured::length
                                                                                 : Armoured::breadth,
                                                                      horizontal ? Armoured::breadth
-                                                                                : Armoured::armouredShipLength,
-                                                                     Armoured::armouredShipLength,
+                                                                                : Armoured::length,
+                                                                     Armoured::length,
                                                                      std::make_shared<HitAction>(board, enemy_board)) {
 }
 

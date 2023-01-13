@@ -63,33 +63,36 @@ bool Board::insert_ship(const std::shared_ptr<Ship> &ship) {
     if (unable_to_place) {
         return false;
     }
-    std::for_each(ship->get_pieces().begin(), ship->get_pieces().end(), [this, ship](const ShipPiece &piece) {
+
+    for (auto &piece: ship->get_pieces()) {
         this->board_[piece.get_position().get_y() - 1][piece.get_position().get_x() - 1].set_ship(ship);
-    });
+    }
+
     ships_.push_back(ship);
     return true;
 }
 
+//TODO controllare che funzioni
 bool Board::move_ship(const Point &ship_center, const Point &destination) {
-    //Le coordinate vengono invertite perché si è deciso di usare come riferimento le ascisse e le ordinate
-    //di un piano cartesiano che sono invertite rispetto ad una matrice
-    BoardSlot &slot = get_slot(ship_center);
+
     //Controlliamo ship_center sia effettivamente il centro della nave da spostare
-    std::shared_ptr<Ship> ship = slot.get_ship();
+    std::shared_ptr<Ship> ship = get_slot(ship_center).get_ship();
     if (ship->get_center() != ship_center) {
         return false;
     }
 
     Point translation = destination - ship_center;
 
+    //Creo un vettore già della dimensione giusta per evitare un resizing
     std::vector<Point> positions{ship->get_pieces_amount()};
 
-    auto iter = positions.begin();
-
-    slot.get_ship()->for_each_piece([&iter, translation](ShipPiece &piece) {
-        (*iter) = piece.get_position() + translation;
-        iter++;
-    });
+    //Calcolo le nuove posizioni dei pezzi della nave applicando loro la traslazione calcolata tra
+    //la posizione precedente e la destinazione
+    //Salvo le nuove posizioni in un vettore
+    std::transform(ship->get_pieces().begin(), ship->get_pieces().end(), std::back_inserter(positions),
+                   [translation](const ShipPiece &piece) {
+                       return piece.get_position() + translation;
+                   });
 
     //Controllo che non ci siano altre navi nella destinazione
     //Se c'è una nave controllo che non sia quella che sto spostando
@@ -102,17 +105,15 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
         return false;
     }
 
+    //Rimuove la nave dalla precedente posizione
     for (auto &piece: ship->get_pieces()) {
         get_slot(piece.get_position()).remove_ship();
     }
 
+    //iterator del vettore delle nuove posizioni calcolate
+    auto iter = positions.begin();
 
-    iter = positions.begin();
-
-    for (auto &piece: ship->get_pieces()) {
-        get_slot(piece.get_position()).remove_ship();
-    }
-    //TODO commenta sta robbbbba
+    //Muove i pezzi di nave
     for (auto &piece: ship->get_pieces()) {
         Point piece_destination = *iter;
         piece.move_to(piece_destination);
@@ -120,37 +121,9 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
         iter++;
     }
 
-
     ship->set_center(destination);
 
     return true;
-}
-
-const std::vector<std::shared_ptr<Ship>> &Board::get_ships() const {
-    return ships_;
-}
-
-
-void Board::remove_state(BoardSlot::State state) {
-    for (int i = 1; i <= height; i++) {
-        for (int j = 1; j <= width; j++) {
-            if (get_slot(i, j).get_state() == state) {
-                get_slot(i, j).set_state(BoardSlot::EMPTY);
-            }
-        }
-    }
-}
-
-void Board::remove_ship(const Point &point) {
-    std::shared_ptr<Ship> ship = get_slot(point).get_ship();
-    ship->for_each_piece([this](ShipPiece &piece) {
-        get_slot(piece.get_position()).remove_ship();
-    });
-    ships_.erase(std::find(ships_.begin(), ships_.end(), ship));
-}
-
-bool Board::has_ships() const {
-    return !ships_.empty();
 }
 
 std::string Board::to_string() const {
@@ -186,6 +159,34 @@ std::string Board::to_string() const {
     ss << "\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t  " << "Griglia di attacco" << std::endl;
 
     return ss.str();
+}
+
+
+const std::vector<std::shared_ptr<Ship>> &Board::get_ships() const {
+    return ships_;
+}
+
+void Board::remove_state(BoardSlot::State state) {
+
+    for (int i = 1; i <= height; i++) {
+        for (int j = 1; j <= width; j++) {
+            if (get_slot(i, j).get_state() == state) {
+                get_slot(i, j).set_state(BoardSlot::EMPTY);
+            }
+        }
+    }
+}
+
+void Board::remove_ship(const Point &point) {
+    std::shared_ptr<Ship> ship = get_slot(point).get_ship();
+    for (auto &piece: ship->get_pieces()) {
+        get_slot(piece.get_position()).remove_ship();
+    }
+    ships_.erase(std::find(ships_.begin(), ships_.end(), ship));
+}
+
+bool Board::has_ships() const {
+    return !ships_.empty();
 }
 
 Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board)

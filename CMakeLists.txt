@@ -6,10 +6,13 @@ include_directories(include)
 
 add_executable(battaglia_navale
         src/battleship.cpp
-        src/ship/Ship.cpp
         src/board/Board.cpp
         src/board/BoardSlot.cpp
+        src/ship/Ship.cpp
         src/ship/ShipPiece.cpp
+        src/ship/Armoured.cpp
+        src/ship/Supporter.cpp
+        src/ship/Submarine.cpp
         src/Game.cpp
         src/player/Player.cpp
         src/player/AI.cpp
@@ -18,9 +21,6 @@ add_executable(battaglia_navale
         src/actions/HitAction.cpp
         src/actions/MoveAndHealAction.cpp
         src/actions/MoveAndRevealAction.cpp
-        src/ship/Armoured.cpp
-        src/ship/Supporter.cpp
-        src/ship/Submarine.cpp
         src/commands/Command.cpp
         src/commands/RemoveRevealedCommand.cpp
         src/commands/RemoveHitCommand.cpp
@@ -37,10 +37,13 @@ add_executable(battaglia_navale
 
 add_executable(replay
         src/replay.cpp
-        src/ship/Ship.cpp
         src/board/Board.cpp
         src/board/BoardSlot.cpp
+        src/ship/Ship.cpp
         src/ship/ShipPiece.cpp
+        src/ship/Armoured.cpp
+        src/ship/Supporter.cpp
+        src/ship/Submarine.cpp
         src/Game.cpp
         src/player/Player.cpp
         src/player/AI.cpp
@@ -49,9 +52,6 @@ add_executable(replay
         src/actions/HitAction.cpp
         src/actions/MoveAndHealAction.cpp
         src/actions/MoveAndRevealAction.cpp
-        src/ship/Armoured.cpp
-        src/ship/Supporter.cpp
-        src/ship/Submarine.cpp
         src/commands/Command.cpp
         src/commands/RemoveRevealedCommand.cpp
         src/commands/RemoveHitCommand.cpp

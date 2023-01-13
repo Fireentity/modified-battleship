@@ -10,7 +10,7 @@ class Submarine: public Ship {
 public:
     static const char damagedCharacter;
     static const char character;
-    static const unsigned short submarineLength;
+    static const unsigned short length;
     static const int breadth;
 
     Submarine(const Point &point, const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);

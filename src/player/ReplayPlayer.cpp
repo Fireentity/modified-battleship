@@ -8,31 +8,30 @@ void ReplayPlayer::place_ships_inside_board() {
             i++;
         }
     }
-    logger_->log(board_->to_string());
-    logger_->log("\n");
+    logger_->log(board_->to_string()).log("\n");
 }
 
 void ReplayPlayer::do_move() {
+    //Controllo che le mosse non siano finite
     if (*moves_iterator_ < end_iterator_) {
         if (dispatch_command(**moves_iterator_)) {
+            //Incremento l'iteratore delle mosse dereferenziando il puntatore salvato come field
             (*moves_iterator_)++;
         } else {
             throw std::invalid_argument("Invalid move from file!");
         }
-        logger_->log(board_->to_string());
-        logger_->log("\n");
+        //Loggo la mossa
+        logger_->log(board_->to_string()).log("\n");
     }
 }
 
 ReplayPlayer::ReplayPlayer(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board,
                            const std::shared_ptr<Logger> &moves_logger, const std::shared_ptr<Logger> &output_logger,
                            const std::function<void()> &change_turn,
-                           const std::shared_ptr<std::vector<std::string>::const_iterator> &begin,
-                           const std::vector<std::string>::const_iterator &end) : Player{board, enemy_board},
-                                                                                  place_command_{board, enemy_board,
-                                                                                                 moves_logger},
-                                                                                  moves_iterator_{begin},
-                                                                                  end_iterator_{end},
-                                                                                  logger_{output_logger} {
+                           const std::shared_ptr<std::vector<std::string>::const_iterator> &moves_iterator,
+                           const std::vector<std::string>::const_iterator &end)
+        : Player{board, enemy_board}, place_command_{board, enemy_board, moves_logger}, moves_iterator_{moves_iterator},
+          end_iterator_{end},
+          logger_{output_logger} {
     register_command(std::make_shared<ShipActionCommand>(board, moves_logger, change_turn));
 }

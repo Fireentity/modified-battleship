@@ -7,7 +7,7 @@
 
 class ConsoleLogger : public Logger {
 public:
-    void log(const std::string &log) const override;
+    const Logger & log(const std::string &log) const override;
 };
 
 #endif //CONSOLELOGGER_H

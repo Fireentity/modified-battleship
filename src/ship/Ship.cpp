@@ -19,51 +19,6 @@ Ship::Ship(const Point &top_left_corner, int width, int height, unsigned short p
     }
 }
 
-bool Ship::instantiate_ship(Ship::Ships ship_type, const Point &top_left_corner, bool horizontal,
-                            const std::shared_ptr<Board> &board,
-                            const std::shared_ptr<Board> &enemy_board) {
-    switch (ship_type) {
-        case Ships::ARMOURED: {
-            return board->insert_ship(std::make_shared<Armoured>(top_left_corner, horizontal, board, enemy_board));
-        }
-        case Ships::SUPPORT:
-            return board->insert_ship(std::make_shared<Supporter>(top_left_corner, horizontal, board, enemy_board));
-        case Ships::SUBMARINE:
-            return board->insert_ship(std::make_shared<Submarine>(top_left_corner, board, enemy_board));
-    }
-    throw std::invalid_argument("Invalid ship type");
-}
-
-int Ship::get_length(Ship::Ships ship_type) {
-    switch (ship_type) {
-        case Ship::Ships::ARMOURED:
-            return Armoured::armouredShipLength;
-        case Ship::Ships::SUPPORT:
-            return Supporter::supporterShipLength;
-        case Ship::Ships::SUBMARINE:
-            return Submarine::submarineLength;
-    }
-    throw std::invalid_argument("Invalid ship type");
-}
-
-std::string Ship::to_string(Ship::Ships ship) {
-    switch (ship) {
-        case Ship::Ships::ARMOURED:
-            return "Corazzata";
-        case Ship::Ships::SUPPORT:
-            return "Supporto";
-        case Ship::Ships::SUBMARINE:
-            return "Sottomarino";
-    }
-    throw std::invalid_argument("Invalid ship type");
-}
-
-void Ship::for_each_piece(const std::function<void(ShipPiece &)> &on_iteration) {
-    for (auto &piece: pieces_) {
-        on_iteration(piece);
-    }
-}
-
 bool Ship::do_action(const Point &target) const {
     return action_->do_action(get_center(), target);
 }
@@ -82,7 +37,6 @@ int Ship::get_health() const {
 
 char Ship::get_piece_character(unsigned int x, unsigned int y) const {
     return get_piece(x, y).is_hit() ? get_damaged_character() : get_character();
-    throw std::invalid_argument("Unable to find piece for that point");
 }
 
 char Ship::get_piece_character(const Point &position) const {
@@ -115,8 +69,7 @@ void Ship::heal() {
     health_ = max_health_;
 }
 
-const ShipPiece &Ship::get_piece(unsigned int x, unsigned int y) const {
-
+ShipPiece &Ship::get_piece(unsigned int x, unsigned int y) {
     auto iter = std::find_if(pieces_.begin(), pieces_.end(), [x, y](const ShipPiece &piece) {
         return piece.get_position().get_x() == x && piece.get_position().get_y() == y;
     });
@@ -124,8 +77,4 @@ const ShipPiece &Ship::get_piece(unsigned int x, unsigned int y) const {
         return *iter;
     }
     throw std::invalid_argument("Unable to find piece for that point");
-}
-
-const ShipPiece &Ship::get_piece(const Point &p) const {
-    return get_piece(p.get_x(), p.get_y());
 }

@@ -9,11 +9,10 @@
 #include "Point.h"
 #include "BoardSlot.h"
 
-//TODO dire perchè non abbiamo una attack board e una defence board
 /**
  * Questa classe rappresenta la tabella di gioco e permette di modificare lo stato interno delle navi in modo sicuro
  * senza che venga dato l'accesso all'esterno. Anche se implementata come matrice si è preferito usare un sistema
- * di riferimento cartesiano
+ * di riferimento cartesiano.
  */
 class Board {
 public:
@@ -84,17 +83,17 @@ public:
         Action(Action &) = delete;
 
         /**
+         * Viene cancellato l'operatore di assegnazione per evitare lo slicing
+         */
+        Action &operator=(const Action &) = delete;
+
+        /**
          * Esegue un'azione generica su una delle due board o su entrambe
          * @param ship_center il centro della nave che deve eseguire l'azione
          * @param target il destinatario dell'azione
          * @return true se l'azione è andata a buon file false altrimenti
          */
         virtual bool do_action(const Point &ship_center, const Point &target) = 0;
-
-        /**
-         * Viene cancellato l'operatore di assegnazione per evitare lo slicing
-         */
-        Action &operator=(const Action &) = delete;
     };
 
     static const std::string numbers;
@@ -153,11 +152,10 @@ public:
      */
     void remove_state(BoardSlot::State state);
 
-    //TODO commentare questo metodo
     /**
-     *
-     * @param ship
-     * @return
+     * Posiziona una nave nella board
+     * @param ship il puntatore alla nave da posizionare
+     * @return ritorna true se la nave è posizionata correttamente
      */
     bool insert_ship(const std::shared_ptr<Ship> &ship);
 

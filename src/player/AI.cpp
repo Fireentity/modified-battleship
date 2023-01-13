@@ -25,6 +25,5 @@ void AI::do_move() {
     const std::vector<std::shared_ptr<Ship>> &ships = board_->get_ships();
     Point target{RandomNumber::get_instance().get_int(1, Board::width), RandomNumber::get_instance().get_int(1, Board::height)};
     action_command_.execute(ships[RandomNumber::get_instance().get_int(0, ships.size() - 1)]->get_center(), target);
-    //std::cout<<std::endl<<std::endl<<std::endl<<board_->to_string()<<std::endl<<std::endl<<std::endl; //PER VEDERE BOARD AVVERSARIA DEBUG
 }
 
