@@ -12,7 +12,7 @@ Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &
                                                          place_command_{board, enemy_board, moves_logger},
                                                          logger_{output_logger} {
 
-    register_command(std::make_shared<PrintCommand>(board,output_logger));
+    register_command(std::make_shared<PrintCommand>(board, output_logger));
     register_command(std::make_shared<RemoveHitCommand>(board));
     register_command(std::make_shared<RemoveMissedCommand>(board));
     register_command(std::make_shared<RemoveRevealedCommand>(board));
@@ -45,10 +45,9 @@ void Human::place_ships_inside_board() {
 
 void Human::do_move() {
     std::string input;
-    do {
-        std::cout << "Inserisci le coordinate della nave e del target: ";
-        std::getline(std::cin, input);
-        std::transform(input.begin(), input.end(), input.begin(), toupper);
-    } while (!dispatch_command(input));
+    std::cout << "Inserisci le coordinate della nave e del target: ";
+    std::getline(std::cin, input);
+    std::transform(input.begin(), input.end(), input.begin(), toupper);
+    dispatch_command(input);
 }
 

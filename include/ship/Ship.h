@@ -34,7 +34,7 @@ public:
 
     void for_each_piece(const std::function<void(ShipPiece &)> &on_iteration);
 
-    const std::vector<ShipPiece> &get_pieces() const;
+    std::vector<ShipPiece> &get_pieces();
 
     char get_piece_character(unsigned int x, unsigned int y) const;
 
@@ -44,6 +44,10 @@ public:
 
     bool do_action(const Point &target) const;
 
+    const ShipPiece& get_piece(unsigned int x, unsigned int y) const;
+
+    const ShipPiece& get_piece(const Point& p) const;
+
     virtual char get_character() const = 0;
 
     unsigned int get_pieces_amount() const;
@@ -51,7 +55,6 @@ public:
     void set_center(const Point &center);
 
     const Point &get_center() const;
-
 
     int get_health() const;
 

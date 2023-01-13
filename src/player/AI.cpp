@@ -7,14 +7,14 @@ AI::AI(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_
        const std::shared_ptr<Logger> &moves_logger,
        const std::function<void()> &change_turn) : Player{board, enemy_board},
                                                    place_command_{board, enemy_board, moves_logger},
-                                                   action_command_{board, moves_logger, change_turn}, random_numbers{} {
+                                                   action_command_{board, moves_logger, change_turn}{
 }
 
 void AI::place_ships_inside_board() {
     int i = 0;
     while (i < ShipPlaceCommand::availableShips.size()) {
-        Point bow{random_numbers.getInt(1,Board::width), random_numbers.getInt(1,Board::height)};
-        bool horizontal = (random_numbers.getInt(0,1) == 0);
+        Point bow{RandomNumber::get_instance().get_int(1, Board::width), RandomNumber::get_instance().get_int(1, Board::height)};
+        bool horizontal = (RandomNumber::get_instance().get_int(0, 1) == 0);
         if (place_command_.execute_action(bow, horizontal)) {
             i++;
         }
@@ -23,13 +23,8 @@ void AI::place_ships_inside_board() {
 
 void AI::do_move() {
     const std::vector<std::shared_ptr<Ship>> &ships = board_->get_ships();
-    Point target{random_numbers.getInt(1,Board::width), random_numbers.getInt(1,Board::height)};
-
-    bool a; //TODO ha senso no?
-    do{
-        Point temp = ships[random_numbers.getInt(0,ships.size()-1)]->get_center();
-        a=action_command_.execute(temp, target);
-    }while(!a);
-    std::cout<<std::endl<<std::endl<<std::endl<<board_->to_string()<<std::endl<<std::endl<<std::endl; //PER VEDERE BOARD AVVERSARIA DEBUG
+    Point target{RandomNumber::get_instance().get_int(1, Board::width), RandomNumber::get_instance().get_int(1, Board::height)};
+    action_command_.execute(ships[RandomNumber::get_instance().get_int(0, ships.size() - 1)]->get_center(), target);
+    //std::cout<<std::endl<<std::endl<<std::endl<<board_->to_string()<<std::endl<<std::endl<<std::endl; //PER VEDERE BOARD AVVERSARIA DEBUG
 }
 

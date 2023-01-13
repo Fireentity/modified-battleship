@@ -13,9 +13,9 @@ const std::string Board::columns = "%12% | %0% | %1% | %2% | %3% | %4% | %5% | %
 const std::string Board::separator = "  " + utils::repeat("+---", Board::width) + "+\t\t";
 
 Board::Board() {
-    for (int i = 0 ;i < Board::height; i++) {
+    for (int i = 0; i < Board::height; i++) {
         for (int j = 0; j < Board::width; j++) {
-            board_[i][j] = BoardSlot{Point{j+1, i+1}};
+            board_[i][j] = BoardSlot{Point{j + 1, i + 1}};
         }
     }
 }
@@ -101,15 +101,24 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
     if (cannot_move) {
         return false;
     }
-    iter = positions.begin();
-    slot.get_ship()->for_each_piece([&iter, this, ship](ShipPiece &piece) {
 
-        Point piece_position = piece.get_position();
-        piece.move_to((*iter));         //TODO da errore quando si prova a piazzare una nave in un posto dove c'è gia la nave stessa *Cannot replace a ship with another you have to delete it first*
-        get_slot(piece_position).remove_ship(); //TODO bisogna prima rimuovere tutta la nave, poi inserirla!
-        get_slot((*iter)).set_ship(ship);
+    for (auto &piece: ship->get_pieces()) {
+        get_slot(piece.get_position()).remove_ship();
+    }
+
+
+    iter = positions.begin();
+
+    for (auto &piece: ship->get_pieces()) {
+        get_slot(piece.get_position()).remove_ship();
+    }
+    //TODO commenta sta robbbbba
+    for (auto &piece: ship->get_pieces()) {
+        Point piece_destination = *iter;
+        piece.move_to(piece_destination);
+        get_slot(piece_destination).set_ship(ship);
         iter++;
-    });
+    }
 
 
     ship->set_center(destination);
@@ -134,7 +143,7 @@ void Board::remove_state(BoardSlot::State state) {
 
 void Board::remove_ship(const Point &point) {
     std::shared_ptr<Ship> ship = get_slot(point).get_ship();
-    ship->for_each_piece([this](ShipPiece &piece) {//TODO forse qua non rimuove correttamente la nave da TUTTE le sue posizioni? *Cannot replace a ship with another you have to delete it first*
+    ship->for_each_piece([this](ShipPiece &piece) {
         get_slot(piece.get_position()).remove_ship();
     });
     ships_.erase(std::find(ships_.begin(), ships_.end(), ship));
@@ -147,7 +156,7 @@ bool Board::has_ships() const {
 std::string Board::to_string() const {
     std::stringstream ss{""};
     int numbers_to_print[width];
-    char chars_to_print[width+1];
+    char chars_to_print[width + 1];
     std::iota(numbers_to_print, numbers_to_print + width, 1);
 
     ss << utils::format(numbers, numbers_to_print) << utils::format(numbers, numbers_to_print) << std::endl << separator
@@ -174,7 +183,7 @@ std::string Board::to_string() const {
         ss << utils::format(columns, chars_to_print) << std::endl << separator << separator << std::endl;
     }
 
-    ss << "\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t " << "Griglia di attacco" << std::endl;
+    ss << "\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t  " << "Griglia di attacco" << std::endl;
 
     return ss.str();
 }

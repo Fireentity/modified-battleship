@@ -14,7 +14,6 @@ class AI : public Player {
 private:
     ShipPlaceCommand place_command_;
     ShipActionCommand action_command_;
-    RandomNumber random_numbers;
 public:
     AI(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board,
        const std::shared_ptr<Logger> &moves_logger, const std::function<void()> &change_turn);

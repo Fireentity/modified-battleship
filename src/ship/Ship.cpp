@@ -81,11 +81,7 @@ int Ship::get_health() const {
 }
 
 char Ship::get_piece_character(unsigned int x, unsigned int y) const {
-    for (auto &piece: pieces_) {
-        if (piece.get_position().get_x() == x && piece.get_position().get_y() == y) {
-            return piece.is_hit() ? get_damaged_character() : get_character();
-        }
-    }
+    return get_piece(x, y).is_hit() ? get_damaged_character() : get_character();
     throw std::invalid_argument("Unable to find piece for that point");
 }
 
@@ -93,7 +89,7 @@ char Ship::get_piece_character(const Point &position) const {
     return get_piece_character(position.get_x(), position.get_y());
 }
 
-const std::vector<ShipPiece> &Ship::get_pieces() const {
+std::vector<ShipPiece> &Ship::get_pieces() {
     return pieces_;
 }
 
@@ -101,9 +97,9 @@ void Ship::set_center(const Point &center) {
     center_ = center;
 }
 
-void Ship::hit(const Point &point) {
-    for(auto &piece : pieces_) {
-        if(piece.get_position() == point) {
+void Ship::hit(const Point &point) { //TODO usare get_piece()
+    for (auto &piece: pieces_) {
+        if (piece.get_position() == point) {
             piece.hit();
             health_--;
             return;
@@ -113,8 +109,23 @@ void Ship::hit(const Point &point) {
 }
 
 void Ship::heal() {
-    for(auto &piece : pieces_) {
+    for (auto &piece: pieces_) {
         piece.heal();
     }
     health_ = max_health_;
+}
+
+const ShipPiece &Ship::get_piece(unsigned int x, unsigned int y) const {
+
+    auto iter = std::find_if(pieces_.begin(), pieces_.end(), [x, y](const ShipPiece &piece) {
+        return piece.get_position().get_x() == x && piece.get_position().get_y() == y;
+    });
+    if(iter!=pieces_.end()){
+        return *iter;
+    }
+    throw std::invalid_argument("Unable to find piece for that point");
+}
+
+const ShipPiece &Ship::get_piece(const Point &p) const {
+    return get_piece(p.get_x(), p.get_y());
 }

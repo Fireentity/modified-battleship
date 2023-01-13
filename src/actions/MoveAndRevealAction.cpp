@@ -26,7 +26,7 @@ bool MoveAndRevealAction::do_action(const Point &ship_center, const Point &targe
             if(!Board::is_out(center_x + j, center_y + i)) {
                 BoardSlot &slot = get_enemy_slot(center_x + j, center_y + i);
                 if (slot.has_ship()) {
-                    if(slot.get_ship()->get_damaged_character()==slot.get_ship()->get_piece_character(center_x + j, center_y + i)){
+                    if(slot.get_ship()->get_piece(center_x + j, center_y + i).is_hit()){
                         get_slot(center_x + j, center_y + i).set_state(BoardSlot::HIT);
                     } else{
                         get_slot(center_x + j, center_y + i).set_state(BoardSlot::REVEALED);
@@ -35,7 +35,6 @@ bool MoveAndRevealAction::do_action(const Point &ship_center, const Point &targe
             }
         }
     }
-
     return true;
 }
 

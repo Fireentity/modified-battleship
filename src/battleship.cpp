@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[]) {
 
-    Game game = Game::make_human_vs_ai();
+    Game game = Game::make_ai_vs_ai();
     game.start_loop();
 
     /*

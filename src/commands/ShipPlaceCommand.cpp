@@ -1,7 +1,8 @@
 #include "commands/ShipPlaceCommand.h"
 
 const std::vector<Ship::Ships> ShipPlaceCommand::availableShips = {
-        Ship::Ships::ARMOURED, Ship::Ships::SUPPORT, Ship::Ships::SUBMARINE,
+        Ship::Ships::ARMOURED, Ship::Ships::ARMOURED, Ship::Ships::ARMOURED, Ship::Ships::SUPPORT, Ship::Ships::SUPPORT,
+        Ship::Ships::SUPPORT, Ship::Ships::SUBMARINE, Ship::Ships::SUBMARINE,
 };
 
 ShipPlaceCommand::ShipPlaceCommand(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board,

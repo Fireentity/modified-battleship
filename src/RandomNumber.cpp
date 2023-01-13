@@ -1,8 +1,14 @@
 #include "RandomNumber.h"
 #include <random>
 
-RandomNumber::RandomNumber() : generator(std::random_device{}()){}
+RandomNumber RandomNumber::instance{};
 
-int RandomNumber::getInt(int lowest, int highest) {
-    return lowest + (generator() % (highest - lowest + 1));
+RandomNumber::RandomNumber() : generator_(std::random_device{}()){}
+
+int RandomNumber::get_int(int lowest, int highest) {
+    return lowest + (generator_() % (highest - lowest + 1));
+}
+
+RandomNumber &RandomNumber::get_instance() {
+    return instance;
 }
