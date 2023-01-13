@@ -19,7 +19,7 @@ std::vector<std::string> get_moves_or_empty(const std::string &name_file_log) {
 }
 
 int main(int argc, char *argv[]) {
-
+    /*
     //TESTING: *****************************************************
     std::vector<std::string> moves = get_moves_or_empty("moves.txt");
     if (moves.empty()) {
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 
 
     //*****************************************************************
-
+    */
     std::regex regex{R"(([\w\-_\.]+).txt)"};
 
     if (argc != 3 && argc != 4) { //argc tiene conto anche del nome del programma stesso
