@@ -101,16 +101,16 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
     if (cannot_move) {
         return false;
     }
-
     iter = positions.begin();
     slot.get_ship()->for_each_piece([&iter, this, ship](ShipPiece &piece) {
 
         Point piece_position = piece.get_position();
-        piece.move_to((*iter));
-        get_slot(piece_position).remove_ship();
-        get_slot(*iter).set_ship(ship);
+        piece.move_to((*iter));         //TODO da errore quando si prova a piazzare una nave in un posto dove c'è gia la nave stessa *Cannot replace a ship with another you have to delete it first*
+        get_slot(piece_position).remove_ship(); //TODO bisogna prima rimuovere tutta la nave, poi inserirla!
+        get_slot((*iter)).set_ship(ship);
         iter++;
     });
+
 
     ship->set_center(destination);
 
@@ -134,10 +134,10 @@ void Board::remove_state(BoardSlot::State state) {
 
 void Board::remove_ship(const Point &point) {
     std::shared_ptr<Ship> ship = get_slot(point).get_ship();
-    ship->for_each_piece([this](ShipPiece &piece) {
+    ship->for_each_piece([this](ShipPiece &piece) {//TODO forse qua non rimuove correttamente la nave da TUTTE le sue posizioni? *Cannot replace a ship with another you have to delete it first*
         get_slot(piece.get_position()).remove_ship();
     });
-    ships_.erase(std::remove(ships_.begin(), ships_.end(), ship), ships_.end());
+    ships_.erase(std::find(ships_.begin(), ships_.end(), ship));
 }
 
 bool Board::has_ships() const {

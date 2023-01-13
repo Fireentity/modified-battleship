@@ -20,8 +20,8 @@ Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &
 }
 
 void Human::place_ships_inside_board() {
-    logger_->log(board_->to_string()).log("\n");
-
+    logger_->log(board_->to_string());
+    logger_->log("\n");
     int i = 0;
     while (i < ShipPlaceCommand::availableShips.size()) {
         std::cout << "Inserisci le coordinate della prua e della poppa ["
@@ -34,7 +34,8 @@ void Human::place_ships_inside_board() {
         std::transform(input.begin(), input.end(), input.begin(), toupper);
         if (place_command_.execute(input)) {
             i++;
-            logger_->log(board_->to_string()).log("\n");
+            logger_->log(board_->to_string());
+            logger_->log("\n");
         } else {
             std::cout << "Posiziona orizzontalmente o verticalmente la nave usando le coordinate di poppa e prua "
                       << std::endl;

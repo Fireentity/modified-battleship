@@ -9,7 +9,8 @@ PrintCommand::PrintCommand(const std::shared_ptr<Board> &board, const std::share
 
 bool PrintCommand::execute(const std::string &argument) {
     if (check_command(argument)) {
-        logger_->log(board_->to_string()).log("\n");
+        logger_->log(board_->to_string());
+        logger_->log("\n");
         return true;
     } else {
         return false;

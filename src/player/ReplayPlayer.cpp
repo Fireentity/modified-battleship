@@ -8,7 +8,8 @@ void ReplayPlayer::place_ships_inside_board() {
             i++;
         }
     }
-    logger_->log(board_->to_string()).log("\n");
+    logger_->log(board_->to_string());
+    logger_->log("\n");
 }
 
 void ReplayPlayer::do_move() {
@@ -18,7 +19,8 @@ void ReplayPlayer::do_move() {
         } else {
             throw std::invalid_argument("Invalid move from file!");
         }
-        logger_->log(board_->to_string()).log("\n");
+        logger_->log(board_->to_string());
+        logger_->log("\n");
     }
 }
 

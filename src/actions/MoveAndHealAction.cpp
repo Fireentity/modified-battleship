@@ -18,13 +18,11 @@ bool MoveAndHealAction::do_action(const Point &ship_center, const Point &target)
         return false;
     }
 
-    int center_x = ship->get_center().get_x() - (range / 2);
-    int center_y = ship->get_center().get_y() - (range / 2);
     for (int i = 0; i < range; i++) {
         for (int j = 0; j < range; j++) {
-            if(!Board::is_out(center_x + j, center_y + i)) {
-                BoardSlot &slot = get_slot(center_x + j, center_y + i);
-                if (slot.has_ship()) {
+            if(!Board::is_out(target.get_x() + j, target.get_y() + i)) {
+                BoardSlot &slot = get_slot(target.get_x() + j, target.get_y() + i);
+                if (slot.has_ship() && (slot.get_ship() != get_slot(target).get_ship())) {
                     slot.get_ship()->heal();
                 }
             }

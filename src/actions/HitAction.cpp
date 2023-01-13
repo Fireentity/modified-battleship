@@ -18,7 +18,7 @@ bool HitAction::do_action(const Point &ship_center, const Point &target) {
         return true;
     }
 
-    if (get_enemy_slot(target).get_state() == BoardSlot::HIT) {
+    if (get_enemy_slot(target).get_state() == BoardSlot::HIT) { //se la nave è gia colpita non fa nulla
         return true;
     }
 
@@ -26,7 +26,7 @@ bool HitAction::do_action(const Point &ship_center, const Point &target) {
     std::shared_ptr<Ship> ship = get_enemy_slot(target).get_ship();
     ship->hit(target);
 
-    if(ship->get_health() == 0) {
+    if(ship->get_health() <= 0) {
         remove_ship(ship->get_center());
     }
 

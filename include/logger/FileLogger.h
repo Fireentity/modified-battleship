@@ -9,7 +9,7 @@ private:
     const std::string file_name_;
 public:
     explicit FileLogger(const std::string &file_name);
-    const Logger & log(const std::string &log) const override;
+    void log(const std::string &log) const override;
 };
 
 #endif //FILELOGGER_H

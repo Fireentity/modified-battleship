@@ -32,7 +32,8 @@ add_executable(battaglia_navale
         src/commands/PrintCommand.cpp
         src/logger/ConsoleLogger.cpp
         src/logger/FileLogger.cpp
-        src/Utilities.hpp)
+        src/Utilities.hpp
+        src/RandomNumber.cpp)
 
 add_executable(replay
         src/replay.cpp
@@ -62,6 +63,7 @@ add_executable(replay
         src/commands/PrintCommand.cpp
         src/logger/ConsoleLogger.cpp
         src/logger/FileLogger.cpp
-        src/Utilities.hpp)
+        src/Utilities.hpp
+        src/RandomNumber.cpp)
 
 

@@ -1,6 +1,6 @@
 #include "Game.h"
 
-const unsigned int Game::maxMoves = 10;
+const unsigned int Game::maxMoves = 2000;
 const std::string Game::logFileName = "moves.txt";
 
 Game::Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,

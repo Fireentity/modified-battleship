@@ -7,16 +7,14 @@ AI::AI(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_
        const std::shared_ptr<Logger> &moves_logger,
        const std::function<void()> &change_turn) : Player{board, enemy_board},
                                                    place_command_{board, enemy_board, moves_logger},
-                                                   action_command_{board, moves_logger, change_turn} {
-
+                                                   action_command_{board, moves_logger, change_turn}, random_numbers{} {
 }
 
 void AI::place_ships_inside_board() {
-    srand(time(nullptr));
     int i = 0;
     while (i < ShipPlaceCommand::availableShips.size()) {
-        Point bow{(rand() % Board::width) + 1, (rand() % Board::height) + 1};
-        bool horizontal = rand() % 2 == 0;
+        Point bow{random_numbers.getInt(1,Board::width), random_numbers.getInt(1,Board::height)};
+        bool horizontal = (random_numbers.getInt(0,1) == 0);
         if (place_command_.execute_action(bow, horizontal)) {
             i++;
         }
@@ -25,7 +23,13 @@ void AI::place_ships_inside_board() {
 
 void AI::do_move() {
     const std::vector<std::shared_ptr<Ship>> &ships = board_->get_ships();
-    Point target{(rand() % board_->width) + 1, (rand() % board_->height) + 1};
-    action_command_.execute(ships[rand() % ships.size()]->get_center(), target);
+    Point target{random_numbers.getInt(1,Board::width), random_numbers.getInt(1,Board::height)};
+
+    bool a; //TODO ha senso no?
+    do{
+        Point temp = ships[random_numbers.getInt(0,ships.size()-1)]->get_center();
+        a=action_command_.execute(temp, target);
+    }while(!a);
+    std::cout<<std::endl<<std::endl<<std::endl<<board_->to_string()<<std::endl<<std::endl<<std::endl; //PER VEDERE BOARD AVVERSARIA DEBUG
 }
 

@@ -27,12 +27,10 @@ int main(int argc, char *argv[]) {
                 << "C'è un problema nella lettura del file, riprovare inserendo come argomento il nome di un file valido"
                 << std::endl;
     } else {
-        Game replay = Game::make_replay(std::make_shared<ConsoleLogger>(), moves);
+        Game replay = Game::make_replay(std::make_shared<FileLogger>("uscita.txt"), moves);
         std::cout << "Moves" << std::endl;
         replay.start_loop();
     }
-
-
 
 
     //*****************************************************************

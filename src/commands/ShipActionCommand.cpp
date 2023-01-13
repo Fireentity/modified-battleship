@@ -17,9 +17,10 @@ bool ShipActionCommand::execute_action(const Point &ship_center, const Point &ta
     if (ship->get_center() != ship_center) {
         return false;
     }
-
+    Point center = ship->get_center();
     if (ship->do_action(target)) {
-        logger_->log(ship_center.to_string() + " " + target.to_string()).log("\n");
+        logger_->log(center.to_string() + " " + target.to_string());
+        logger_->log("\n");
         execute_then_();
         return true;
     }
