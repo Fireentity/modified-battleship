@@ -79,7 +79,7 @@ public:
      * @param y ordinata del pezzo di nave
      * @return ritorna una reference costante al pezzo di nave
      */
-    ShipPiece& get_piece(unsigned int x, unsigned int y);
+    std::vector<ShipPiece>::const_iterator get_piece(unsigned int x, unsigned int y) const;
 
     /**
      *

@@ -5,7 +5,6 @@ const char Armoured::character = 'C';
 const unsigned short Armoured::length = 5;
 const int Armoured::breadth = 1;
 
-
 Armoured::Armoured(const Point &top_left_corner, bool horizontal, const std::shared_ptr<Board> &board,
                    const std::shared_ptr<Board> &enemy_board) : Ship(top_left_corner,
                                                                      horizontal ? Armoured::length

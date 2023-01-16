@@ -12,6 +12,7 @@ class ShipCommand : public Command {
 
 protected:
     bool check_command(const std::string &argument) override;
+
     const std::shared_ptr<Board> board_;
     std::shared_ptr<Logger> logger_;
 public:
@@ -24,15 +25,21 @@ public:
 
     ShipCommand(ShipCommand &) = delete;
 
-    ShipCommand(const std::shared_ptr<Board> &board,const std::shared_ptr<Logger> &logger);
+    ShipCommand(const std::shared_ptr<Board> &board, const std::shared_ptr<Logger> &logger);
 
     bool execute(const std::string &argument) override;
 
     bool execute(const Point &first_point, const Point &second_point);
 
+    /**
+     * Metodo virtuale usato
+     * @param first_point
+     * @param second_point
+     * @return
+     */
     virtual bool execute_action(const Point &first_point, const Point &second_point) = 0;
 
-    ShipCommand & operator=(ShipCommand &) = delete;
+    ShipCommand &operator=(ShipCommand &) = delete;
 };
 
 #endif //SHIPCOMMAND_H

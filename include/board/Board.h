@@ -75,6 +75,11 @@ public:
         bool move_ship(const Point &ship_center, const Point &destination);
 
     public:
+        /**
+         *
+         * @param board la board sulla quale eseguire l'azione
+         * @param enemy_board la board del nemico
+         */
         Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
 
         /**

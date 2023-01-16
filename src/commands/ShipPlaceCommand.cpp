@@ -5,12 +5,27 @@ const std::vector<ShipPlaceCommand::Ships> ShipPlaceCommand::availableShips = {
         Ships::SUPPORT, Ships::SUBMARINE, Ships::SUBMARINE,
 };
 
+/**
+ *
+ * @param board la board sulla quale posizionare la navi
+ * @param enemy_board la board dell'avversario
+ * @param logger il logger per loggare le azioni eseguite
+ */
 ShipPlaceCommand::ShipPlaceCommand(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board,
                                    const std::shared_ptr<Logger> &logger) : ShipCommand(board, logger),
                                                                             enemy_board_{enemy_board},
                                                                             index_{0} {
 }
 
+/**
+ * Permette di instanziare e posizionare una nave nella board in base al tipo di nave passato come parametro.
+ * @param ship_type il tipo della nave da creare
+ * @param top_left_corner il punto in alto a sinistra della nave
+ * @param horizontal indica se si vuole posizionare la nave in orizzontale o in verticale
+ * @param board la board all'interno della quale si intende posizionare la nave
+ * @param enemy_board la board dell'avversario che serve per inizializzare l'azione che deve eseguire la nave
+ * @return ritorna true se la nave è stata correttamente posizionata false altrimenti
+ */
 bool ShipPlaceCommand::instantiate_ship(Ships ship_type, const Point &top_left_corner, bool horizontal,
                             const std::shared_ptr<Board> &board,
                             const std::shared_ptr<Board> &enemy_board) {
@@ -25,6 +40,12 @@ bool ShipPlaceCommand::instantiate_ship(Ships ship_type, const Point &top_left_c
     throw std::invalid_argument("Invalid ship type");
 }
 
+/**
+ *
+ * @param bow la prua della nave
+ * @param stern la poppa della nave
+ * @return ritorna true se la nave è posizionata correttamente false altrimenti
+ */
 bool ShipPlaceCommand::execute_action(const Point &bow, const Point &stern) {
     if (index_ >= availableShips.size()) {
         return false;
@@ -84,6 +105,12 @@ int ShipPlaceCommand::get_length(Ships ship) {
     throw std::invalid_argument("Invalid ship type");
 }
 
+/**
+ *
+ * @param top_left_corner il punto in alto a sinistra della nave
+ * @param horizontal l'orientamento della nave
+ * @return ritorna true se la nave è posizionata correttamente false altrimenti
+ */
 bool ShipPlaceCommand::execute_action(const Point &top_left_corner, bool horizontal) {
     if (index_ >= availableShips.size()) {
         return false;

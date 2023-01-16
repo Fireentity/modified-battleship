@@ -3,9 +3,14 @@
 #include "commands/RemoveRevealedCommand.h"
 #include "commands/PrintCommand.h"
 
-//Il comando ShipPlaceCommand non viene registrato perché registrare i comandi serve unicamente
-//per semplificare e incapsulare la scelta del comando corretto in base all'input a runtime.
-//In questo caso il comando viene usato una sola volta.
+/**
+ *
+ * @param board la board del giocatore
+ * @param enemy_board la board dell'avversario
+ * @param moves_logger il logger delle mosse eseguite da questo giocatore
+ * @param output_logger il logger della defence board e attackboard
+ * @param change_turn la funzione che viene eseguita quando correttamente un'azione
+ */
 Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board,
              const std::shared_ptr<Logger> &moves_logger, const std::shared_ptr<Logger> &output_logger,
              const std::function<void()> &change_turn) : Player{board, enemy_board},

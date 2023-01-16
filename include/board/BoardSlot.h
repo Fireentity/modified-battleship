@@ -43,29 +43,51 @@ public:
 
     /**
      * Metodo che permette di ottenere il contenuto dello slot che può essere vuoto oppure contenere una nave
-     * @return un carattere che corrisponde al contenuto dello slot
+     * @return ritorna un carattere che corrisponde al contenuto dello slot
      */
     char get_defence_char() const;
 
     /**
      * Metodo che permette di ottenere il contenuto dello slot che può essere vuoto oppure colpito, mancato o rivelato
-     * @return un carattere che corrisponde allo stato dello slot
+     * @return ritorna un carattere che corrisponde allo stato dello slot
      */
     char get_attack_char() const;
 
     void set_ship(const std::shared_ptr<Ship> &ship);
 
-    //Permette di accedere ad un'istanza di Ship senza che questa possa essere modificata
+    /**
+     * Permette di accedere ad un'istanza di Ship senza che questa possa essere modificata
+     * @return ritorna un'istanza di Ship
+     */
     std::shared_ptr<const Ship> get_ship() const;
 
+    /**
+     * Permette di accedere ad un'istanza di Ship
+     * @return
+     */
     std::shared_ptr<Ship> get_ship();
 
+    /**
+     * Permette di modificare lo stato dello slot
+     * @param state lo stato dello slot
+     */
     void set_state(State state);
 
+    /**
+     * Permette di accedere allo stato corrente dello slot
+     * @return ritorna un valore dell'enum State
+     */
     State get_state() const;
 
+    /**
+     * Controlla se ha la nave
+     * @return ritorna true se il puntatore alla nave è diverso da nullptr false altrimenti
+     */
     bool has_ship() const;
 
+    /**
+     * Rimuove la nave dallo slot corrente
+     */
     void remove_ship();
 
 //I field privati sono stati dichiarati sotto perché doveva essere prima definita l'enumerazione State

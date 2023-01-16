@@ -1,7 +1,4 @@
 #include "ship/Ship.h"
-#include "ship/Supporter.h"
-#include "ship/Submarine.h"
-#include "player/Player.h"
 
 Ship::Ship(const Point &top_left_corner, int width, int height, unsigned short pieces_amount,
            const std::shared_ptr<Board::Action> &action) : center_{top_left_corner + Point{width / 2, height / 2}},
@@ -36,7 +33,7 @@ int Ship::get_health() const {
 }
 
 char Ship::get_piece_character(unsigned int x, unsigned int y) const {
-    return get_piece(x, y).is_hit() ? get_damaged_character() : get_character();
+    return (*get_piece(x, y)).is_hit() ? get_damaged_character() : get_character();
 }
 
 char Ship::get_piece_character(const Point &position) const {
@@ -51,15 +48,9 @@ void Ship::set_center(const Point &center) {
     center_ = center;
 }
 
-void Ship::hit(const Point &point) { //TODO usare get_piece()
-    for (auto &piece: pieces_) {
-        if (piece.get_position() == point) {
-            piece.hit();
-            health_--;
-            return;
-        }
-    }
-    throw std::invalid_argument("Unable to find piece for that point");
+void Ship::hit(const Point &point) {
+    pieces_[get_piece(point.get_x(), point.get_y())-pieces_.begin()].hit();
+    health_--;
 }
 
 void Ship::heal() {
@@ -69,12 +60,12 @@ void Ship::heal() {
     health_ = max_health_;
 }
 
-ShipPiece &Ship::get_piece(unsigned int x, unsigned int y) {
+std::vector<ShipPiece>::const_iterator Ship::get_piece(unsigned int x, unsigned int y) const {
     auto iter = std::find_if(pieces_.begin(), pieces_.end(), [x, y](const ShipPiece &piece) {
         return piece.get_position().get_x() == x && piece.get_position().get_y() == y;
     });
     if(iter!=pieces_.end()){
-        return *iter;
+        return iter;
     }
     throw std::invalid_argument("Unable to find piece for that point");
 }
