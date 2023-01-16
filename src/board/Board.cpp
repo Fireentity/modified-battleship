@@ -84,19 +84,19 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
     Point translation = destination - ship_center;
 
     //Creo un vettore già della dimensione giusta per evitare un resizing
-    std::vector<Point> positions{ship->get_pieces_amount()};
+    Point positions[ship->get_pieces_amount()];
 
     //Calcolo le nuove posizioni dei pezzi della nave applicando loro la traslazione calcolata tra
     //la posizione precedente e la destinazione
     //Salvo le nuove posizioni in un vettore
-    std::transform(ship->get_pieces().begin(), ship->get_pieces().end(), std::back_inserter(positions),
+    std::transform(ship->get_pieces().begin(), ship->get_pieces().end(), positions,
                    [translation](const ShipPiece &piece) {
                        return piece.get_position() + translation;
                    });
 
     //Controllo che non ci siano altre navi nella destinazione
     //Se c'è una nave controllo che non sia quella che sto spostando
-    bool cannot_move = std::any_of(positions.begin(), positions.end(), [this, ship](const Point &position) {
+    bool cannot_move = std::any_of(positions, positions+ship->get_pieces_amount(), [this, ship](const Point &position) {
         return Board::is_out(position) ||
                (get_slot(position).get_ship() != nullptr && get_slot(position).get_ship() != ship);
     });
@@ -111,7 +111,7 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
     }
 
     //iterator del vettore delle nuove posizioni calcolate
-    auto iter = positions.begin();
+    auto iter = positions;
 
     //Muove i pezzi di nave
     for (auto &piece: ship->get_pieces()) {
