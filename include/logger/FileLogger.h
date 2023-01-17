@@ -7,6 +7,7 @@
 class FileLogger : public Logger {
 private:
     const std::string file_name_;
+    std::ofstream file_stream_;
 public:
     /**
      *
@@ -14,7 +15,9 @@ public:
      */
     explicit FileLogger(const std::string &file_name);
 
-    const Logger & log(const std::string &log) const override;
+    virtual ~FileLogger();
+
+    Logger & log(const std::string &log) override;
 };
 
 #endif //FILELOGGER_H

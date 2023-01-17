@@ -19,13 +19,14 @@ protected:
     std::vector<std::shared_ptr<Command>> commands_;
     const std::shared_ptr<Board> board_;
     const std::shared_ptr<Board> enemy_board_;
+    const std::string name_;
 public:
     /**
      *
      * @param board la board del giocatore
      * @param enemy_board la board dell'avversario
      */
-    Player(const std::shared_ptr<Board> &board,const std::shared_ptr<Board> &enemy_board);
+    Player(const std::shared_ptr<Board> &board,const std::shared_ptr<Board> &enemy_board, const std::string &name);
 
     /**
      * Viene cancellato l'operatore di assegnazione per evitare lo slicing

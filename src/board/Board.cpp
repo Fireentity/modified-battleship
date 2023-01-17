@@ -72,7 +72,6 @@ bool Board::insert_ship(const std::shared_ptr<Ship> &ship) {
     return true;
 }
 
-//TODO controllare che funzioni
 bool Board::move_ship(const Point &ship_center, const Point &destination) {
 
     //Controlliamo ship_center sia effettivamente il centro della nave da spostare

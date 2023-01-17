@@ -69,3 +69,7 @@ std::vector<ShipPiece>::const_iterator Ship::get_piece(unsigned int x, unsigned 
     }
     throw std::invalid_argument("Unable to find piece for that point");
 }
+
+std::vector<ShipPiece>::const_iterator Ship::get_piece(const Point &point) const {
+    return get_piece(point.get_x(),point.get_y());
+}

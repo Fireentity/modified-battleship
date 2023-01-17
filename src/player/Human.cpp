@@ -8,16 +8,16 @@
  * @param board la board del giocatore
  * @param enemy_board la board dell'avversario
  * @param moves_logger il logger delle mosse eseguite da questo giocatore
- * @param output_logger il logger della defence board e attackboard
+ * @param info_logger il logger della defence board e attackboard
  * @param change_turn la funzione che viene eseguita quando correttamente un'azione
  */
 Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board,
-             const std::shared_ptr<Logger> &moves_logger, const std::shared_ptr<Logger> &output_logger,
-             const std::function<void()> &change_turn) : Player{board, enemy_board},
+             const std::shared_ptr<Logger> &moves_logger, const std::shared_ptr<Logger> &info_logger,
+             const std::string &name, const std::function<void()> &change_turn) : Player{board, enemy_board, name},
                                                          place_command_{board, enemy_board, moves_logger},
-                                                         logger_{output_logger} {
+                                                         logger_{info_logger} {
 
-    register_command(std::make_shared<PrintCommand>(board, output_logger));
+    register_command(std::make_shared<PrintCommand>(board, info_logger));
     register_command(std::make_shared<RemoveHitCommand>(board));
     register_command(std::make_shared<RemoveMissedCommand>(board));
     register_command(std::make_shared<RemoveRevealedCommand>(board));
@@ -38,6 +38,7 @@ void Human::place_ships_inside_board() {
         std::transform(input.begin(), input.end(), input.begin(), toupper);
         if (place_command_.execute(input)) {
             i++;
+
             logger_->log(board_->to_string()).log("\n");
         } else {
             std::cout << "Posiziona orizzontalmente o verticalmente la nave usando le coordinate di poppa e prua "

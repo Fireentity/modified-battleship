@@ -5,9 +5,8 @@
  * @param board la board del giocatore
  * @param enemy_board la board dell'avversario
  */
-Player::Player(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board) : board_{board},
-                                                                                                 enemy_board_{
-                                                                                                         enemy_board} {
+Player::Player(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board, const std::string &name)
+        : board_{board}, enemy_board_{enemy_board}, name_{name} {
 }
 
 /**

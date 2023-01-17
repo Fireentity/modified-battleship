@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.84)
 set(CMAKE_CXX_STANDARD 11)
+set(GCC_COVERAGE_COMPILE_FLAGS "-g -O2")
 project(progetto_finale)
 
 include_directories(include)
@@ -17,6 +18,8 @@ add_executable(battaglia_navale
         src/player/Player.cpp
         src/player/AI.cpp
         src/player/Human.cpp
+        src/player/ReplayConsolePlayer.cpp
+        src/player/ReplayFilePlayer.cpp
         src/Point.cpp
         src/actions/HitAction.cpp
         src/actions/MoveAndHealAction.cpp
@@ -28,7 +31,6 @@ add_executable(battaglia_navale
         src/commands/ShipCommand.cpp
         src/commands/ShipPlaceCommand.cpp
         src/commands/ShipActionCommand.cpp
-        src/player/ReplayPlayer.cpp
         src/commands/PrintCommand.cpp
         src/logger/ConsoleLogger.cpp
         src/logger/FileLogger.cpp
@@ -48,6 +50,8 @@ add_executable(replay
         src/player/Player.cpp
         src/player/AI.cpp
         src/player/Human.cpp
+        src/player/ReplayConsolePlayer.cpp
+        src/player/ReplayFilePlayer.cpp
         src/Point.cpp
         src/actions/HitAction.cpp
         src/actions/MoveAndHealAction.cpp
@@ -59,7 +63,6 @@ add_executable(replay
         src/commands/ShipCommand.cpp
         src/commands/ShipPlaceCommand.cpp
         src/commands/ShipActionCommand.cpp
-        src/player/ReplayPlayer.cpp
         src/commands/PrintCommand.cpp
         src/logger/ConsoleLogger.cpp
         src/logger/FileLogger.cpp

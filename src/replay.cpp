@@ -1,5 +1,5 @@
 #include <iterator>
-#include "player/ReplayPlayer.h"
+#include "player/ReplayFilePlayer.h"
 #include "Game.h"
 
 
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
                     << "C'è un problema nella lettura del file, riprovare inserendo come argomento il nome di un file valido"
                     << std::endl;
         } else {
-            Game replay = Game::make_replay(std::make_shared<ConsoleLogger>(), moves);
+            Game replay = Game::make_replay_console(moves);
             replay.start_loop();
         }
     } else if (command == "f" && argc == 4) {
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
                     << "C'è un problema nella lettura del file, riprovare inserendo come argomento il nome di un file valido"
                     << std::endl;
         } else {
-            Game replay = Game::make_replay(std::make_shared<FileLogger>(name_file_output_replay), moves);
+            Game replay = Game::make_replay_file(std::make_shared<FileLogger>(name_file_output_replay), moves);
             replay.start_loop();
         }
     } else {

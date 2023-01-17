@@ -82,6 +82,13 @@ public:
     std::vector<ShipPiece>::const_iterator get_piece(unsigned int x, unsigned int y) const;
 
     /**
+     * @param x ascissa del pezzo di nave
+     * @param y ordinata del pezzo di nave
+     * @return ritorna una reference costante al pezzo di nave
+     */
+    std::vector<ShipPiece>::const_iterator get_piece(const Point &point) const;
+
+    /**
      *
      * @return ritorna il numero di pezzi di cui è composta la nave
      */

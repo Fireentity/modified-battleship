@@ -2,8 +2,8 @@
 
 const std::string PrintCommand::commandFormat = "XX XX";
 
-PrintCommand::PrintCommand(const std::shared_ptr<Board> &board, const std::shared_ptr<Logger> &output_logger)
-        : board_{board}, logger_{output_logger} {
+PrintCommand::PrintCommand(const std::shared_ptr<Board> &board, const std::shared_ptr<Logger> &info_logger)
+        : board_{board}, logger_{info_logger} {
 
 }
 

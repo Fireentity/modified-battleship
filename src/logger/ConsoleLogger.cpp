@@ -4,7 +4,7 @@
  * Logga la stringa in input
  * @param log la stringa da loggare
  */
-const Logger & ConsoleLogger::log(const std::string &log) const {
-    std::cout<<log;
+Logger &ConsoleLogger::log(const std::string &log) {
+    std::cout << log;
     return *this;
 }

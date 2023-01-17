@@ -21,7 +21,7 @@ public:
      * Logga la stringa in input
      * @param log la stringa da loggare
      */
-    virtual const Logger & log(const std::string &log) const = 0;
+    virtual Logger & log(const std::string &log) = 0;
 };
 
 #endif //LOGGER_H

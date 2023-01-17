@@ -18,7 +18,7 @@ bool HitAction::do_action(const Point &ship_center, const Point &target) {
         return true;
     }
 
-    if (get_enemy_slot(target).get_state() == BoardSlot::HIT) { //se la nave è gia colpita non fa nulla
+    if(get_enemy_slot(target).get_ship()->get_piece(target)->is_hit()) {
         return true;
     }
 
