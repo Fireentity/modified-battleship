@@ -1,3 +1,5 @@
+//Alberto Bottari 2034728
+
 #include "commands/ShipCommand.h"
 
 const std::regex ShipCommand::inputRegex = std::regex{R"(^([A-Z])(\d+) ([A-Z])(\d+)$)"};

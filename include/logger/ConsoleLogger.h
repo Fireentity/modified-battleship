@@ -1,3 +1,5 @@
+//Alberto Bottari 2034728
+
 #ifndef CONSOLELOGGER_H
 #define CONSOLELOGGER_H
 

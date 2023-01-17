@@ -1,3 +1,5 @@
+//Marco Pavanetto 2032486
+
 #include "ship/Submarine.h"
 
 const char Submarine::damagedCharacter = 'e';

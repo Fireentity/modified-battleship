@@ -1,3 +1,5 @@
+//Alberto Bottari 2034728
+
 #ifndef SHIPCOMMAND_H
 #define SHIPCOMMAND_H
 

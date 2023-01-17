@@ -1,3 +1,5 @@
+//Lorenzo Croce 2034738
+
 #include "commands/RemoveRevealedCommand.h"
 
 const std::string RemoveRevealedCommand::commandFormat = "AA AA";

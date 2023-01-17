@@ -24,6 +24,7 @@ add_executable(battaglia_navale
         src/actions/HitAction.cpp
         src/actions/MoveAndHealAction.cpp
         src/actions/MoveAndRevealAction.cpp
+        src/actions/Action.cpp
         src/commands/Command.cpp
         src/commands/RemoveRevealedCommand.cpp
         src/commands/RemoveHitCommand.cpp
@@ -56,6 +57,7 @@ add_executable(replay
         src/actions/HitAction.cpp
         src/actions/MoveAndHealAction.cpp
         src/actions/MoveAndRevealAction.cpp
+        src/actions/Action.cpp
         src/commands/Command.cpp
         src/commands/RemoveRevealedCommand.cpp
         src/commands/RemoveHitCommand.cpp

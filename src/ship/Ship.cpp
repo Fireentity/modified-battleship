@@ -1,7 +1,9 @@
+//Marco Pavanetto 2032486
+
 #include "ship/Ship.h"
 
 Ship::Ship(const Point &top_left_corner, int width, int height, unsigned short pieces_amount,
-           const std::shared_ptr<Board::Action> &action) : center_{top_left_corner + Point{width / 2, height / 2}},
+           const std::shared_ptr<Action> &action) : center_{top_left_corner + Point{width / 2, height / 2}},
                                                            pieces_amount_{pieces_amount},
                                                            pieces_{pieces_amount},
                                                            health_{pieces_amount},

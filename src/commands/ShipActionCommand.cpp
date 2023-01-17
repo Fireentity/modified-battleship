@@ -1,3 +1,5 @@
+//Alberto Bottari 2034728
+
 #include "commands/ShipActionCommand.h"
 
 ShipActionCommand::ShipActionCommand(const std::shared_ptr<Board> &board, const std::shared_ptr<Logger> &logger,

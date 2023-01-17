@@ -1,3 +1,5 @@
+//Marco Pavanetto 2032486
+
 #include "ship/Supporter.h"
 
 const char Supporter::damagedCharacter = 's';

@@ -1,3 +1,5 @@
+//Lorenzo Croce 2034738
+
 #include "actions/MoveAndHealAction.h"
 
 const int MoveAndHealAction::range = 2;
@@ -12,8 +14,8 @@ bool MoveAndHealAction::do_action(const Point &ship_center, const Point &target)
         return false;
     }
 
-    std::shared_ptr<Ship> ship = get_slot(ship_center).get_ship();
-    bool can_move = move_ship(ship->get_center(),target);
+    std::shared_ptr<Ship> ship = board_.lock()->get_slot(ship_center).get_ship();
+    bool can_move = board_.lock()->move_ship(ship->get_center(),target);
     if(!can_move) {
         return false;
     }
@@ -21,8 +23,8 @@ bool MoveAndHealAction::do_action(const Point &ship_center, const Point &target)
     for (int i = 0; i < range; i++) {
         for (int j = 0; j < range; j++) {
             if(!Board::is_out(target.get_x() + j, target.get_y() + i)) {
-                BoardSlot &slot = get_slot(target.get_x() + j, target.get_y() + i);
-                if (slot.has_ship() && (slot.get_ship() != get_slot(target).get_ship())) {
+                BoardSlot &slot = board_.lock()->get_slot(target.get_x() + j, target.get_y() + i);
+                if (slot.has_ship() && (slot.get_ship() != board_.lock()->get_slot(target).get_ship())) {
                     slot.get_ship()->heal();
                 }
             }

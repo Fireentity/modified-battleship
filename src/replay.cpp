@@ -1,7 +1,8 @@
+//Marco Pavanetto 2032486
+
 #include <iterator>
 #include "player/ReplayFilePlayer.h"
 #include "Game.h"
-
 
 std::vector<std::string> get_moves_or_empty(const std::string &name_file_log) {
     std::ifstream file(name_file_log);

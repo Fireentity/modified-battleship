@@ -1,3 +1,5 @@
+//Marco Pavanetto 2032486
+
 #include "ship/Armoured.h"
 
 const char Armoured::damagedCharacter = 'c';

@@ -1,3 +1,5 @@
+//Marco Pavanetto 2032486
+
 #ifndef SHIP_H
 #define SHIP_H
 
@@ -6,12 +8,13 @@
 #include "Point.h"
 #include "ShipPiece.h"
 #include "board/Board.h"
+#include "actions/Action.h"
 
 class Ship {
 private:
     const unsigned int pieces_amount_ = 1;
     const int max_health_;
-    std::shared_ptr<Board::Action> action_;
+    std::shared_ptr<Action> action_;
     std::vector<ShipPiece> pieces_;
     Point center_;
     int health_;
@@ -27,7 +30,7 @@ public:
      * @param action l'azione che può eseguire la nave
      */
     Ship(const Point &top_left_corner, int width, int height, unsigned short pieces_amount,
-         const std::shared_ptr<Board::Action> &action);
+         const std::shared_ptr<Action> &action);
 
     Ship(Ship &ship) = delete;
 

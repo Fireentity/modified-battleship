@@ -1,8 +1,9 @@
+//Marco Pavanetto 2032486
+
 #ifndef RANDOMNUMBER_H
 #define RANDOMNUMBER_H
 
 #include <random>
-
 
 /**
  * Questa classe serve per avere numeri più randomici della semplice funzione rand()

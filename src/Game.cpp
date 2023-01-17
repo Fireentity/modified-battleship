@@ -1,3 +1,5 @@
+//Marco Pavanetto 2032486
+
 #include "Game.h"
 
 const unsigned int Game::maxMoves = 30;

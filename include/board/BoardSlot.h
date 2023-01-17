@@ -1,3 +1,5 @@
+//Lorenzo Croce 2034738
+
 #ifndef BOARDPIECE_H
 #define BOARDPIECE_H
 

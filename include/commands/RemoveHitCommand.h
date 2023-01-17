@@ -1,3 +1,5 @@
+//Lorenzo Croce 2034738
+
 #ifndef REMOVEHITCOMMAND_H
 #define REMOVEHITCOMMAND_H
 

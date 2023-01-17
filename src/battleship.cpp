@@ -1,3 +1,5 @@
+//Marco Pavanetto 2032486
+
 #include "Game.h"
 
 int main(int argc, char *argv[]) {
@@ -11,13 +13,11 @@ int main(int argc, char *argv[]) {
     if (command == "pc") {
         Game game = Game::make_human_vs_ai();
         game.start_loop();
-        return 0;
     } else if (command == "cc") {
         Game game = Game::make_ai_vs_ai();
         game.start_loop();
-        return 0;
     } else {
         std::cout << "Argomento da riga di comando non riconosciuto" << std::endl;
-        return 0;
     }
+    return 0;
 }

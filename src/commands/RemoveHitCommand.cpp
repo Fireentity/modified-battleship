@@ -1,3 +1,5 @@
+//Lorenzo Croce 2034738
+
 #include "commands/RemoveHitCommand.h"
 
 const std::string RemoveHitCommand::commandFormat = "BB BB";

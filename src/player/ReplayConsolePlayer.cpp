@@ -1,3 +1,5 @@
+//Alberto Bottari 2034728
+
 #include "player/ReplayFilePlayer.h"
 
 /**
@@ -24,7 +26,7 @@ ReplayFilePlayer::ReplayFilePlayer(const std::shared_ptr<Board> &board, const st
 void ReplayFilePlayer::place_ships_inside_board() {
     int i = 0;
     while (i < ShipPlaceCommand::availableShips.size() && *moves_iterator_ < end_iterator_) {
-        logger_->log(name_ + " esegue: ");
+        logger_->log(name_ + " posiziona: ");
         if (place_command_.execute(**moves_iterator_)) {
             (*moves_iterator_)++;
             i++;
@@ -46,6 +48,8 @@ void ReplayFilePlayer::do_move() {
         } else {
             throw std::invalid_argument("Invalid move from file!");
         }
+    } else {
+        throw std::invalid_argument{"Not enough moves in log file"};
     }
 
 }

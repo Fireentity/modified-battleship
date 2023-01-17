@@ -1,6 +1,7 @@
+//Lorenzo Croce 2034738
+
 #ifndef REMOVEHITMISSCOMMAND_H
 #define REMOVEHITMISSCOMMAND_H
-
 
 #include "Command.h"
 #include "board/Board.h"
@@ -17,6 +18,5 @@ public:
 
     bool execute(const std::string &argument) override;
 };
-
 
 #endif //REMOVEHITMISSCOMMAND_H

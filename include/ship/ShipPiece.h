@@ -1,3 +1,5 @@
+//Marco Pavanetto 2032486
+
 #ifndef SHIPPIECE_H
 #define SHIPPIECE_H
 

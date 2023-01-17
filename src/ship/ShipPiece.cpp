@@ -1,3 +1,5 @@
+//Marco Pavanetto 2032486
+
 #include "ship/ShipPiece.h"
 
 ShipPiece::ShipPiece(const Point &position) : position_{position} {

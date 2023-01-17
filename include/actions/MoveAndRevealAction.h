@@ -1,15 +1,18 @@
+//Lorenzo Croce 2034738
+
 #ifndef MOVEANDREVEAL_H
 #define MOVEANDREVEAL_H
 
 #include "ship/Ship.h"
 #include "board/Board.h"
+#include "Action.h"
 
 /**
  * Questa classe permette eseguire un'azione che modifica lo stato interno delle navi e della board in modo
  * controllato senza rendere accessibili all'esterno metodi setter o getter (non const).
  * In particolare permette di rivelare una nave avversaria
  */
-class MoveAndRevealAction : public Board::Action {
+class MoveAndRevealAction : public Action {
 private:
     static const int range;
 public:

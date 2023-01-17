@@ -1,3 +1,5 @@
+//Lorenzo Croce 2034738
+
 #include "board/Board.h"
 //Ship viene inclusa soltanto nel file .cpp per risolvere la dipendenza circolare
 #include "ship/Ship.h"
@@ -11,6 +13,7 @@
 const std::string Board::numbers = "    %0%   %1%   %2%   %3%   %4%   %5%   %6%   %7%   %8%  %9%  %10%  %11%  \t\t";
 const std::string Board::columns = "%12% | %0% | %1% | %2% | %3% | %4% | %5% | %6% | %7% | %8% | %9% | %10% | %11% |\t\t";
 const std::string Board::separator = "  " + utils::repeat("+---", Board::width) + "+\t\t";
+const std::string Board::tab = utils::repeat(" ", 8);
 
 Board::Board() {
     for (int i = 0; i < Board::height; i++) {
@@ -95,10 +98,12 @@ bool Board::move_ship(const Point &ship_center, const Point &destination) {
 
     //Controllo che non ci siano altre navi nella destinazione
     //Se c'è una nave controllo che non sia quella che sto spostando
-    bool cannot_move = std::any_of(positions, positions+ship->get_pieces_amount(), [this, ship](const Point &position) {
-        return Board::is_out(position) ||
-               (get_slot(position).get_ship() != nullptr && get_slot(position).get_ship() != ship);
-    });
+    bool cannot_move = std::any_of(positions, positions + ship->get_pieces_amount(),
+                                   [this, ship](const Point &position) {
+                                       return Board::is_out(position) ||
+                                              (get_slot(position).get_ship() != nullptr &&
+                                               get_slot(position).get_ship() != ship);
+                                   });
 
     if (cannot_move) {
         return false;
@@ -155,7 +160,8 @@ std::string Board::to_string() const {
         ss << utils::format(columns, chars_to_print) << std::endl << separator << separator << std::endl;
     }
 
-    ss << "\t\t  " << "Griglia di difesa" << "\t\t\t\t\t\t  " << "Griglia di attacco" << std::endl;
+    ss << utils::repeat(tab, 2) << "Griglia di difesa" << utils::repeat(tab, 5) << "Griglia di attacco"
+       << std::endl;
 
     return ss.str();
 }
@@ -186,32 +192,4 @@ void Board::remove_ship(const Point &point) {
 
 bool Board::has_ships() const {
     return !ships_.empty();
-}
-
-Board::Action::Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board)
-        : board_{board}, enemy_board_{enemy_board} {
-}
-
-BoardSlot &Board::Action::get_slot(const Point &point) {
-    return board_.lock()->get_slot(point);
-}
-
-BoardSlot &Board::Action::get_enemy_slot(const Point &point) {
-    return enemy_board_.lock()->get_slot(point);
-}
-
-BoardSlot &Board::Action::get_enemy_slot(unsigned int x, unsigned int y) {
-    return enemy_board_.lock()->get_slot(x, y);
-}
-
-bool Board::Action::move_ship(const Point &ship_center, const Point &destination) {
-    return board_.lock()->move_ship(ship_center, destination);
-}
-
-BoardSlot &Board::Action::get_slot(unsigned int x, unsigned int y) {
-    return board_.lock()->get_slot(x, y);
-}
-
-void Board::Action::remove_ship(const Point &point) {
-    enemy_board_.lock()->remove_ship(point);
 }

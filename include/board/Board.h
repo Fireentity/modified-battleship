@@ -1,3 +1,5 @@
+//Lorenzo Croce 2034738
+
 #ifndef DEFENCEBOARD_H
 #define DEFENCEBOARD_H
 
@@ -16,94 +18,11 @@
  */
 class Board {
 public:
-    /**
-     * La classe Action rappresenta un'azione eseguibile da una nave sulla Board. Si è scelto di usare una nested class
-     * in modo da non esporre metodi che possano cambiare lo stato interno delle navi all'esterno della board. La nested
-     * class infatti permette di accedere ai metodi protected della Board
-     */
-    class Action {
-    private:
-        /**
-         * Vengono utilizzati dei weak_ptr per evitare memory leak. Se due oggetti contengono uno lo shared_ptr dell'altro
-         * si crea un memory leak che può essere risolto solo tramite l'uso di weak_ptr.
-         */
-        std::weak_ptr<Board> board_;
-        std::weak_ptr<Board> enemy_board_;
-    protected:
-        /**
-         * Delegate per permettere alle classe derivate di Action di accedere al metodo Board#get_slot del field board_
-         * @param point il punto dello slot
-         * @return ritorna una reference ad un BoardSlot
-         */
-        BoardSlot &get_slot(const Point &point);
-
-        /**
-         * Delegate per permettere alle classe derivate di Action di accedere al metodo Board#get_slot del field board_
-         * @param x ascissa dello slot
-         * @param y ordinata dello slot
-         * @return ritorna una reference ad un BoardSlot
-         */
-        BoardSlot &get_slot(unsigned int x, unsigned int y);
-
-        /**
-         * Delegate per permettere alle classe derivate di Action di accedere al metodo Board#get_slot del field enemy_board_
-         * @param point il punto dello slot
-         * @return ritorna una reference ad un BoardSlot
-         */
-        BoardSlot &get_enemy_slot(const Point &point);
-
-        /**
-         * Delegate per permettere alle classe derivate di Action di accedere al metodo Board#get_slot del field enemy_board_
-         * @param x ascissa dello slot
-         * @param y ordinata dello slot
-         * @return ritorna una reference ad un BoardSlot
-         */
-        BoardSlot &get_enemy_slot(unsigned int x, unsigned int y);
-
-        /**
-         * Delegate per permettere alle classe derivate di Action di accedere al metodo Board#remove_ship del field enemy_board_
-         * @param point il punto centrale della nave
-         */
-        void remove_ship(const Point &point);
-
-        /**
-         * Delegate per permettere alle classe derivate di Action di accedere al metodo Board#move_ship del field enemy_board_
-         * @param ship_center il centro della nave da traslare
-         * @param destination la destinazione della nave
-         * @return ritorna false se la nave non si può spostare
-         */
-        bool move_ship(const Point &ship_center, const Point &destination);
-
-    public:
-        /**
-         *
-         * @param board la board sulla quale eseguire l'azione
-         * @param enemy_board la board del nemico
-         */
-        Action(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board);
-
-        /**
-         * Viene cancellato il costruttore di copia per evitare lo slicing
-         */
-        Action(Action &) = delete;
-
-        /**
-         * Viene cancellato l'operatore di assegnazione per evitare lo slicing
-         */
-        Action &operator=(const Action &) = delete;
-
-        /**
-         * Esegue un'azione generica su una delle due board o su entrambe
-         * @param ship_center il centro della nave che deve eseguire l'azione
-         * @param target il destinatario dell'azione
-         * @return true se l'azione è andata a buon file false altrimenti
-         */
-        virtual bool do_action(const Point &ship_center, const Point &target) = 0;
-    };
 
     static const std::string numbers;
     static const std::string columns;
     static const std::string separator;
+    static const std::string tab;
     static constexpr int width = 12;
     static constexpr int height = 12;
 
@@ -179,8 +98,6 @@ public:
      * @return la stringa contente la attackboard e la defenceboard
      */
     std::string to_string() const;
-
-protected:
 
     /**
      * Permette di muovere una nave nella board. Implementa un sistema di spostamento tramite una traslazione che, quindi,
