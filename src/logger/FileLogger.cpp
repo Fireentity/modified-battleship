@@ -2,10 +2,6 @@
 
 #include "logger/FileLogger.h"
 
-/**
- *
- * @param file_name il nome del file sul quale loggare
- */
 FileLogger::FileLogger(const std::string &file_name) : file_name_{file_name}, file_stream_{} {
     file_stream_.open(file_name_,std::ios::trunc);
     if(!file_stream_.is_open()) {
@@ -14,10 +10,6 @@ FileLogger::FileLogger(const std::string &file_name) : file_name_{file_name}, fi
     }
 }
 
-/**
- * Logga la stringa in input
- * @param log la stringa da loggare
- */
 Logger & FileLogger::log(const std::string &log) {
     file_stream_ << log;
     return *this;

@@ -5,14 +5,6 @@
 #include "commands/RemoveRevealedCommand.h"
 #include "commands/PrintCommand.h"
 
-/**
- *
- * @param board la board del giocatore
- * @param enemy_board la board dell'avversario
- * @param moves_logger il logger delle mosse eseguite da questo giocatore
- * @param info_logger il logger della defence board e attackboard
- * @param change_turn la funzione che viene eseguita quando correttamente un'azione
- */
 Human::Human(const std::shared_ptr<Board> &board, const std::shared_ptr<Board> &enemy_board,
              const std::shared_ptr<Logger> &moves_logger, const std::shared_ptr<Logger> &info_logger,
              const std::string &name, const std::function<void()> &change_turn) : Player{board, enemy_board, name},
@@ -54,6 +46,11 @@ void Human::do_move() {
     std::cout << "Inserisci le coordinate della nave e del target: ";
     std::getline(std::cin, input);
     std::transform(input.begin(), input.end(), input.begin(), toupper);
-    dispatch_command(input);
+    while(!dispatch_command(input)) {
+        std::cout << "Mossa non valida! "<<std::endl;
+        std::cout << "Inserisci le coordinate della nave e del target: ";
+        std::getline(std::cin, input);
+        std::transform(input.begin(), input.end(), input.begin(), toupper);
+    }
 }
 

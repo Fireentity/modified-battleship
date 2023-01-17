@@ -160,7 +160,7 @@ std::string Board::to_string() const {
         ss << utils::format(columns, chars_to_print) << std::endl << separator << separator << std::endl;
     }
 
-    ss << utils::repeat(tab, 2) << "Griglia di difesa" << utils::repeat(tab, 5) << "Griglia di attacco"
+    ss << utils::repeat(tab, 2) << "Griglia di difesa" << utils::repeat(tab, 6) << "Griglia di attacco"
        << std::endl;
 
     return ss.str();
