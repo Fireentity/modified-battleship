@@ -1,6 +1,6 @@
 #include "Game.h"
 
-const unsigned int Game::maxMoves = 10;
+const unsigned int Game::maxMoves = 30;
 const std::string Game::logFileName = "moves.txt";
 
 Game::Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
@@ -19,7 +19,8 @@ Game::Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &
 }
 
 Game::Game(const std::shared_ptr<Board> &board_1, const std::shared_ptr<Board> &board_2,
-           const std::shared_ptr<Logger> &logger) : turn_(RandomNumber::get_instance().get_int(0, 1)), info_logger_{logger} {
+           const std::shared_ptr<Logger> &logger) : turn_(RandomNumber::get_instance().get_int(0, 1)),
+           info_logger_{std::make_shared<ConsoleLogger>()} {
     //Viene eseguito in caso di successo
     std::function<void()> on_action_success = [this]() {
         //Quando viene eseguito il comando action viene cambiato il turno
@@ -87,18 +88,18 @@ void Game::start_loop() {
         }
 
         if (!player_1_->get_board()->has_ships()) {
-            std::cout << "Il player 1 vince" << std::endl;
+            info_logger_->log("Il player 1 vince").log("\n");
             return;
         }
         if (!player_2_->get_board()->has_ships()) {
-            std::cout << "Il player 2 vince" << std::endl;
+            info_logger_->log("Il player 2 vince").log("\n");
             return;
         }
 
         //Il contatore delle mosse non viene incrementato qua ma nel comando che esegue l'azione
         //del giocatore
-    } while (moves_ <= maxMoves);
-    std::cout << "Le mosse sono finite quindi l'esito è un pareggio" << std::endl;
+    } while (moves_ < maxMoves);
+    info_logger_->log("Le mosse sono finite quindi l'esito è un pareggio").log("\n");
 }
 
 Game Game::make_human_vs_ai() {

@@ -21,6 +21,11 @@ ReplayConsolePlayer::ReplayConsolePlayer(const std::shared_ptr<Board> &board, co
     register_command(std::make_shared<ShipActionCommand>(board, moves_logger, change_turn));
 }
 
+void ReplayConsolePlayer::place_ships_inside_board() {
+    ReplayFilePlayer::place_ships_inside_board();
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+}
+
 void ReplayConsolePlayer::do_move() {
     ReplayFilePlayer::do_move();
     std::this_thread::sleep_for(std::chrono::seconds(1));

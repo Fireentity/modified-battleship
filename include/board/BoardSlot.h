@@ -53,6 +53,10 @@ public:
      */
     char get_attack_char() const;
 
+    /**
+     * Permette di modificare la ship contenuta nello slot
+     * @param ship la ship passata come parametro
+     */
     void set_ship(const std::shared_ptr<Ship> &ship);
 
     /**

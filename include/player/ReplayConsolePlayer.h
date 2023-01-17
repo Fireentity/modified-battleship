@@ -28,6 +28,8 @@ public:
                         const std::shared_ptr<std::vector<std::string>::const_iterator> &moves_iterator,
                         const std::vector<std::string>::const_iterator &end);
 
+    void place_ships_inside_board() override;
+
     void do_move() override;
 };
 
