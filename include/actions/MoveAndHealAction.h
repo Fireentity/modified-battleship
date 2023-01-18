@@ -8,14 +8,11 @@
 #include "Action.h"
 
 /**
- * Questa classe permette eseguire un'azione che modifica lo stato interno delle navi e della board in modo
- * controllato senza rendere accessibili all'esterno metodi setter o getter (non const).
- * In particolare permette di curare una propria nave
+ * Questa classe implementa il codice necessario a muovere il supporto e curare una curare una propria nave
  */
 class MoveAndHealAction : public Action {
-private:
-    static const int range;
 public:
+    static const int range;
     MoveAndHealAction(const std::shared_ptr<Board> &board_, const std::shared_ptr<Board> &enemy_board);
     bool do_action(const Point &ship_center, const Point &target) override;
 };

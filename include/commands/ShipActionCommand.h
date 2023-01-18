@@ -18,7 +18,7 @@ public:
      * In questo modo si evita anche l'esposizione di metodi setter che possono modificare lo stato interno Game
      * @param board la board sulla quale eseguire il comando
      * @param logger il logger del comando
-     * @param execute_then la funzione che viene eseguita quando il comando è eseguito con successp
+     * @param execute_then la funzione che viene eseguita quando il comando è eseguito con successo
      */
     ShipActionCommand(const std::shared_ptr<Board> &board, const std::shared_ptr<Logger> &logger,
                       const std::function<void()> &execute_then);

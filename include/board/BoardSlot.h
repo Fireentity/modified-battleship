@@ -12,9 +12,8 @@
 class Ship;
 
 /**
- * Rappresenta uno slot della Board di gioco. Contiene un'associazione tra un pezzo della nave alle coordinate (x_,y_)
- * e lo stato di ciò che vede il giocatore avversario.
- * Si è preferito creare una sola Board per evitare di dover aggiornare oggetti in parallelo.
+ * Rappresenta uno slot della Board di gioco. Contiene un'associazione tra un pezzo della nave alle coordinate (x,y)
+ * e lo stato dei colpi mandati a segno, mancati e i pezzi di nave rivelati .
  */
 class BoardSlot {
 

@@ -8,9 +8,7 @@
 #include "Action.h"
 
 /**
- * Questa classe permette eseguire un'azione che modifica lo stato interno delle navi e della board in modo
- * controllato senza rendere accessibili all'esterno metodi setter o getter (non const).
- * In particolare permette di colpire una nave avversaria
+ * Questa classe implementa il codice necessario a colpire una nave avversaria
  */
 class HitAction : public Action {
 public:

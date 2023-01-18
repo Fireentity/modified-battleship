@@ -9,11 +9,11 @@
 class RemoveMissedCommand : public Command {
 private:
     const std::shared_ptr<Board> board_;
-    static const std::string commandFormat;
-
     bool check_command(const std::string &argument) override;
 
 public:
+    static const std::string commandFormat;
+
     explicit RemoveMissedCommand(const std::shared_ptr<Board> &board);
 
     bool execute(const std::string &argument) override;

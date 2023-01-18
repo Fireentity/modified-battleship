@@ -8,9 +8,9 @@
 #include "board/Board.h"
 
 /**
- * La classe Action rappresenta un'azione eseguibile da una nave sulla Board. Si è scelto di usare una nested class
- * in modo da non esporre metodi che possano cambiare lo stato interno delle navi all'esterno della board. La nested
- * class infatti permette di accedere ai metodi protected della Board
+ * La classe Action rappresenta un'azione eseguibile da una nave sulla Board. Spostare il codice nella classe Action
+ * invece che tenerlo in Board causa una dipendenza circolare che però rende il codice più estendibile. Per implementare
+ * un'azione non devo modificare la classe board ma basta implementare Action
  */
 class Action {
 protected:

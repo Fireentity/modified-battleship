@@ -19,6 +19,9 @@
 
 class Game {
 public:
+    static const std::string logFileName;
+    static const unsigned int maxMoves;
+
     //Si usa (static method factory design pattern) per creare le possibili configurazioni
     //di gioco: Human vs AI, AI vs AI ma si potrebbe implementare anche Human vs Human
     static Game make_human_vs_ai();
@@ -26,14 +29,11 @@ public:
     static Game make_ai_vs_ai();
 
     static Game make_replay_console(const std::vector<std::string> &moves);
-    
+
     static Game make_replay_file(const std::shared_ptr<FileLogger> &info_logger, const std::vector<std::string> &moves);
 
     void start_loop();
-
 private:
-    static const std::string logFileName;
-    static const unsigned int maxMoves;
     //true turno del player 1
     bool turn_;
     int moves_ = 0;
